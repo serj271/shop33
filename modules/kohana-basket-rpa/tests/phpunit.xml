@@ -1,0 +1,7 @@
+<phpunit colors="true" bootstrap="../../../index.php">
+	<testsuites>
+		<testsuite name="RPA Shopping Basket Tests">
+			<directory suffix=".php">basket/</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

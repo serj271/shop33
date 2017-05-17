@@ -39,6 +39,7 @@ setlocale(LC_ALL, 'en_US.utf-8');
  * @link http://www.php.net/manual/function.spl-autoload-register
  */
 spl_autoload_register(array('Kohana', 'auto_load'));
+spl_autoload_register(array('Kohana', 'auto_load_lowercase'));
 
 /**
  * Optionally, you can enable a compatibility auto-loader for use with
@@ -129,12 +130,24 @@ Kohana::modules(array(
 	 'auth'       => MODPATH.'auth',       // Basic authentication
 	 'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-	 'database'   => MODPATH.'database',   // Database access
-	 'image'      => MODPATH.'image',      // Image manipulation
-	 'minion'     => MODPATH.'minion-3.3-master',     // CLI Tasks
-	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
-	 'unittest'   => MODPATH.'unittest',   // Unit testing
-	 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+	 'database'   	=> MODPATH.'database-3.3-master',   // Database access
+	 'mysqli'   	=> MODPATH.'kohana-3.3-mysqli-master',   // Database access
+	 'image'     	=> MODPATH.'image',      // Image manipulation
+	 'minion'     	=> MODPATH.'minion-3.3-master',     // CLI Tasks
+	 'orm'        	=> MODPATH.'orm-3.3-master',        // Object Relationship Mapping
+	 'autoload'	=>MODPATH.'autoload',
+	 'kostache'	=>MODPATH.'KOstache-master',
+//	 'basket'	=>MODPATH.'kohana-basket-master',
+	 'basket'	=>MODPATH.'kohana-basket-rpa',
+	 'pagination'	=>MODPATH.'kohana-pagination',
+	'breadcrumbs'=> MODPATH.'kohana-breadcrumbs-master',
+	'catalog-shop'=> MODPATH.'catalog-shop',
+	'message'=> MODPATH.'kohana-message-master',
+	'tree'=> MODPATH.'kohana-tree-from-array-master',
+	 'ecommerce'	=> MODPATH.'kohana-oz-ecommerce-3.3-master',        // Object Relationship Mapping
+	 'unittest'   	=> MODPATH.'unittest',   // Unit testing
+	 'userguide'  	=> MODPATH.'userguide',  // User guide and API documentation
+	 'datalog'  	=> MODPATH.'kohana-datalog',  // 
 	));
 
 /**
@@ -160,8 +173,90 @@ Session::$default ='cookie';
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('default', '(<controller>(/<action>(/<id>)))')
+if( ! Route::cache())
+{ 
+ 
+/*Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'welcome',
 		'action'     => 'index',
 	));
+*/
+Route::set('welcome', 'welcome(/<action>)')
+	->defaults(array(
+		'controller' => 'Welcome',
+		'action'     => 'index',
+	));
+
+
+Route::set('home', '(/<action>/(<pole>(/<id>(/<overflow>))))')
+	->defaults(array(
+		'controller' => 'Home',
+		'action'     => 'index',
+	));
+
+Route::set('product', 'product(/<item_uri>)', array(
+	'item_uri'=>'.*'
+))
+	->defaults(array(
+		'controller' => 'product',
+		'action'     => 'index',
+		'index_file' =>''
+	));
+
+Route::set('user', 'user(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
+	->defaults(array(
+		'directory' =>'user',
+		'controller' => 'main',
+		'action'     => 'index',
+	));
+
+
+Route::set('page', 'useradmin/users(/index/<pole>/<page>)',array('page'=>'[0-9]+'))
+	->defaults(array(
+		'directory' =>'useradmin',
+		'controller' => 'users',
+		'action'     => 'index',
+	));
+
+Route::set('useradmin', 'useradmin(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
+	->defaults(array(
+		'directory' =>'useradmin',
+		'controller' => 'main',
+		'action'     => 'index',
+	));
+
+
+Route::set('basket', 'basket(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
+	->defaults(array(
+		'directory' =>'basket',
+		'controller' => 'main',
+		'action'     => 'index',
+	));
+
+
+/*Route::set('product', 'product(/<page>)', array(
+	'page'=>'.*'
+))
+	->defaults(array(
+		'controller' => 'product',
+		'action'     => 'index',
+		'index_file' =>''
+	));
+
+*/
+
+
+
+
+
+
+//    Route::cache(TRUE);
+}
+
+
+
+
+
+
+
