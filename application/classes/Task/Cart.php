@@ -8,6 +8,7 @@ class Task_Cart extends Minion_Task {
 	
 	private $cart_id;
 	private $basket_id;
+	private $model;
 
 	protected function _execute(array $params)
 	{
@@ -17,12 +18,16 @@ class Task_Cart extends Minion_Task {
 #		set_exception_handler(array('Kohana_Exception_Handler','handle'));
 		Kohana::$config->attach(new Config_File);		
 		$db = Database::instance();
+	
 		// Get the table name from the ORM model	
 		
 		
 		$cart = Cart::instance();
 		$productId = 1;
 		$attributes = 'a';
+		$this->model = 'Shopping_Cart';
+		
+		$this->delete_item();
 		
 		$this->cart_id = md5(uniqid(rand(), true));
 		
@@ -35,12 +40,32 @@ class Task_Cart extends Minion_Task {
 		
 		try{			
 //			$shopping = $shopping_cart->save();
-			$cart->addProduct($this->cart_id,$productId, $attributes);
+			$results = $cart->addProduct($this->cart_id,$productId, $attributes);
+			
 //		$query = "call shopping_cart_add_product(1, 1, 'a')";
 //			$query = "SELECT * from products";
 //			$result = DB::query(Database::SELECT, $query)->execute();
-			Minion_CLI::write('id create - ');
-//			Log::instance()->add(Log::NOTICE, Debug::vars($result));
+			
+			foreach($results as $result){
+				$id = $result['id'];
+				Minion_CLI::write('id create - '.$id);				
+//				Log::instance()->add(Log::NOTICE, Debug::vars($result['product_id']));	
+				/* $query = "call shopping_cart_remove_product(:inItemId)";
+				$deleteId = DB::query(Database::SELECT, $query)->parameters(array(
+					':inItemId'=>$id,					
+				))->execute();	 */				
+//				$results = $cart->deleteProduct($id);
+//				$results = $cart->updateProduct($id,0);//id, quantity of product
+				Log::instance()->add(Log::NOTICE, Debug::vars($results));
+//				Minion_CLI::write('id delete - '.$id);				
+			}	
+//				$query = "call shopping_cart_remove_product(:inItemId)";
+//				
+//				$query = "SELECT * from products";
+//				while(DB::next_result()) DB::store_result();
+/* 				DB::select()->from('products')->execute(); */
+					
+
 			
 		}
 		 catch (ORM_Validation_Exception $e)
@@ -129,7 +154,7 @@ class Task_Cart extends Minion_Task {
 }
 
 
-
+//./minion --task=cart
 
 
 

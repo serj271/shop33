@@ -2,7 +2,7 @@
 
 class Controller_Useradmin_Main extends Controller_Useradmin {
 //    public $template ='main';
-    protected $_model='User';
+
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';
     public function action_index(){

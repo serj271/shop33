@@ -47,11 +47,13 @@ DROP PROCEDURE IF EXISTS  shopping_cart_remove_product;
 delimiter //
 CREATE PROCEDURE shopping_cart_remove_product(IN inItemId INT)
 BEGIN
-	DELETE FROM shopping_cart WHERE item_id = inItemId;
+	DELETE FROM shopping_cart WHERE id = inItemId;
+	SELECT 'ok';
 END
 //
 delimiter ;
 GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_remove_product TO 'user_db'@'localhost';
+
 
 DROP PROCEDURE IF EXISTS  shopping_cart_update;
 delimiter //
@@ -59,10 +61,11 @@ delimiter //
 CREATE PROCEDURE shopping_cart_update(IN inItemId INT, IN inQuantity INT)
 BEGIN
 	IF inQuantity > 0 THEN
-		UPDATE shopping_cart SET quantity = inQuantity, added_on = NOW() WHERE item_id = inItemId;
+		UPDATE shopping_cart SET quantity = inQuantity, added_on = NOW() WHERE id = inItemId;
 	ELSE
 		CALL shopping_cart_remove_product(inItemId);
 	END IF;
+	SELECT * FROM shopping_cart	WHERE id = inItemId;
 END
 //
 delimiter ;

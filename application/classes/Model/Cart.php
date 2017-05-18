@@ -89,21 +89,28 @@ abstract class Model_Cart extends Model
 		}
 		return self::$_instance;
 	}
-	public function addProduct($cart_id,$productId, $attributes){
-		$query = "CALL shopping_cart_add_product(1, 1, 'a')";
-	
-	/* 	$query->parameters(array(
+	public function addProduct($cart_id,$product_id, $attributes){
+		$query = "CALL shopping_cart_add_product(:cart_id, :product_id, :attributes)";
+		return DB::query(Database::SELECT, $query)->parameters(array(
 			':cart_id'=>$cart_id,
 			':product_id'=>$product_id,
 			':attributes'=>$attributes,
-		)); */
-		DB::query(Database::SELECT, $query)->execute();
-		
-		
+		))->execute();
+	}
+	public function deleteProduct($id){
+		$query = "call shopping_cart_remove_product(:inItemId)";
+		return DB::query(Database::SELECT, $query)->parameters(array(
+			':inItemId'=>$id,					
+		))->execute();	
 	}
 	
-	
-	
+	public function updateProduct($id,$inQuantity){
+		$query = "call shopping_cart_update(:inItemId,:inQuantity)";
+		return DB::query(Database::SELECT, $query)->parameters(array(
+			':inItemId'=>$id,	
+			':inQuantity'=>$inQuantity
+		))->execute();	
+	}
 	
 	
 	

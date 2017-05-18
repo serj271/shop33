@@ -2,7 +2,7 @@
 
 class Controller_Basket_Main extends Controller_Basket {
 //    public $template ='main';
-    protected $_model='user';
+    protected $_model='Shopping_Cart';
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';
     public function action_index(){
@@ -23,4 +23,14 @@ class Controller_Basket_Main extends Controller_Basket {
 		$login = View::factory('user/menulogout');
 		$this->template->menu=$login;
     }
+	public function action_add(){
+		
+		
+		
+		$login = View::factory('user/menulogout');
+		$this->template->menu=$login;
+	}
+	
+	
+	
 } // End 

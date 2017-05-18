@@ -227,7 +227,7 @@ Route::set('useradmin', 'useradmin(/<controller>(/<action>(/<id>)))',array('id'=
 	));
 
 
-Route::set('basket', 'basket(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
+Route::set('basket', 'basket(/<action>(/<id>))',array('id'=>'[0-9]+'))
 	->defaults(array(
 		'directory' =>'basket',
 		'controller' => 'main',

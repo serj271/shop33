@@ -15,7 +15,7 @@ class Kohana_Database_MySQLi_Result extends Database_Result {
 	public function __construct($result, $sql, $as_object = FALSE, array $params = NULL)
 	{
 		parent::__construct($result, $sql, $as_object, $params);
-		Log::instance()->add(Log::NOTICE, Debug::vars($result));
+//		Log::instance()->add(Log::NOTICE, Debug::vars($result));
 
 		// Find the number of rows in the result
 		$this->_total_rows = $result->num_rows;

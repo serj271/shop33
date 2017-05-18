@@ -35,6 +35,7 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 		if ($this->auto_view === TRUE)
 		{
 			list($view_name, $view_path) = static::find_view($this->request);
+			Log::instance()->add(Log::NOTICE, Debug::vars($view_name, $view_path));
 			
 			if (Kohana::find_file('classes', $view_path))
 			{			
@@ -119,7 +120,7 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 		$request->directory() and array_push($view_name, $request->directory());
 		
 		// Append controller and action name to the view name array
-		array_push($view_name, $request->controller(), $request->action());
+		array_push($view_name, $request->action());
 		
 		// Merge all parts together to get the class name
 		$view_name = implode('_', $view_name);
