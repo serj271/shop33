@@ -7,7 +7,7 @@
 
 
 <p>
-{{message}} user {{username}}!!
+{{message}} user {{username}}!!!
 </p>
 
 
@@ -19,13 +19,54 @@ h{{headline}}h
 	{{/buttons}}
 </div>
 
+{{result_count}}
+
+{{#result}}
+<form accept-charset="{{charset}}" action="{{#deletemultiple}}{{url}}{{/deletemultiple}}" id="deletemultiple_form" method="GET">
+	<table class="table table-striped">
+		<thead>
+			<tr>				
+				{{#columns}}
+				<th>{{name}}</th>
+				{{/columns}}
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>	
+			{{#rows}}
+			<tr>
+				
+				{{#values}}
+				<td>{{value}}</td>
+				{{/values}}
+				<td>
+				{{#options}}
+					<a class="{{class}}" href="{{url}}">{{text}}</a>
+				{{/options}}
+				</td>
+			</tr>
+			{{/rows}}
+		</tbody>
+	</table>
+	<div class="clearfix">
+		{{#deletemultiple}}
+		<button class="btn large error" id="confirm_delete_multiple" value="yes" type="submit">{{text}}</button>
+		{{/deletemultiple}}
+	</div>
+</form>
+{{/result}}
 
 
-
-
-
-
-
+{{# repo }}
+  <b>{{ name }}</b>
+{{/ repo }}
+{{^ norepo }}
+  No repos :(
+{{/ norepo }}
+	
+{{# colors }}
+ * {{ . }}
+{{/ colors }}
 
 
 

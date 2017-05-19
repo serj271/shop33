@@ -16,6 +16,33 @@ class Model_Shopping_Cart extends ORM_Base {
 			'foreign_key' => 'product_id',
 		),
 	);
+
+	protected $_table_columns = array(
+		'id'                => array('type' => 'int'),
+//		'name'              => array('type' => 'string'),
+		'attributes'       => array('type' => 'string'),
+		'product_id'  => array('type' => 'int'),
+		'cart_id'  => array('type' => 'int'),
+//		'avg_review_rating' => array('type' => 'float'),
+		'quantity'           => array('type' => 'int'),
+//		'uri'           	=> array('type' => 'string'),
+
+	);
+
+	/**
+	 * Return the primary product photo
+	 *
+	 * @return  Model_Product
+	 */
+	public function product()
+	{
+		return ORM::factory('Product', $this->product_id);
+	}
+	
+	public function product_variation()
+	{
+		return ORM::factory('Product_Variation')->where('product_id','=',$this->product_id)->find();
+	}
 	
 	public function labels()
 	{
@@ -23,7 +50,7 @@ class Model_Shopping_Cart extends ORM_Base {
 			'cart_id' => 'Cart',
 			'product_id' => 'Product',
 			'quantity' => 'Quantity',
-//			'price' => 'Price',
+			'price' => 'Price',
 //			'discount' => 'Discount',
 		);
 	}
@@ -42,6 +69,11 @@ class Model_Shopping_Cart extends ORM_Base {
 				array('not_empty'),
 				array('digit'),
 			),
+			'cart_id' => array(
+				array('not_empty'),
+				array('digit'),
+			),
+
 			'quantity' => array(
 				array('not_empty'),
 				array('digit'),

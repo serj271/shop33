@@ -128,11 +128,10 @@ abstract class Model_OZ_Product extends ORM {
 			->get('quantity_sum');
 	}
 	
-	public function getId()
-	{
-	    return $this->primary_photo_id;
-	
-	}
+//	public function getId()
+//	{
+//	    return $this->primary_photo_id;	
+//	}
 
 	/**
 	 * Overload the delete method to remove all photos first. This is

@@ -48,7 +48,7 @@ class Task_Products extends Minion_Task {
 		$this->create_photo($this->product_id,$this->photo_id);
 		$this->product_reviews($this->product_id);
 		$this->product_specification($this->product_id);
-//		$this->create_variation($this->product_id);	
+		$this->create_variation($this->product_id);	
 	
 	
 		$this->product_id = 3;
@@ -59,7 +59,7 @@ class Task_Products extends Minion_Task {
 		$this->create_photo($this->product_id,$this->photo_id);
 		$this->product_reviews($this->product_id);
 		$this->product_specification($this->product_id);
-//		$this->create_variation(1);	
+		$this->create_variation(1);	
 	
 	
 //		$this->create_category($this->parent_id);
@@ -223,12 +223,12 @@ class Task_Products extends Minion_Task {
 		
 		$model = 'Product_Variation';
 		$variation_orm = ORM::factory($model);
-		$variation_orm->id = 1;
+//		$variation_orm->id = 1;
 		$variation_orm->product_id = $product_id;
-		$variation_orm->name = 'name '.$product_id;
+		$variation_orm->name = 'name variation '.$product_id;
 		$variation_orm->price = 10.00;
-		$variation_orm->sale_price = 10.00;
-		$variation_orm->quantity = 1;
+		$variation_orm->sale_price = 8.00;
+		$variation_orm->quantity = 5;
 		$external_values= array();		
 		$extra_validation = Validation::factory($external_values);
 //		$extra_validation->bind(':model', $variation_orm);

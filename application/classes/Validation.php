@@ -7,4 +7,7 @@ class Validation extends Kohana_Validation {
 	return $sale_price <= $price[0];
     }
 
+    public static function gt($test, $value){//array
+	return $test >= $value[0];
+    }
 }

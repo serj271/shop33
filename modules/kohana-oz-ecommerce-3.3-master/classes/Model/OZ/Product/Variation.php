@@ -43,7 +43,6 @@ abstract class Model_OZ_Product_Variation extends ORM {
 			'sale_price' => array(
 				array('numeric'),
 //				array('lt', array(':value', $this->price)),
-//				array('Validation::lt', array(':value', array($this->price), array(':value', $this->sale_price))),
 				array('Validation::lt', array(':value', array($this->price))),
 //				array('gte', array(':value', 0)),
 //				array(array($this, 'check_sale')),

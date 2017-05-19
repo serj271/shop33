@@ -6,6 +6,7 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 	 * @var	bool	Should View be automatically included?
 	 */
 	public $auto_view = TRUE;
+
 //	public $auto_view = FALSE;	
 	/**
 	 * @var	Kostache	View model
@@ -35,7 +36,7 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 		if ($this->auto_view === TRUE)
 		{
 			list($view_name, $view_path) = static::find_view($this->request);
-			Log::instance()->add(Log::NOTICE, Debug::vars($view_name, $view_path));
+//			Log::instance()->add(Log::NOTICE, Debug::vars($view_name, $view_path));
 			
 			if (Kohana::find_file('classes', $view_path))
 			{			

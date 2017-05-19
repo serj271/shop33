@@ -138,7 +138,7 @@ Kohana::modules(array(
 	 'autoload'	=>MODPATH.'autoload',
 	 'kostache'	=>MODPATH.'KOstache-master',
 //	 'basket'	=>MODPATH.'kohana-basket-master',
-	 'basket'	=>MODPATH.'kohana-basket-rpa',
+//	 'basket'	=>MODPATH.'kohana-basket-rpa',
 	 'pagination'	=>MODPATH.'kohana-pagination',
 	'breadcrumbs'=> MODPATH.'kohana-breadcrumbs-master',
 	'catalog-shop'=> MODPATH.'catalog-shop',

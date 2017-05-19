@@ -2,7 +2,7 @@
 
 return array(
 	'Validation::lt' => array(
-		'sale_price' => 'Lt error!!'
+		'sale_price' => 'Lt error!!!'
 	),
 
 );
