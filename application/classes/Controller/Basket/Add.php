@@ -19,6 +19,9 @@ class Controller_Basket_Add extends Controller_Basket {
 //    Log::instance()->add(Log::NOTICE, Route::url('admin'));
 //    $this->request->redirect('admin/news');
 //    $this->response->body('admin');
+		
+
+
 		$login = View::factory('user/menulogout');
 		$this->template->menu=$login;
     }

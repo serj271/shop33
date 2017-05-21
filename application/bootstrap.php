@@ -148,6 +148,7 @@ Kohana::modules(array(
 	 'unittest'   	=> MODPATH.'unittest',   // Unit testing
 	 'userguide'  	=> MODPATH.'userguide',  // User guide and API documentation
 	 'datalog'  	=> MODPATH.'kohana-datalog',  // 
+	 'media'		=> MODPATH.'kohana-media',
 	));
 
 /**
@@ -175,6 +176,13 @@ Session::$default ='cookie';
  */
 if( ! Route::cache())
 { 
+ 
+ /* 	
+Route::set('img', 'img(/<action>)')
+    ->defaults(array(
+        'controller' => 'Welcome',
+        'action' => 'index',
+    )); */	
  
 /*Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
@@ -235,6 +243,8 @@ Route::set('basket', 'basket(/<action>(/<id>))',array('id'=>'[0-9]+'))
 	));
 
 
+	
+
 /*Route::set('product', 'product(/<page>)', array(
 	'page'=>'.*'
 ))
@@ -245,12 +255,22 @@ Route::set('basket', 'basket(/<action>(/<id>))',array('id'=>'[0-9]+'))
 	));
 
 */
+/* 
+Route::set('media', 'media/<action>(/<path>)', array(
+        'path' => '.*?',
+    ))
+    ->defaults(array(
+        'controller' => 'media',
+        'action' => 'index',
+    )); */
+/* 
+Route::set('media', '<type>/<file>', array('type' => 'img|css|js', 'file' => '.+.(?:jpe?g|png|gif|css|js)'))
+     ->defaults(array(
+          'controller' => 'media',
+          'action'     => 'index',
+     ));
 
-
-
-
-
-
+ */
 //    Route::cache(TRUE);
 }
 

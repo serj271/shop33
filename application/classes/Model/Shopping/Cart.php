@@ -12,7 +12,7 @@ class Model_Shopping_Cart extends ORM_Base {
 //			'foreign_key' => 'basket_id',
 //		),
 		'product' => array(
-			'model' => 'product',
+			'model' => 'Product',
 			'foreign_key' => 'product_id',
 		),
 	);

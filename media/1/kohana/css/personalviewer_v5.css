@@ -1,0 +1,141 @@
+/*--- BUTTON SUBMIT --*/
+#left button {
+    display: block;
+    border:0;
+    background:none;
+    overflow:visible;
+    margin:20px auto 0 76px;
+    padding:0;
+    outline:none;
+}
+
+#left button:hover {
+    cursor: pointer;
+}
+
+#left button span {
+    display:inline-block;
+    height:26px;
+    background:url(../css/i/button.gif) no-repeat;
+    line-height:26px;
+    text-transform:uppercase;
+    color:#808080;
+    font-family:arial, helvetica, sans-serif;
+    font-size:12px;
+}
+#left button span span {
+    position:relative;
+    left:10px;
+    padding:0 10px 0 0;
+    background-position:100% 0;
+}
+#left button:hover span {
+    background-position:0 -26px;
+    color:#fff;
+}
+#left button:hover span span {
+    background-position:100% -26px;
+}
+/*---    ----*/
+/*
+input#job_ {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 1em auto 0;
+    padding: 1px 0 1px 3px;
+    width: 230px;
+    border: 1px solid blue;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    font-size: 16px;
+    height: 25px;
+    outline: none;
+}
+*/
+/* ----- CONTENT --------*/ 
+#result{
+/*    position: relative;*/
+    width: 100%;
+/*    padding-top:10px;*/
+    background-color: aliceblue;
+
+}
+
+#result {
+    margin-left: 20px;
+}
+#result table td.center, th.center {
+    vertical-align: middle;
+    text-align: center;
+}
+
+#result table th{
+    color: #fff;
+    background: #5970b2;
+}
+
+#result table tbody tr:nth-child(even) {
+    background: #fff;
+}
+
+
+div#result div#div-show{
+    margin-top: 30px;
+}
+
+#result table tr.hidden {
+    display:none;
+}
+
+/*--- SCROLLTOP --*/
+.controlScroll {
+    position: fixed;
+    top: 200px;
+    right: 5px;
+    z-index: 1000;
+    padding: 5px;
+    border: 1px solid #eed3d7;
+    background:#f2dede;
+    border-radius: 4px;
+/*    background: url(csg-50.png) no-repeat;
+    background-position: 0 -32px;*/
+    cursor: pointer;
+/*    color: #b94a48;
+    text-shadow: 0 1px 0 rgba(25, 255, 255, 0.5);
+    font-size: 125%;
+    -webkit-transition: all 1s;
+*/	
+    display: none;
+}
+.icon {
+    background-position: 0 -32px;
+}
+div.controlTop {
+    display: inline-block;
+    padding-left: 20px;
+
+}
+    
+body.ie #filter_show {
+    display:none;
+}    
+
+div#restrict {
+    margin: 0 0 0 10px;
+}
+    
+i {
+    font-family: 'FontAwesome';
+}
+
+i.copy-button {
+    cursor: pointer;
+}    
+
+.full_name {
+    cursor:pointer;
+}    
+    
+    
+    
+    

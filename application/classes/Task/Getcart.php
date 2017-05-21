@@ -29,17 +29,26 @@ class Task_Getcart extends Minion_Task {
 				
 		if($params['id']){
 			$shopping_cart = ORM::factory($this->model, $params['id']);	
-			$product_id = $shopping_cart->product_id;
-			$product = ORM::factory('Product_Variation')
-				->where('product_id','=',$product_id)->find();
-				
-			if($product->loaded()){
-				$product_ass_array = $product->as_array();
-				Minion_CLI::write('id get shopping_cart - '.$params['id']);
-//				Log::instance()->add(Log::NOTICE, Debug::vars($shopping_cart->product_variation()->as_array()));
-				Minion_CLI::write('id get product price - '.$shopping_cart->product_variation()->as_array()['price']);
-			}
-				
+			
+			/* 
+			$query = DB::select()->from('shopping_cart')
+			->join('product_variations')
+			->on('shopping_cart.product_id','=','product_variations.product_id')
+			->execute(); */
+			
+//			Log::instance()->add(Log::NOTICE, Debug::vars($shopping_cart->product->variations->as_array()));
+//			Log::instance()->add(Log::NOTICE, Debug::vars($query->as_array()));
+			Minion_CLI::write('id get shopping_cart - '.$params['id']);
+			
+//			$result = $cart->shopping_cart_get_total_amount($shopping_cart->cart_id);
+			
+//			$result = $cart->shopping_cart_move_product_to_cart($params['id']);
+			$result = $cart->shopping_cart_get_products($shopping_cart->cart_id);
+
+
+			Log::instance()->add(Log::NOTICE, Debug::vars($result->as_array()));
+			
+			
 			
 		} else {
 			

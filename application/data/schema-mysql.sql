@@ -39,6 +39,7 @@ CREATE TABLE `product_variations` (
 	`name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
 	`price` decimal(8,2) unsigned NOT NULL,
 	`sale_price` decimal(8,2) unsigned DEFAULT NULL,
+	`discounted_price` decimal(8,2) unsigned DEFAULT NULL,
 	`quantity` mediumint(8) unsigned DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	KEY `product_id` (`product_id`),

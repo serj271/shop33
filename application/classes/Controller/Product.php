@@ -57,7 +57,7 @@ class Controller_Product extends Controller_Common_Product {
 						$content_view->product = $result;					
 						$content = $renderer->render($content_view);												
 						$this->template->content = $content;
-						Log::instance()->add(Log::NOTICE,Debug::vars('result----',$result));
+//						Log::instance()->add(Log::NOTICE,Debug::vars('result----',$result));
 						
 					} else {
 

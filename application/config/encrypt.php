@@ -10,8 +10,8 @@ return array(
 		 * integer  mode    encryption mode, one of MCRYPT_MODE_*
 		 * integer  cipher  encryption cipher, one of the Mcrpyt cipher constants
 		 */
-		'cipher' => MCRYPT_RIJNDAEL_128,
-		'mode'   => MCRYPT_MODE_NOFB,
+		'cipher' => MCRYPT_RIJNDAEL_256,
+		'mode'   => MCRYPT_MODE_ECB,
 		'key'	=>'sdfg_HTR231naQl$',/* 16 24 or 32 symvols*/
 	),
 

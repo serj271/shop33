@@ -35,13 +35,13 @@ class Task_Cart extends Minion_Task {
 		$shopping_cart = ORM::factory('Shopping_Cart');	
 		$shopping_cart->cart_id = $this->cart_id;
 		$shopping_cart->product_id = 1; 
-		$shopping_cart->quantity = 1;
+		$shopping_cart->quantity = 2;
 		$shopping_cart->attributes = 'a';
 		
 		try{			
 //			$shopping = $shopping_cart->save();
 			$results = $cart->addProduct($this->cart_id,$productId, $attributes);
-			
+			$results = $cart->addProduct($this->cart_id,$productId, $attributes);
 //		$query = "call shopping_cart_add_product(1, 1, 'a')";
 //			$query = "SELECT * from products";
 //			$result = DB::query(Database::SELECT, $query)->execute();
@@ -56,7 +56,7 @@ class Task_Cart extends Minion_Task {
 				))->execute();	 */				
 //				$results = $cart->deleteProduct($id);
 //				$results = $cart->updateProduct($id,0);//id, quantity of product
-				Log::instance()->add(Log::NOTICE, Debug::vars($results));
+				Log::instance()->add(Log::NOTICE, Debug::vars($results->as_array()));
 //				Minion_CLI::write('id delete - '.$id);				
 			}	
 //				$query = "call shopping_cart_remove_product(:inItemId)";

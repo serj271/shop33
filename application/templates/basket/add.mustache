@@ -11,17 +11,16 @@
 </p>
 
 
-<div>add</div>
-
-<div class="well">
-	{{#buttons}}
-	<a class="btn {{class}}" href="{{url}}">{{text}}</a>
-	{{/buttons}}
-</div>
-
-
-
-
+<form accept-charset="{{charset}}" action="" method="POST">
+	<p>
+	Are you sure you want add {{model}} <b>{{#item}}{{name}}{{/item}}</b>?
+	</p>
+	
+	<div class="well">
+		<button class="btn large success" name="action" type="submit" value="yes">Yes</button>
+		<button class="btn large error" name="action" type="submit" value="no">No</button>
+	</div>
+</form>
 
 
 

@@ -39,5 +39,9 @@ class View_Product_Index
    
    public $pagination;
    
+   public function url(){
+	return URL::base(); 
+   }
+   
    
 }

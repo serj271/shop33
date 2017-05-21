@@ -8,7 +8,7 @@ class View_Basket_Index {
 
 	public $model; 
 
-	protected $_includables = array('quantity','attributes','product_id','cart_id');//for display columns from table
+	protected $_includables = array('cart_id','name','quantity','attributes','price','subtotal');//for display columns from table
 		
 	/**
 	 * @var	array	Mustache template
@@ -64,8 +64,25 @@ class View_Basket_Index {
 				'url' => Route::url('user', array(
 					'directory' =>'user',
 					'controller' => 'auth',
-
 					'action' 		=> 'logout',
+				)),
+			),
+			array(
+				'class' => 'large',
+				'text' => 'Login',
+				'url' => Route::url('user', array(
+					'directory' =>'user',
+//					'controller' => 'auth',
+//					'action' 		=> 'logout',
+				)),
+			),
+			array(
+				'class' => 'large',
+				'text' => 'Join',
+				'url' => Route::url('user', array(
+					'directory' =>'user',
+					'controller' => 'auth',
+					'action' 		=> 'join',
 				)),
 			),
 		);
@@ -95,15 +112,15 @@ class View_Basket_Index {
 		// Also include some default columns - if they exist
 		foreach ($this->_includables as $includable)
 		{
-			if (isset($columns[$includable]))
-			{
+//			if (isset($columns[$includable]))
+//			{
 				$label = Arr::get($labels, $includable, $includable);
 				
 				$result[] = array(
 					'alias' => $includable,
 					'name' 	=> ucfirst($label),
 				);
-			}
+//			}
 		}
 		/* 
 		$result[] = array(
@@ -191,14 +208,14 @@ class View_Basket_Index {
 		if (count($this->items) > 0)
 		{
 			$result['rows'] = array();
-//			Log::instance()->add(Log::NOTICE, Debug::vars($this->items));
+			
 			
 			foreach ($this->items as $item)
 			{
 				// Extract aliased values from self::columns()
 				$aliases 	= Arr::pluck($this->columns(), 'alias');
-				$extracted 	= Arr::extract($item->as_array(), $aliases);
-				
+				$extracted 	= Arr::extract($item, $aliases);
+//				Log::instance()->add(Log::NOTICE, Debug::vars('iteeee',$item));
 				// Remove the options aliased column
 //				unset($extracted[static::OPTIONS_ALIAS]);
 				
@@ -210,7 +227,7 @@ class View_Basket_Index {
 					return array('value' => $val);
 				
 				}, $values);
-				Log::instance()->add(Log::NOTICE, Debug::vars($values));
+//				
 				
 				// Map options
 				$options = array();
@@ -220,14 +237,14 @@ class View_Basket_Index {
 					$options[] = array(
 						'class' => $details['class'],
 						'text' 	=> $details['text'],
-						'url'	=> Route::url('useradmin', array(
-							'controller' 	=> $this->controller,
-							'action'		=> $action,
-							'id'			=> $item->id,
+						'url'	=> Route::url('product', array(
+							'controller' 	=> 'product',
+//							'action'		=> $action,
+							'item_uri'			=> $item['uri'],//$item->id
 						)),
 					);
 				}
-				$options = array();
+//				$options = array();
 				
 				// Push data to the rows array
 				$result['rows'][] = array(
@@ -251,10 +268,7 @@ class View_Basket_Index {
 	public function norepo(){
 		return array();		
 	}
-	public function colors(){
-		return array('colors' => array('red', 'blue', 'green'));		
-	}
-
+	
 
 
 

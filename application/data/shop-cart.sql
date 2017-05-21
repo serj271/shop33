@@ -70,4 +70,85 @@ END
 //
 delimiter ;
 GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_update TO 'user_db'@'localhost';
-/* GRANT EXECUTE ON FUNCTION shop33.* TO 'user_db'@'localhost'; */
+
+
+
+
+
+DROP PROCEDURE IF EXISTS  shopping_cart_get_products;
+delimiter //
+CREATE PROCEDURE shopping_cart_get_products(IN inCartId CHAR(32))
+BEGIN
+	SELECT sc.cart_id, p.name, sc.attributes, p.price AS price, sc.quantity, p.price * sc.quantity AS subtotal, pr.uri
+		FROM shopping_cart sc
+		INNER JOIN product_variations p
+		ON sc.product_id = p.product_id
+		INNER JOIN products pr
+		ON pr.id = p.product_id
+		WHERE sc.cart_id = inCartId AND sc.buy_now;
+END
+//
+delimiter ;
+GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_get_products TO 'user_db'@'localhost';
+
+DROP PROCEDURE IF EXISTS  shopping_cart_get_total_amount;
+delimiter //
+CREATE PROCEDURE shopping_cart_get_total_amount(IN inCartId CHAR(32))
+BEGIN
+	SELECT SUM(COALESCE(NULLIF(p.discounted_price, 0), p.price)
+	* sc.quantity) AS total_amount
+	FROM shopping_cart sc
+	INNER JOIN product_variations p
+	ON sc.product_id = p.product_id
+	WHERE sc.cart_id = inCartId AND sc.buy_now;
+END
+//
+delimiter ;
+GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_get_total_amount TO 'user_db'@'localhost';
+
+DROP PROCEDURE IF EXISTS  shopping_cart_save_product_for_later;
+delimiter //
+CREATE PROCEDURE shopping_cart_save_product_for_later(IN inItemId INT)
+BEGIN
+	UPDATE shopping_cart
+	SET buy_now = false, quantity = 1
+	WHERE id = inItemId;
+END
+//
+delimiter ;
+GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_save_product_for_later TO 'user_db'@'localhost';
+
+
+DROP PROCEDURE IF EXISTS  shopping_cart_move_product_to_cart;
+delimiter //
+-- Create shopping_cart_move_product_to_cart stored procedure
+CREATE PROCEDURE shopping_cart_move_product_to_cart(IN inItemId INT)
+BEGIN
+	UPDATE shopping_cart
+	SET buy_now = true, added_on = NOW()
+	WHERE id = inItemId;
+END
+//
+delimiter ;
+GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_move_product_to_cart TO 'user_db'@'localhost';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

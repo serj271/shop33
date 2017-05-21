@@ -40,12 +40,29 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 			->find_all(); */
 //		Log::instance()->add(Log::NOTICE,Debug::vars($items));
 		// Pass to view
-		$items = ORM::factory($this->_model)
-//			->limit($pagination->items_per_page)
-//			->offset($pagination->offset)
-//			->order_by($order_by)
-			->find_all();
+/* 		$items = ORM::factory($this->_model)
+			->find_all(); */
+		$cart = Cart::instance();
+		$cart_model = ORM::factory($this->_model,1);
+		$cart_id = $cart_model->cart_id;
+		$items = $cart->shopping_cart_get_products($cart_id);	
+			
 		$this->view->items 		= $items;
+		
+		Cart::SetCartId();
+		$cartId = Cart::GetCartId();
+		
+//		Log::instance()->add(Log::NOTICE,Debug::vars($cartId ));
+		/* $cart = Cart::instance();
+		$cart_model = ORM::factory($this->_model,2);
+		$cart_id = $cart_model->cart_id;
+		$carts = $cart->shopping_cart_get_products($cart_id);
+		$result = $cart->shopping_cart_get_total_amount($cart_id);
+		foreach ($carts as $item){
+				Log::instance()->add(Log::NOTICE,Debug::vars('cart--',$result,$cart_id,$item));
+			
+		} */
+//		Log::instance()->add(Log::NOTICE,Debug::vars('cart--',$result->as_array(),$cart_id));
 //		$this->view->pagination = $pagination;
 //		Log::instance()->add(Log::NOTICE,Debug::vars(Debug::vars('------',$items)));
 
@@ -55,7 +72,35 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 		$this->template->menu=$login;
     }
 	public function action_add(){
+		$item = ORM::factory('Product', $this->request->param('id'));
 		
+		if ( ! $item->loaded())
+		{
+			throw new HTTP_Exception_404(ucfirst($this->_model).' doesn`t exist: :id', 
+				array(':id' => $this->request->param('id')));
+		}
+		
+		if ($this->request->method() === Request::POST)
+		{
+			$action = $this->request->post('action');
+			
+			if ($action !== 'yes')
+			{
+				$this->redirect($this->request->route()->uri(array(
+					'controller' 	=> $this->request->controller(),
+				)));
+			}
+//			$cart = Cart::instance();
+//			$cart->addProduct($this->cart_id,$productId, $attributes);
+			
+		/* 	$item->delete();
+				$this->redirect($this->request->route()->uri(array(
+					'controller' 	=> $this->request->controller(),
+				))); */
+		}
+		
+		$this->view->item = $item;
+
 		
 		
 		$login = View::factory('user/menulogout');

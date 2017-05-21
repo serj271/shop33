@@ -70,7 +70,7 @@ class View_Useradmin_Users_Create {
 	 */
 	public function headline()
 	{
-		return 'Create a new '.$this->model().' '.$this->id_listing;
+		return 'Create a new '.$this->model();
 	}
 	
 }

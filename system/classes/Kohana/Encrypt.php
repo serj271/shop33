@@ -63,6 +63,7 @@ class Kohana_Encrypt {
 	 */
 	protected $_iv_size;
 	
+	protected $_iv;
 	/**
 	 * Returns a singleton instance of Encrypt. An encryption key must be
 	 * provided in your "encrypt" configuration file.
@@ -158,12 +159,12 @@ class Kohana_Encrypt {
 	{
 		// Get an initialization vector
 		$iv = $this->_create_iv();
-
+		$this->_iv = $iv;
 		// Encrypt the data using the configured options and generated iv
 		$data = mcrypt_encrypt($this->_cipher, $this->_key, $data, $this->_mode, $iv);
-
+		return $data;
 		// Use base64 encoding to convert to a string
-		return base64_encode($iv.$data);
+//		return base64_encode($iv.$data);
 	}
 
 	/**
@@ -178,28 +179,30 @@ class Kohana_Encrypt {
 	public function decode($data)
 	{
 		// Convert the data back to binary
-		$data = base64_decode($data, TRUE);
+//		$data = base64_decode($data, TRUE);
 
-		if ( ! $data)
-		{
+//		if ( ! $data)
+//		{
 			// Invalid base64 data
-			return FALSE;
-		}
+//			return FALSE;
+//		}
 
 		// Extract the initialization vector from the data
-		$iv = substr($data, 0, $this->_iv_size);
+//		$iv = substr($data, 0, $this->_iv_size);
 
-		if ($this->_iv_size !== strlen($iv))
-		{
+//		Log::instance()->add(Log::NOTICE, Debug::vars($this->_iv_size, $iv, strlen($iv), $this->_iv));
+//		if ($this->_iv_size !== strlen($iv))
+//		{
+//			Log::instance()->add(Log::NOTICE, 'false');
 			// The iv is not the expected size
-			return FALSE;
-		}
+//			return FALSE;
+//		}
 
 		// Remove the iv from the data
-		$data = substr($data, $this->_iv_size);
+//		$data = substr($data, $this->_iv_size);
 
 		// Return the decrypted data, trimming the \0 padding bytes from the end of the data
-		return rtrim(mcrypt_decrypt($this->_cipher, $this->_key, $data, $this->_mode, $iv), "\0");
+		return rtrim(mcrypt_decrypt($this->_cipher, $this->_key, $data, $this->_mode, $this->_iv), "\0");
 	}
 
 	/**

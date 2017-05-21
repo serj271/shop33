@@ -59,6 +59,8 @@ abstract class Model_Cart extends Model
 	// Private wakeup method 
 	protected function __wakeup(){}
 	
+	private static $_mCartId;
+	
 	// Protect construct method 
 	protected function __construct()
 	{
@@ -112,7 +114,33 @@ abstract class Model_Cart extends Model
 		))->execute();	
 	}
 	
+	public function shopping_cart_get_products($inCartId){
+		$query = "CALL shopping_cart_get_products(:cart_id)";
+		return DB::query(Database::SELECT, $query)->parameters(array(
+			':cart_id'=>$inCartId,
+		))->execute();		
+	}
 	
+	public function shopping_cart_get_total_amount($inCartId){
+		$query = "CALL shopping_cart_get_total_amount(:cart_id)";
+		return DB::query(Database::SELECT, $query)->parameters(array(
+			':cart_id'=>$inCartId,
+		))->execute();		
+	}
+		
+	public function shopping_cart_save_product_for_later($inItemId){
+		$query = "CALL shopping_cart_save_product_for_later(:id)";
+		return DB::query(Database::SELECT, $query)->parameters(array(
+			':id'=>$inItemId,
+		))->execute();		
+	}
+	
+	public function shopping_cart_move_product_to_cart($inItemId){
+		$query = "CALL shopping_cart_move_product_to_cart(:id)";
+		return DB::query(Database::SELECT, $query)->parameters(array(
+			':id'=>$inItemId,
+		))->execute();		
+	}
 	
 	/**
 	 * Magic Get to config & content 
@@ -278,5 +306,59 @@ abstract class Model_Cart extends Model
 		}
 		return $this->_save();
 	}
+	
+	public static function SetCartId()
+	{
+	// If the cart ID hasn't already been set ...
+	if (self::$_mCartId == '')
+		{
+			// If the visitor's cart ID is in the session, get it from there
+			if (isset ($_SESSION['cart_id']))
+			{
+			self::$_mCartId = $_SESSION['cart_id'];
+			}
+			// If not, check whether the cart ID was saved as a cookie
+			elseif (isset ($_COOKIE['cart_id']))
+			{
+			// Save the cart ID from the cookie
+			self::$_mCartId = $_COOKIE['cart_id'];
+			$_SESSION['cart_id'] = self::$_mCartId;
+			// Regenerate cookie to be valid for 7 days (604800 seconds)
+			setcookie('cart_id', self::$_mCartId, time() + 604800);
+			}
+			else
+			{
+			/* Generate cart id and save it to the $_mCartId class member,
+			the session and a cookie (on subsequent requests $_mCartId
+			will be populated from the session) */
+			self::$_mCartId = md5(uniqid(rand(), true));
+			// Store cart id in session
+			$_SESSION['cart_id'] = self::$_mCartId;
+			// Cookie will be valid for 7 days (604800 seconds)
+			setcookie('cart_id', self::$_mCartId, time() + 604800);
+			}
+		}
+	}
+		
+	public static function GetCartId()
+	{
+		// Ensure we have a cart id for the current visitor
+		if (!isset (self::$_mCartId))
+		self::SetCartId();
+		return self::$_mCartId;
+	}	
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 } // End Model_Cart

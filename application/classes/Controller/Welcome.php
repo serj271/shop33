@@ -51,6 +51,26 @@ class Controller_Welcome extends Controller {
 #		$request = Request::factory('error/500');
 #		$response = $request->execute();
 		echo Helpers_Media::alert();	
+		echo "Current version is PHP " . phpversion();
+		$crypt = Encrypt::instance();
+		echo $crypt->decode($crypt->encode('55'));
+		$string = "Some text to be encrypted";
+		$secret_key = "1111111111111111";
+		$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND);
+		
+		$encrypted_string = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $secret_key, $string, MCRYPT_MODE_CBC, $iv);
+		
+		$decrypted_string = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $secret_key, $encrypted_string, MCRYPT_MODE_CBC, $iv);
+		echo $decrypted_string ;
+		
+		$iv = 'aa';
+		echo  substr(base64_decode(base64_encode($iv.'99')), 0 ,strlen($iv)).'</br>';
+	
+	
+		Log::instance()->add(Log::NOTICE, Debug::vars(Kohana::find_file('media/1','1.jpg', FALSE)));
+//		phpinfo();
+		
+//		echo file_get_contents('/usr/local/www/shop33/media/css/common_v4.css');
 
 	}
 } // End home

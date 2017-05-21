@@ -66,13 +66,23 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 			{
 				$renderer = Kostache::factory(); 
 				$this->response->body($renderer->render($this->view));
+				
+				
+
 //				$this->response->body($this->view);
 //				$this->view = $renderer->render($view);
 			}
 		}
 		$renderer = Kostache::factory(); 
-//		$this->view = $renderer->render($view);		
+//		$view = new View_Winnings();
+//		$this->view = $renderer->render($view);	
+//		$this->template->content=$renderer->render($view);	
+	
 		$this->template->content=$renderer->render($this->view);	
+		
+		
+		
+		
 //		$message = Message::display('message/bootstrap');			
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());
 //	    $navigator->message=$message;
