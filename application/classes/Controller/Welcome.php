@@ -9,6 +9,16 @@ class Controller_Welcome extends Controller {
 //		$this->response->body('hello, world!');
 //		$this->response->body($renderer->render(new View_Test)); 
 //	    $internal_request=View::factory('welcome');
+		Log::instance()->add(Log::NOTICE, 'okii');		
+		$filepath = $this->request->param('filepath');
+		$uid = $this->request->param('uid');
+
+		$cfs_file = Kohana::find_file('media', $filepath, FALSE);
+		Log::instance()->add(Log::NOTICE, Debug::vars($filepath, $cfs_file));
+
+
+
+
 	    $current_route = $this->request->route();
 	    $controller = $this->request->controller(); //welcome
 	    $action = $this->request->action(); //index
@@ -67,7 +77,6 @@ class Controller_Welcome extends Controller {
 		echo  substr(base64_decode(base64_encode($iv.'99')), 0 ,strlen($iv)).'</br>';
 	
 	
-		Log::instance()->add(Log::NOTICE, Debug::vars(Kohana::find_file('media/1','1.jpg', FALSE)));
 //		phpinfo();
 		
 //		echo file_get_contents('/usr/local/www/shop33/media/css/common_v4.css');

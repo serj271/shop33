@@ -4,20 +4,26 @@ class Controller_Media extends Controller {
 
 	public $config;
 
-	public function before()
-	{
-		parent::before();
+//	public function before()
+//	{
+//		parent::before();
+//		$this->config = Kohana::$config->load('media');
+//		Log::instance()->add(Log::NOTICE, 'ok');
+//	}
 
-		$this->config = Kohana::$config->load('media');
+	public function index(){
+		Log::instance()->add(Log::NOTICE, 'okii');		
+			$this->response->body('ok');
 	}
 
 	public function action_serve()
 	{
+		Log::instance()->add(Log::NOTICE, 'okii');		
 		$filepath = $this->request->param('filepath');
 		$uid = $this->request->param('uid');
 
 		$cfs_file = Kohana::find_file('media', $filepath, FALSE);
-//		Log::instance()->add(Log::NOTICE, Debug::vars($filepath, $cfs_file));
+		Log::instance()->add(Log::NOTICE, Debug::vars($filepath, $cfs_file));
 
 		if ( ! $cfs_file)
 			throw HTTP_Exception::factory(404);

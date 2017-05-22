@@ -143,11 +143,11 @@ Kohana::modules(array(
 	'breadcrumbs'=> MODPATH.'kohana-breadcrumbs-master',
 	'catalog-shop'=> MODPATH.'catalog-shop',
 	'message'=> MODPATH.'kohana-message-master',
-	'tree'=> MODPATH.'kohana-tree-from-array-master',
+//	'tree'=> MODPATH.'kohana-tree-from-array-master',
 	 'ecommerce'	=> MODPATH.'kohana-oz-ecommerce-3.3-master',        // Object Relationship Mapping
-	 'unittest'   	=> MODPATH.'unittest',   // Unit testing
-	 'userguide'  	=> MODPATH.'userguide',  // User guide and API documentation
-	 'datalog'  	=> MODPATH.'kohana-datalog',  // 
+#	 'unittest'   	=> MODPATH.'unittest',   // Unit testing
+#	 'userguide'  	=> MODPATH.'userguide',  // User guide and API documentation
+//	 'datalog'  	=> MODPATH.'kohana-datalog',  // 
 	 'media'		=> MODPATH.'kohana-media',
 	));
 
@@ -174,8 +174,8 @@ Session::$default ='cookie';
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-if( ! Route::cache())
-{ 
+//if( ! Route::cache())
+//{ 
  
  /* 	
 Route::set('img', 'img(/<action>)')
@@ -273,7 +273,7 @@ Route::set('media', '<type>/<file>', array('type' => 'img|css|js', 'file' => '.+
 
  */
 //    Route::cache(TRUE);
-}
+//}
 
 
 
