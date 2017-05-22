@@ -77,6 +77,7 @@ abstract class Model_Cart extends Model
 			$this->_content = array(
 				'products' => array(),
 				'total'    => array('cost' => 0, 'count' => 0, 'discount' => 0),
+				'_mCartId' => md5(uniqid(rand(), true));
 			);
 		}
 	}
@@ -310,7 +311,7 @@ abstract class Model_Cart extends Model
 	public static function SetCartId()
 	{
 	// If the cart ID hasn't already been set ...
-	if (self::$_mCartId == '')
+		if (self::$_mCartId == '')
 		{
 			// If the visitor's cart ID is in the session, get it from there
 			if (isset ($_SESSION['cart_id']))
@@ -320,22 +321,22 @@ abstract class Model_Cart extends Model
 			// If not, check whether the cart ID was saved as a cookie
 			elseif (isset ($_COOKIE['cart_id']))
 			{
-			// Save the cart ID from the cookie
-			self::$_mCartId = $_COOKIE['cart_id'];
-			$_SESSION['cart_id'] = self::$_mCartId;
-			// Regenerate cookie to be valid for 7 days (604800 seconds)
-			setcookie('cart_id', self::$_mCartId, time() + 604800);
+				// Save the cart ID from the cookie
+				self::$_mCartId = $_COOKIE['cart_id'];
+				$_SESSION['cart_id'] = self::$_mCartId;
+				// Regenerate cookie to be valid for 7 days (604800 seconds)
+				setcookie('cart_id', self::$_mCartId, time() + 604800);
 			}
 			else
 			{
-			/* Generate cart id and save it to the $_mCartId class member,
-			the session and a cookie (on subsequent requests $_mCartId
-			will be populated from the session) */
-			self::$_mCartId = md5(uniqid(rand(), true));
-			// Store cart id in session
-			$_SESSION['cart_id'] = self::$_mCartId;
-			// Cookie will be valid for 7 days (604800 seconds)
-			setcookie('cart_id', self::$_mCartId, time() + 604800);
+				/* Generate cart id and save it to the $_mCartId class member,
+				the session and a cookie (on subsequent requests $_mCartId
+				will be populated from the session) */
+				self::$_mCartId = md5(uniqid(rand(), true));
+				// Store cart id in session
+				$_SESSION['cart_id'] = self::$_mCartId;
+				// Cookie will be valid for 7 days (604800 seconds)
+				setcookie('cart_id', self::$_mCartId, time() + 604800);
 			}
 		}
 	}

@@ -45,9 +45,9 @@ abstract class Model_OZ_Product extends ORM {
 		return array(
 			'id' => 'id',		
 			'uri' => 'URI',
-			'name' => 'name',
+			'name' => 'name of product',
 			'uri' => 'uri',
-			'description' => 'description',		
+			'description' => 'description of product',		
 			'primary_photo_id' => 'Keywords tag',
 			'avg_review_rating' => 'Avg_review_rating tag',
 		);

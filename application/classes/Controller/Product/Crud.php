@@ -1,10 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Controller_Basket_Crud extends Controller_Basket {
+abstract class Controller_Product_Crud extends Controller_Product {
 	/**
 	 * @var	string		Model name
 	 */
-	protected $_model;
+	protected $_model='Product';
 
 	/**
 	 * Action for reading multiple records of the current model
@@ -22,10 +22,10 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 		}
 		
 		// If there is no action specific view, use the CRUD default
-		if ($this->auto_view === TRUE and ! $this->view)
+		/* if ($this->auto_view === TRUE and ! $this->view)
 		{
 			list ($view_name, $view_path) = static::find_view($this->request);
-
+//			    Log::instance()->add(Log::NOTICE, '_____'.$view_path);	
 			if (Kohana::find_file('classes', $view_path))
 			{
 				$this->view = new $view_name();
@@ -46,7 +46,7 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 			$this->view_navigator->controller = $this->request->controller();		
 			$this->view_navigator->action 	= $this->request->directory();		
 			$this->view_navigator->model 		= $this->_model;
-		}
+		} */
 	}
 
 
@@ -74,7 +74,7 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 		// Pass to view
 		$this->view->items 		= $items;
 		$this->view->pagination = $pagination;
-		Log::instance()->add(Log::NOTICE,Debug::vars(Debug::vars($items)));
+//		Log::instance()->add(Log::NOTICE,Debug::vars($this->request->directory()));
 	}	
 	/**
 	 * Action for creating a single record

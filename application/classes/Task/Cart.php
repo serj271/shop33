@@ -17,10 +17,8 @@ class Task_Cart extends Minion_Task {
 #		Kohana::$log->attach(new Log_File(APPPATH.'logs'));
 #		set_exception_handler(array('Kohana_Exception_Handler','handle'));
 		Kohana::$config->attach(new Config_File);		
-		$db = Database::instance();
-	
-		// Get the table name from the ORM model	
-		
+		$db = Database::instance();	
+		// Get the table name from the ORM model			
 		
 		$cart = Cart::instance();
 		$productId = 1;

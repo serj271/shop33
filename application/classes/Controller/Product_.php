@@ -1,11 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Controller_Product extends Controller_Common_Product {
-//Kohana_Controller	
-	/**
-	 * @var	bool	Should View be automatically included?
-	 */
-	public $auto_view = TRUE;
+class Controller_Product extends Controller_Common_Product {
+//    public $template ='main';
+   public $auto_view = TRUE;
 //	public $auto_view = FALSE;	
 	/**
 	 * @var	Kostache	View model
@@ -17,10 +14,7 @@ abstract class Controller_Product extends Controller_Common_Product {
 	public $menu='menu.users';
 	
 	public $view_navigator;
-	
-	
-//	Log::instance()->add(Log::NOTICE, Debug::vars(Cart::SetCartId());
-	
+
 	public function before()
 	{
 		parent::before();
@@ -38,43 +32,26 @@ abstract class Controller_Product extends Controller_Common_Product {
 		if ($this->auto_view === TRUE)
 		{
 			list($view_name, $view_path) = static::find_view($this->request);
-			
+			Log::instance()->add(Log::NOTICE, Debug::vars($view_name, $view_path));
 			if (Kohana::find_file('classes', $view_path))
 			{			
+				Log::instance()->add(Log::NOTICE, Debug::vars(Kohana::find_file('classes', $view_path)));
 				$this->view = new $view_name();
 			}
 			list($view_name_navigator, $view_path_navigator) = static::find_view_navigator($this->request);
-
-
+Log::instance()->add(Log::NOTICE, Debug::vars($view_name_navigator, $view_path_navigator));
 			if (Kohana::find_file('classes', $view_path_navigator))
 			{			
 				$this->view_navigator = new $view_name_navigator();
 			}
-//Log::instance()->add(Log::NOTICE, Debug::vars($view_name_navigator, $view_path_navigator,$view_name, $view_path));
+
 
 		}
-		if ($this->view)
-		{
-			$this->view->action 	= $this->request->action();			
-			$this->view->controller = $this->request->controller();		
-			$this->view->action 	= $this->request->directory();		
-			$this->view->model 		= $this->_model;
-		}
-		if ($this->view_navigator)
-		{
-			$this->view_navigator->action 	= $this->request->action();			
-			$this->view_navigator->controller = $this->request->controller();		
-			$this->view_navigator->action 	= $this->request->directory();		
-			$this->view_navigator->model 		= $this->_model;
-		}
-		
-		
-		
 	}
 	
 	public function after()
 	{
-		/* if ($this->view !== NULL)
+		if ($this->view !== NULL)
 		{
 			// Render the content only in case of AJAX and subrequests
 			if ($this->request->is_ajax() OR ! $this->request->is_initial())
@@ -86,16 +63,14 @@ abstract class Controller_Product extends Controller_Common_Product {
 			if ( ! $this->response->body())
 			{
 				$renderer = Kostache::factory(); 
-				$this->response->body($renderer->render($this->view));
+//				$this->response->body($renderer->render($this->view));
 //				$this->response->body($this->view);
 //				$this->view = $renderer->render($view);
 			}
-		} */
+		}
 		$renderer = Kostache::factory(); 
 //		$this->view = $renderer->render($view);		
-		$this->template->content=$renderer->render($this->view);
-	
-	
+		$this->template->content=$renderer->render($this->view);	
 //		$message = Message::display('message/bootstrap');			
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());
 //	    $navigator->message=$message;
@@ -104,38 +79,12 @@ abstract class Controller_Product extends Controller_Common_Product {
 		$session = Session::instance();
 //		$session->set('ragion',$ragion);		
 //		$ragion_checked = $session->get('ragion_checked', array());
-//		$this->template->navigator=$renderer->render($this->view_navigator);		
+		$this->template->navigator=$renderer->render($this->view_navigator);		
 		
 		return parent::after();
 	}
-	
-	/**
-	 * Check permissions for a certain Request
-	 * 	Uses late static binding so child classes can override this 
-	 * 	in order to replace its functionality
-	 *
-	 * @param	Request	$request
-	 */
-	public static function check_permissions(Request $request)
-	{
-		if ( ! Auth::instance()->logged_in('login'))
-		{
-//			throw new HTTP_Exception_403('Access denied.');
-			if ($request->action() !== 'login')
-			{
-				// Get the reverse route and redirect user to the login page
-				$request->redirect('user/login');
-			}
-		}
-	}
-	
-	/**
-	 * Find the view name and view path for Request specified
-	 *
-	 * @param	Request
-	 * @return	array	view_name, view_path
-	 */
-	public static function find_view(Request $request)
+    
+   public static function find_view(Request $request)
 	{
 		// Empty array for view name chunks
 		$view_name = array('View');
@@ -174,4 +123,4 @@ abstract class Controller_Product extends Controller_Common_Product {
 		return array($view_name, $view_path);
 	}
 
-}
+} // End 

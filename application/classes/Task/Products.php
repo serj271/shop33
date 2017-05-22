@@ -310,8 +310,8 @@ class Task_Products extends Minion_Task {
 		} */
 		$photos->id = $photo_id;
 		$photos->product_id = (int) $product_id;
-		$photos->path_fullsize =  '/media/images/shopelement/1.jpg';
-		$photos->path_thumbnail= '/media/images/shopelement/thumbnail/1.jpg';	
+		$photos->path_fullsize =  'media/img/1.jpg';
+		$photos->path_thumbnail= 'media/img/thumbnail/1.jpg';	
 		try
 		{			
 			$photo = $photos = $photos->save();

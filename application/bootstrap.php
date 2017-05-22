@@ -203,11 +203,12 @@ Route::set('home', '(/<action>/(<pole>(/<id>(/<overflow>))))')
 		'action'     => 'index',
 	));
 
-Route::set('product', 'product(/<item_uri>)', array(
+Route::set('product', 'product(/<action>(/<item_uri>))', array(
 	'item_uri'=>'.*'
 ))
 	->defaults(array(
-		'controller' => 'product',
+		'directory' =>'product',
+		'controller' => 'main',
 		'action'     => 'index',
 		'index_file' =>''
 	));
