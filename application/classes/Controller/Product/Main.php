@@ -73,10 +73,13 @@ class Controller_Product_Main extends Controller_Product {
 				$specifications = $product->specifications->find()->as_array();
 				$products_as_array['specifications'] = $specifications;
 				$products_as_array['reviews'] = $reviews;
+				$link = $this->createLink($product->uri);
+				$products_as_array['link'] = $link;
 				$result[] = $products_as_array;	
 			}
 			$this->view->pagination = $pagination;
 			$this->view->product = $result;
+			Log::instance()->add(Log::NOTICE,Debug::vars('+++++++-----',$products_as_array));
 //			$this->view = $result;
 //						Log::instance()->add(Log::NOTICE,Debug::vars('+++++++',$pagination->render()));
 //						$content_view->product = $result;
@@ -194,5 +197,14 @@ class Controller_Product_Main extends Controller_Product {
 	
 	public static function addBase($url){
 			return URL::base().$url;			
+	} 
+	public static function createLink($uri){
+		$link = Route::get('product')->uri(array(
+			'directory' =>'product',
+			'controller' => 'main',
+			'action'     => 'read',
+			'item_uri' => $uri			
+		));//URL::site('product');
+		return URL::base().'product/read/'.$uri;			
 	} 
 } // End 

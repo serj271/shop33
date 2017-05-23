@@ -79,7 +79,7 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 		$login = View::factory('user/menulogout');
 		$this->template->menu=$login;
     }
-	public function action_add(){
+	/* public function action_add(){
 		$item = ORM::factory('Product', $this->request->param('id'));
 		
 		if ( ! $item->loaded())
@@ -90,8 +90,39 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 		
 		if ($this->request->method() === Request::POST)
 		{
-			$action = $this->request->post('action');
+			$action = $this->request->post('action');			
+			if ($action !== 'yes')
+			{
+				$this->redirect($this->request->route()->uri(array(
+					'controller' 	=> $this->request->controller(),
+				)));
+			}
+//			$cart = Cart::instance();
+//			$cart->addProduct($this->cart_id,$productId, $attributes);
 			
+			$item->delete();
+				$this->redirect($this->request->route()->uri(array(
+					'controller' 	=> $this->request->controller(),
+				)));
+		}		
+		$this->view->item = $item;		
+		
+		$login = View::factory('user/menulogout');
+		$this->template->menu=$login;
+	} */
+	
+	public function action_delete(){
+		$item = ORM::factory('Product', $this->request->param('id'));
+		
+		if ( ! $item->loaded())
+		{
+			throw new HTTP_Exception_404(ucfirst($this->_model).' doesn`t exist: :id', 
+				array(':id' => $this->request->param('id')));
+		}
+		
+		if ($this->request->method() === Request::POST)
+		{
+			$action = $this->request->post('action');			
 			if ($action !== 'yes')
 			{
 				$this->redirect($this->request->route()->uri(array(
@@ -105,16 +136,11 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 				$this->redirect($this->request->route()->uri(array(
 					'controller' 	=> $this->request->controller(),
 				))); */
-		}
-		
-		$this->view->item = $item;
-
-		
+		}		
+		$this->view->item = $item;		
 		
 		$login = View::factory('user/menulogout');
 		$this->template->menu=$login;
 	}
-	
-	
 	
 } // End 

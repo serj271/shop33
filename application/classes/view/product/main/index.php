@@ -11,16 +11,24 @@ class View_Product_Main_Index {
    
 	public $pagination;
     
+	public function buttons()
+	{
+		return array(
+			array(
+				'class' => 'large success',
+				'text' => 'Product',
+				'url' => Route::url('product', array(
+					'directory' =>'product',
+					'controller' => 'main',
+					'action'     => 'index',
+				)),
+			),			
+		);
+	} 
 	
 	
-
 	
 	
-	
-	
-	
-	
-
     public function message(){
 	return 'Hello pro';	
 

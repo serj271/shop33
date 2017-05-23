@@ -1,12 +1,17 @@
 <div id="result">
 <h1>Welcome, {{username}}!</h1>
 
-<p>
-Home index
-</p>
 {{test}}
 
+<div class="well">
+	{{#buttons}}
+	<a class="btn {{class}}" href="{{url}}">{{text}}</a>
+	{{/buttons}}
+</div>
+ 
+
 {{# product}}
+	
     {{{name}}
     {{# photo}}
 	<img src={{path_fullsize}} />
@@ -14,7 +19,7 @@ Home index
     {{/ photo}}
 		{{# specifications}}
 			<p>
-				specification name {{name}}
+				specification name <a href="{{link}}" > {{name}} </a>
 			</p>
 			<p>
 				specification value {{value}}
@@ -36,6 +41,7 @@ Home index
 		<p>
 			reviews body {{body}}
 		</p>
+		
 		{{/ reviews}}
 {{/ product}}
 
@@ -43,7 +49,7 @@ Home index
 {{# items}}
     {{{name}}
     {{# photo}}
-	
+	d
 	{{path_fullsize}}
     {{/ photo}}
 
