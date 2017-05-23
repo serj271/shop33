@@ -77,7 +77,6 @@ abstract class Model_Cart extends Model
 			$this->_content = array(
 				'products' => array(),
 				'total'    => array('cost' => 0, 'count' => 0, 'discount' => 0),
-				'_mCartId' => md5(uniqid(rand(), true));
 			);
 		}
 	}
@@ -92,22 +91,22 @@ abstract class Model_Cart extends Model
 		}
 		return self::$_instance;
 	}
-	public function addProduct($cart_id,$product_id, $attributes){
+	/* public function addProduct($cart_id,$product_id, $attributes){
 		$query = "CALL shopping_cart_add_product(:cart_id, :product_id, :attributes)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':cart_id'=>$cart_id,
 			':product_id'=>$product_id,
 			':attributes'=>$attributes,
 		))->execute();
-	}
-	public function deleteProduct($id){
+	} */
+	public static function DeleteProduct($id){
 		$query = "call shopping_cart_remove_product(:inItemId)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':inItemId'=>$id,					
 		))->execute();	
 	}
 	
-	public function updateProduct($id,$inQuantity){
+	public static function UpdateProduct($id,$inQuantity){
 		$query = "call shopping_cart_update(:inItemId,:inQuantity)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':inItemId'=>$id,	
@@ -115,32 +114,42 @@ abstract class Model_Cart extends Model
 		))->execute();	
 	}
 	
-	public function shopping_cart_get_products($inCartId){
+	public static function GetProducts($inCartId){
 		$query = "CALL shopping_cart_get_products(:cart_id)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':cart_id'=>$inCartId,
 		))->execute();		
 	}
 	
-	public function shopping_cart_get_total_amount($inCartId){
+	public static function GetTotalAmount($inCartId){
 		$query = "CALL shopping_cart_get_total_amount(:cart_id)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':cart_id'=>$inCartId,
 		))->execute();		
 	}
 		
-	public function shopping_cart_save_product_for_later($inItemId){
+	public static function SaveProduct($inItemId){
 		$query = "CALL shopping_cart_save_product_for_later(:id)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':id'=>$inItemId,
 		))->execute();		
 	}
 	
-	public function shopping_cart_move_product_to_cart($inItemId){
+	public static function MoveProduct($inItemId){
 		$query = "CALL shopping_cart_move_product_to_cart(:id)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':id'=>$inItemId,
 		))->execute();		
+	}
+	
+	
+	public static function AddProduct($cart_id,$product_id, $attributes){
+		$query = "CALL shopping_cart_add_product(:cart_id, :product_id, :attributes)";
+		return DB::query(Database::SELECT, $query)->parameters(array(
+			':cart_id'=>$cart_id,
+			':product_id'=>$product_id,
+			':attributes'=>$attributes,
+		))->execute();
 	}
 	
 	/**
@@ -153,6 +162,7 @@ abstract class Model_Cart extends Model
 	 
 	public function __get($key)
 	{
+		Log::instance()->add(Log::NOTICE, Debug::vars('----------'.$key));
 		if ($key == 'config' OR $key == 'content')
 		{
 			return $this->{'_'.$key};
@@ -310,33 +320,39 @@ abstract class Model_Cart extends Model
 	
 	public static function SetCartId()
 	{
+		$session = Session::instance('database');
+		$key = 'mCartId';
 	// If the cart ID hasn't already been set ...
 		if (self::$_mCartId == '')
 		{
 			// If the visitor's cart ID is in the session, get it from there
-			if (isset ($_SESSION['cart_id']))
+			$mCartId = $session->get('mCartId');
+//			if (isset ($_SESSION['cart_id']))
+			if($mCartId)
 			{
-			self::$_mCartId = $_SESSION['cart_id'];
+//				self::$_mCartId = $_SESSION['cart_id'];
+				self::$_mCartId = $mCartId;
 			}
 			// If not, check whether the cart ID was saved as a cookie
-			elseif (isset ($_COOKIE['cart_id']))
+			/* elseif (isset ($_COOKIE['cart_id']))
 			{
 				// Save the cart ID from the cookie
 				self::$_mCartId = $_COOKIE['cart_id'];
 				$_SESSION['cart_id'] = self::$_mCartId;
 				// Regenerate cookie to be valid for 7 days (604800 seconds)
-				setcookie('cart_id', self::$_mCartId, time() + 604800);
-			}
+//				setcookie('cart_id', self::$_mCartId, time() + 604800);
+			} */
 			else
 			{
 				/* Generate cart id and save it to the $_mCartId class member,
 				the session and a cookie (on subsequent requests $_mCartId
 				will be populated from the session) */
 				self::$_mCartId = md5(uniqid(rand(), true));
+				$session->set($key, self::$_mCartId);
 				// Store cart id in session
-				$_SESSION['cart_id'] = self::$_mCartId;
+//				$_SESSION['cart_id'] = self::$_mCartId;
 				// Cookie will be valid for 7 days (604800 seconds)
-				setcookie('cart_id', self::$_mCartId, time() + 604800);
+//				setcookie('cart_id', self::$_mCartId, time() + 604800);
 			}
 		}
 	}

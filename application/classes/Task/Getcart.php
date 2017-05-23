@@ -22,7 +22,7 @@ class Task_Getcart extends Minion_Task {
 		// Get the table name from the ORM model	
 		
 		
-		$cart = Cart::instance();
+//		$cart = Cart::instance();
 		$productId = 1;
 		$attributes = 'a';
 		$this->model = 'Shopping_Cart';
@@ -43,8 +43,8 @@ class Task_Getcart extends Minion_Task {
 //			$result = $cart->shopping_cart_get_total_amount($shopping_cart->cart_id);
 			
 //			$result = $cart->shopping_cart_move_product_to_cart($params['id']);
-			$result = $cart->shopping_cart_get_products($shopping_cart->cart_id);
-
+//			$result = $cart->shopping_cart_get_products($shopping_cart->cart_id);
+			$result = Cart::GetProducts($shopping_cart->cart_id);
 
 			Log::instance()->add(Log::NOTICE, Debug::vars($result->as_array()));
 			

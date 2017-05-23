@@ -6,6 +6,7 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';
     public function action_index(){
+//		Session::instance('database');
 //		if (!Auth::instance()->logged_in('login')){
 //		
 //			$this->redirect('user/auth/login');
@@ -42,15 +43,22 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 		// Pass to view
 /* 		$items = ORM::factory($this->_model)
 			->find_all(); */
-		$cart = Cart::instance();
-		$cart_model = ORM::factory($this->_model,1);
-		$cart_id = $cart_model->cart_id;
-		$items = $cart->shopping_cart_get_products($cart_id);	
-			
-		$this->view->items 		= $items;
 		
-		Cart::SetCartId();
-		$cartId = Cart::GetCartId();
+//		$cart_model = ORM::factory($this->_model,1);
+		$session = Session::instance('native');			
+		Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));	
+		$mCartId = $session->get('mCartId', false);	
+		if($mCartId){
+			$items = Cart::GetProducts($mCartId);				
+			$this->view->items 		= $items;			
+		}
+//		$cart_id = Cart::GetCartId();
+//		$items = Cart::GetProducts($cart_id);	
+			
+//		$this->view->items 		= $items;
+		
+//		Cart::SetCartId();
+//		$cartId = Cart::GetCartId();
 		
 //		Log::instance()->add(Log::NOTICE,Debug::vars($cartId ));
 		/* $cart = Cart::instance();

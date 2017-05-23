@@ -38,8 +38,8 @@ class Task_Cart extends Minion_Task {
 		
 		try{			
 //			$shopping = $shopping_cart->save();
-			$results = $cart->addProduct($this->cart_id,$productId, $attributes);
-			$results = $cart->addProduct($this->cart_id,$productId, $attributes);
+			$results = Cart::AddProduct($this->cart_id,$productId, $attributes);
+			$results = Cart::AddProduct($this->cart_id,$productId, $attributes);
 //		$query = "call shopping_cart_add_product(1, 1, 'a')";
 //			$query = "SELECT * from products";
 //			$result = DB::query(Database::SELECT, $query)->execute();

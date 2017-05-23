@@ -22,7 +22,8 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 	public function before()
 	{
 		parent::before();
-		
+		$session = Session::instance('native');
+		Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));
 		// Set security headers
 		$this->response
 			->headers('x-content-type-options','nosniff')

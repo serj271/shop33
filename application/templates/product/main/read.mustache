@@ -8,17 +8,25 @@
 	{{/buttons}}
 </div>
 
-{{#values}}
-<div class="row">
-	<div class="span4">
-		<strong>{{name}}</strong>
-			{{#photo}}
-			<img src="{{path_fullsize}}" alt="" />
-			{{/photo}}
-			{{id}}
-	</div>
-	<div class="span4">{{value}}</div>
-	
-</div>
-{{/values}}
 
+<form action="/shop33/product/create" accept-charset="{{charset}}" method="POST" role="form" id="login" class="form"> 
+	{{#values}}
+	<div class="row">
+		<div class="span4">
+			<strong>{{name}}</strong>
+				{{#photo}}
+				<img src="{{path_fullsize}}" alt="" />
+				{{/photo}}
+				{{id}}
+		</div>
+		<div class="span4">{{value}}</div>
+		
+	</div>
+	<input type="hidden" name="token" value="{{token}}" />
+	<input type="hidden" name="cart_id" value="{{cart_id}}" />
+	<input type="hidden" name="attributes" value="a" />
+	<input type="hidden" name="product_id" value="{{id}}" />
+	<input type="submit" value="{{sendtext}}" /> 
+	{{/values}}
+	
+</form>

@@ -18,12 +18,15 @@ abstract class Controller_Product extends Controller_Common_Product {
 	
 	public $view_navigator;
 	
+	protected $_mCartId;
 	
 //	Log::instance()->add(Log::NOTICE, Debug::vars(Cart::SetCartId());
 	
 	public function before()
 	{
 		parent::before();
+		$session = Session::instance('native');
+		$this->_mCartId = $session->id();
 		
 		// Set security headers
 		$this->response
@@ -101,7 +104,7 @@ abstract class Controller_Product extends Controller_Common_Product {
 //	    $navigator->message=$message;
 //	    $navigator = Menu::factory($this->menu)->render();   
 		
-		$session = Session::instance();
+		
 //		$session->set('ragion',$ragion);		
 //		$ragion_checked = $session->get('ragion_checked', array());
 //		$this->template->navigator=$renderer->render($this->view_navigator);		

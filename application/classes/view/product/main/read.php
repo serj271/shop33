@@ -52,6 +52,18 @@ class View_Product_Main_Read {
 	{
 //		return ucfirst($this->model()).' #'.$this->item->id;
 	}
+	public function token(){
+		return Security::token();
+	}
+	public function charset(){
+		return 'UTF-8';
+	}
+	public function sendtext(){
+		return 'Add shop cart';
+	}
+	public function cart_id(){
+		return Cart::GetCartId();
+	}
 	
 	/**
 	 * @return	array	field => value
@@ -60,7 +72,7 @@ class View_Product_Main_Read {
 	{
 		$array 	= $this->item->object();
 		$labels = $this->item->labels();
-		Log::instance()->add(log::NOTICE, Debug::vars( $labels, $array['uri']));
+//		Log::instance()->add(log::NOTICE, Debug::vars( $labels, $array['uri']));
 		
 		$result = array();
 		$photo = $this->item->primary_photo()->as_array();			

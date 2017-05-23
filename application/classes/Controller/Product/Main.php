@@ -8,6 +8,10 @@ class Controller_Product_Main extends Controller_Product {
     public function action_index(){
 		/* $cart = Cart::SetCartId();
 		Log::instance()->add(Log::NOTICE,Debug::vars(Cart::GetCartId()));	 */
+//		$cart = Cart::instance();
+//		$content = $cart->content;
+//		$session = Session::instance();
+		Log::instance()->add(Log::NOTICE,Debug::vars($this->_mCartId));
 //		if (!Auth::instance()->logged_in('login')){		
 //			$this->redirect('user/auth/login');
 //		}
@@ -96,13 +100,15 @@ class Controller_Product_Main extends Controller_Product {
 	
 	public function action_read()
 	{
+//		Session::instance();
+		Log::instance()->add(Log::NOTICE,Debug::vars($this->_mCartId));
 		$item_uri = $this->request->param('item_uri');
 		$item = ORM::factory($this->_model)
 			->where('uri','=',$item_uri)
 			->find();
 			
-	/* 	$cart = Cart::SetCartId();
-		Log::instance()->add(Log::NOTICE,Debug::vars(Cart::GetCartId()));	 */
+
+//		Log::instance()->add(Log::NOTICE,Debug::vars(Cart::GetCartId()));
 		
 		if ( ! $item->loaded())
 		{
@@ -126,20 +132,6 @@ class Controller_Product_Main extends Controller_Product {
 
 		}	
 
-//		foreach ($products_orm as $product){
-//			$products_as_array = $product->as_array();				
-			/* $photo = $item->primary_photo()->as_array();
-//			$controller = $this->request->controller();
-			$array 	= $this->item->object();
-			$photo = Arr::map(array(array(__CLASS__,'addBase')), $photo, array('path_fullsize','path_thumbnail'));
-			$array['photo'] = $photo; */
-			
-		/* 	$products_as_array['photo'] = $photo;
-			$reviews = $product->reviews->find()->as_array();
-			$specifications = $product->specifications->find()->as_array();
-			$products_as_array['specifications'] = $specifications;
-			$products_as_array['reviews'] = $reviews; */
-			/* $result[//] = $products_as_array;	 */
 //		}		
 
 //		Log::instance()->add(Log::NOTICE,Debug::vars($photo));			
@@ -150,17 +142,31 @@ class Controller_Product_Main extends Controller_Product {
 	
 	public function action_create()
 	{
-		$item = ORM::factory($this->_model);
-
-		
+		$item = ORM::factory($this->_model);		
 		if ($this->request->method() === Request::POST)
 		{
 			$validation = Validation::factory($this->request->post())
 				->rule('token','not_empty')
 				->rule('token','Security::check');
-			Log::instance()->add(Log::NOTICE,Debug::vars($this->request->post()));	
-			$this->redirect($this->request->route()->uri(array(
+//			$date = Arr::get($this->request->post(),'cart_id',NULL);
+			$post=array_map('trim',$this->request->post());
+			$keys=array('cart_id','attributes','product_id');
+			$last_input=Arr::extract($post,$keys,NULL); 	
+			$session = Session::instance('native');			
+			Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));	
+			$mCartId = $session->get('mCartId', false);	
+			if(!$mCartId){
+				$session->set('mCartId',md5(uniqid(rand(), true)));
+				$mCartId = $session->get('mCartId', false);	
+			}
+			Cart::AddProduct($mCartId,$last_input['product_id'],$last_input['attributes']);
+		/* 	$this->redirect($this->request->route()->uri(array(
 					'controller' 	=> $this->request->controller(),					
+				))); */
+			$this->redirect(Route::get('basket')->uri(array(
+					'directory' =>'basket',
+					'controller' => 'main',
+					'action'     => 'index',					
 				)));
 			
 			try

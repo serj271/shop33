@@ -1,11 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-Route::set('media', 'media/<filepath>', array(
+Route::set('media', 'media/(<uid>/)<filepath>', array(
 		'filepath' => '.*', // Pattern to match the file path
-//		'uid' => '[0-9]+',     // Match the unique string that is not part of the media file
+		'uid' => '[0-9]+',     // Match the unique string that is not part of the media file
 	))
 	->defaults(array(
 		'controller' =>'Media',
-		'action'     => 'index',
+		'action'     => 'serve',
 //		'uid'	=> NULL
 	));

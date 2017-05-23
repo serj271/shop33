@@ -1,5 +1,6 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 use 'shop33';
+SET @basename := 'shop33';
 
 DROP TABLE IF EXISTS `shopping_cart`;
 CREATE TABLE `shopping_cart` (
@@ -14,13 +15,6 @@ CREATE TABLE `shopping_cart` (
 	KEY `product_id` (`product_id`),
 	KEY `idx_shopping_cart_cart_id` (`cart_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-
-
-
-ALTER TABLE `shopping_cart`
-  ADD CONSTRAINT `catalog_basket_list_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ;
-
-
 
  
 DROP PROCEDURE IF EXISTS  shopping_cart_add_product;
@@ -41,7 +35,7 @@ END
 //
 delimiter ;
 
-GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_add_product TO 'user_db'@'localhost';
+GRANT EXECUTE ON PROCEDURE shopping_cart_add_product TO 'user_db'@'localhost';
 
 DROP PROCEDURE IF EXISTS  shopping_cart_remove_product;
 delimiter //
@@ -52,7 +46,7 @@ BEGIN
 END
 //
 delimiter ;
-GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_remove_product TO 'user_db'@'localhost';
+GRANT EXECUTE ON PROCEDURE shopping_cart_remove_product TO 'user_db'@'localhost';
 
 
 DROP PROCEDURE IF EXISTS  shopping_cart_update;
@@ -69,7 +63,7 @@ BEGIN
 END
 //
 delimiter ;
-GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_update TO 'user_db'@'localhost';
+GRANT EXECUTE ON PROCEDURE shopping_cart_update TO 'user_db'@'localhost';
 
 
 
@@ -89,7 +83,7 @@ BEGIN
 END
 //
 delimiter ;
-GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_get_products TO 'user_db'@'localhost';
+GRANT EXECUTE ON PROCEDURE shopping_cart_get_products TO 'user_db'@'localhost';
 
 DROP PROCEDURE IF EXISTS  shopping_cart_get_total_amount;
 delimiter //
@@ -104,7 +98,7 @@ BEGIN
 END
 //
 delimiter ;
-GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_get_total_amount TO 'user_db'@'localhost';
+GRANT EXECUTE ON PROCEDURE shopping_cart_get_total_amount TO 'user_db'@'localhost';
 
 DROP PROCEDURE IF EXISTS  shopping_cart_save_product_for_later;
 delimiter //
@@ -116,7 +110,7 @@ BEGIN
 END
 //
 delimiter ;
-GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_save_product_for_later TO 'user_db'@'localhost';
+GRANT EXECUTE ON PROCEDURE shopping_cart_save_product_for_later TO 'user_db'@'localhost';
 
 
 DROP PROCEDURE IF EXISTS  shopping_cart_move_product_to_cart;
@@ -130,9 +124,9 @@ BEGIN
 END
 //
 delimiter ;
-GRANT EXECUTE ON PROCEDURE shop33.shopping_cart_move_product_to_cart TO 'user_db'@'localhost';
+GRANT EXECUTE ON PROCEDURE shopping_cart_move_product_to_cart TO 'user_db'@'localhost';
 
-
+-- GRANT EXECUTE ON PROCEDURE shop33.* TO 'user_db'@'localhost';
 
 
 
