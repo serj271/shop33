@@ -99,7 +99,7 @@ abstract class Model_Cart extends Model
 			':attributes'=>$attributes,
 		))->execute();
 	} */
-	public static function DeleteProduct($id){
+	public static function DeleteShoppingCart($id){
 		$query = "call shopping_cart_remove_product(:inItemId)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':inItemId'=>$id,					

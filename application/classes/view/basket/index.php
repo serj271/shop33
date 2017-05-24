@@ -171,18 +171,44 @@ class View_Basket_Index {
 		return array(
 			'read' => array(
 				'class' 	=> 'btn primary',
-				'text' 		=> 'View',
+				'text' 		=> 'Detail of product',
+				'directory' =>'product',
+				'controller' => 'main',
+				'action'		=> 'read',
 			),
-			'update' => array(
+			'add' => array(
 				'class' 	=> 'btn success',
-				'text' 		=> 'Edit',
+				'text' 		=> 'Add to shopping cart',
+				'directory' =>'product',
+				'controller' => 'main',
+				'action'		=> 'create',
 			),
 			'delete' => array(
 				'class' 	=> 'btn danger',
-				'text' 		=> 'Delete',
+				'text' 		=> 'Delete from shopping cart',
+//				'directory' =>$this->directory,
+//				'controller' => $this->controller,
+				'action'		=> 'delete',
 			),
 		);
 	}
+	
+	public function buttonDeleteProduct(){
+		return array(
+				'class' 	=> 'btn danger',
+				'text' 		=> 'Delete from shopping cart',
+				'url'	=> Route::url('basket', array(
+							'directory' => $this->directory,
+							'controller' => $this->controller,
+							'action'		=> 'delete',
+							
+
+						)),
+		);
+	}
+	
+	
+	 
 	
 	/**
 	 * @var	mixed	local cache for self::results()
@@ -208,47 +234,53 @@ class View_Basket_Index {
 		if (count($this->items) > 0)
 		{
 			$result['rows'] = array();
-			
-			
 			foreach ($this->items as $item)
 			{
 				// Extract aliased values from self::columns()
 				$aliases 	= Arr::pluck($this->columns(), 'alias');
 				$extracted 	= Arr::extract($item, $aliases);
-//				Log::instance()->add(Log::NOTICE, Debug::vars('iteeee',$item));
+				Log::instance()->add(Log::NOTICE, Debug::vars('iteeee',$item,$this->controller));
 				// Remove the options aliased column
 //				unset($extracted[static::OPTIONS_ALIAS]);
 				
 				$values = array_values($extracted);
 				
 				// Map all values to array('value' => $value)
-				$values = array_map(function($val) { 
-					
-					return array('value' => $val);
-				
-				}, $values);
-//				
+				$values = array_map(function($val) { 					
+					return array('value' => $val);				
+				}, $values);//				
 				
 				// Map options
 				$options = array();
 				
 				foreach ($this->options() as $action => $details)
 				{
-					$options[] = array(
-						'class' => $details['class'],
-						'text' 	=> $details['text'],
-						'url'	=> Route::url('product', array(
-							'controller' 	=> 'product',
-//							'action'		=> $action,
-							'item_uri'			=> $item['uri'],//$item->id
-						)),
-					);
+					switch ($action){
+						case 'delete': 
+							$options[] = array(
+								'class' => $details['class'],
+								'text' 	=> $details['text'],
+								'url'	=> Route::url('basket', array(
+									'directory' => $this->directory,
+									'controller' => $this->controller,
+									'action'		=> $action,
+									'id'			=> $item['id'],
+									'item_uri'			=> $item['uri'],//$item->id
+								)),
+							);
+						break;
+						default:
+						break;
+					}
+					
 				}
+				
+				
 //				$options = array();
 				
 				// Push data to the rows array
 				$result['rows'][] = array(
-//					'item'		=> $item,
+					'item'		=> $item,
 					'options' 	=> $options,
 					'values' 	=> $values,
 				);

@@ -12,9 +12,7 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 //			$this->redirect('user/auth/login');
 //		}
 //		$user = Auth::instance()->get_user();
-//		$this->view->username = $user->username;
-		
-		
+//		$this->view->username = $user->username;		
 		
 //	Log::instance()->add(Log::NOTICE,Debug::vars(Auth::instance()->get_user_roles()));
 //		$this->template->content = Message::display();
@@ -39,14 +37,14 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 			->offset($pagination->offset)
 			->order_by($order_by)
 			->find_all(); */
-//		Log::instance()->add(Log::NOTICE,Debug::vars($items));
+
 		// Pass to view
 /* 		$items = ORM::factory($this->_model)
 			->find_all(); */
 		
 //		$cart_model = ORM::factory($this->_model,1);
 		$session = Session::instance('native');			
-		Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));	
+//		Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));	
 		$mCartId = $session->get('mCartId', false);	
 		if($mCartId){
 			$items = Cart::GetProducts($mCartId);				
@@ -60,7 +58,7 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 //		Cart::SetCartId();
 //		$cartId = Cart::GetCartId();
 		
-//		Log::instance()->add(Log::NOTICE,Debug::vars($cartId ));
+
 		/* $cart = Cart::instance();
 		$cart_model = ORM::factory($this->_model,2);
 		$cart_id = $cart_model->cart_id;
@@ -70,9 +68,9 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 				Log::instance()->add(Log::NOTICE,Debug::vars('cart--',$result,$cart_id,$item));
 			
 		} */
-//		Log::instance()->add(Log::NOTICE,Debug::vars('cart--',$result->as_array(),$cart_id));
+
 //		$this->view->pagination = $pagination;
-//		Log::instance()->add(Log::NOTICE,Debug::vars(Debug::vars('------',$items)));
+
 
 
 
@@ -111,33 +109,36 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 		$this->template->menu=$login;
 	} */
 	
-	public function action_delete(){
-		$item = ORM::factory('Product', $this->request->param('id'));
+	public function action_delete(){//dlete product from basket
+		$item = ORM::factory($this->_model, $this->request->param('id'));//cartId
 		
 		if ( ! $item->loaded())
 		{
 			throw new HTTP_Exception_404(ucfirst($this->_model).' doesn`t exist: :id', 
 				array(':id' => $this->request->param('id')));
 		}
-		
-		if ($this->request->method() === Request::POST)
-		{
-			$action = $this->request->post('action');			
+		Cart::DeleteShoppingCart( $this->request->param('id'));
+		Log::instance()->add(Log::NOTICE,'delete '.$this->request->param('id'));
+//		if ($this->request->method() === Request::POST)
+//		{
+		/* 	$action = $this->request->post('action');			
 			if ($action !== 'yes')
 			{
 				$this->redirect($this->request->route()->uri(array(
 					'controller' 	=> $this->request->controller(),
 				)));
-			}
-//			$cart = Cart::instance();
-//			$cart->addProduct($this->cart_id,$productId, $attributes);
-			
+			} */
+				
+			$this->redirect(Route::get('basket')->uri(array(
+					'action'     => 'index',					
+				)));
+
 		/* 	$item->delete();
 				$this->redirect($this->request->route()->uri(array(
 					'controller' 	=> $this->request->controller(),
 				))); */
-		}		
-		$this->view->item = $item;		
+//		}		
+	
 		
 		$login = View::factory('user/menulogout');
 		$this->template->menu=$login;

@@ -73,7 +73,7 @@ DROP PROCEDURE IF EXISTS  shopping_cart_get_products;
 delimiter //
 CREATE PROCEDURE shopping_cart_get_products(IN inCartId CHAR(32))
 BEGIN
-	SELECT sc.cart_id, p.name, sc.attributes, p.price AS price, sc.quantity, p.price * sc.quantity AS subtotal, pr.uri
+	SELECT sc.id as id, sc.cart_id, p.name, sc.attributes, p.price AS price, sc.quantity, p.price * sc.quantity AS subtotal, pr.uri, pr.id as product_id
 		FROM shopping_cart sc
 		INNER JOIN product_variations p
 		ON sc.product_id = p.product_id

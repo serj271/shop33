@@ -22,7 +22,7 @@ h{{headline}}h
 {{result_count}}
 
 {{#result}}
-<form accept-charset="{{charset}}" action="{{#deletemultiple}}{{url}}{{/deletemultiple}}" id="deletemultiple_form" method="GET">
+<form accept-charset="{{charset}}" action="{{action}}}" id="form" method="POST">
 	<table class="table table-striped">
 		<thead>
 			<tr>				
@@ -43,15 +43,19 @@ h{{headline}}h
 				{{#options}}
 					<a class="{{class}}" href="{{url}}">{{text}}</a>
 				{{/options}}
+				
 				</td>
 			</tr>
 			{{/rows}}
 		</tbody>
 	</table>
 	<div class="clearfix">
-		{{#deletemultiple}}
-		<button class="btn large error" id="confirm_delete_multiple" value="yes" type="submit">{{text}}</button>
-		{{/deletemultiple}}
+	{{#buttons}}
+	<a class="btn {{class}}" href="{{url}}">{{text}}</a>
+	{{/buttons}} 
+		
+		<button class="btn primary" id="confirm_form" value="yes" type="submit">{{textSumbit}}</button>
+		
 	</div>
 </form>
 {{/result}}
