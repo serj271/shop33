@@ -89,7 +89,7 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 //	    $navigator->message=$message;
 //	    $navigator = Menu::factory($this->menu)->render();   
 		
-		$session = Session::instance();
+		$session = Session::instance('native');
 //		$session->set('ragion',$ragion);		
 //		$ragion_checked = $session->get('ragion_checked', array());
 //		$this->template->navigator=$renderer->render($this->view_navigator);		

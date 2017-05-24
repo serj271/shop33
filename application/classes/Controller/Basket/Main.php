@@ -117,27 +117,18 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 			throw new HTTP_Exception_404(ucfirst($this->_model).' doesn`t exist: :id', 
 				array(':id' => $this->request->param('id')));
 		}
-		Cart::DeleteShoppingCart( $this->request->param('id'));
-		Log::instance()->add(Log::NOTICE,'delete '.$this->request->param('id'));
-//		if ($this->request->method() === Request::POST)
-//		{
-		/* 	$action = $this->request->post('action');			
-			if ($action !== 'yes')
-			{
-				$this->redirect($this->request->route()->uri(array(
-					'controller' 	=> $this->request->controller(),
-				)));
-			} */
+//		Cart::DeleteShoppingCart( $this->request->param('id'));
+//		Log::instance()->add(Log::NOTICE,'delete '.$this->request->param('id'));
+		if ($this->request->method() === Request::POST)
+		{
+	
 				
 			$this->redirect(Route::get('basket')->uri(array(
 					'action'     => 'index',					
 				)));
 
-		/* 	$item->delete();
-				$this->redirect($this->request->route()->uri(array(
-					'controller' 	=> $this->request->controller(),
-				))); */
-//		}		
+	
+		}		
 	
 		
 		$login = View::factory('user/menulogout');
