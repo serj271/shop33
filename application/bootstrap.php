@@ -70,13 +70,16 @@ mb_substitute_character('none');
  * Set the default language
  */
 I18n::lang('en-us');
+#if (isset($_ENV['KOHANA_ENV']))
+#{
+#	Kohana::$environment = $_ENV['KOHANA_ENV'];
+#}
 
 if (isset($_SERVER['SERVER_PROTOCOL']))
 {
 	// Replace the default protocol.
 	HTTP::$protocol = $_SERVER['SERVER_PROTOCOL'];
 }
-
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
  *
@@ -108,8 +111,10 @@ Kohana::init(array(
 	'base_url'   => '/shop33/',
 	'charset'    => 'utf-8',
 	'index_file' => false,
-	'errors'=>FALSE,
-//	'errors'     =>true,
+	'profile'	=> Kohana::$environment !== Kohana::PRODUCTION,
+	'caching'	=> Kohana::$environment === Kohana::PRODUCTION,
+	'errors' 	=> Kohana::$environment !== Kohana::PRODUCTION
+
 ));
 
 
@@ -127,19 +132,19 @@ Kohana::$config->attach(new Config_File);
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules(array(
-	 'auth'       => MODPATH.'auth',       // Basic authentication
-	 'cache'      => MODPATH.'cache',      // Caching with multiple backends
-	 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-	 'database'   	=> MODPATH.'database-3.3-master',   // Database access
-	 'mysqli'   	=> MODPATH.'kohana-3.3-mysqli-master',   // Database access
-	 'image'     	=> MODPATH.'image',      // Image manipulation
-	 'minion'     	=> MODPATH.'minion-3.3-master',     // CLI Tasks
-	 'orm'        	=> MODPATH.'orm-3.3-master',        // Object Relationship Mapping
-	 'autoload'	=>MODPATH.'autoload',
-	 'kostache'	=>MODPATH.'KOstache-master',
-//	 'basket'	=>MODPATH.'kohana-basket-master',
-//	 'basket'	=>MODPATH.'kohana-basket-rpa',
-	 'pagination'	=>MODPATH.'kohana-pagination',
+	'auth'       => MODPATH.'auth',       // Basic authentication
+	'cache'      => MODPATH.'cache',      // Caching with multiple backends
+	'codebench'  => MODPATH.'codebench',  // Benchmarking tool
+	'database'   	=> MODPATH.'database-3.3-master',   // Database access
+	'mysqli'   	=> MODPATH.'kohana-3.3-mysqli-master',   // Database access
+	'image'     	=> MODPATH.'image',      // Image manipulation
+	'minion'     	=> MODPATH.'minion-3.3-master',     // CLI Tasks
+	'orm'        	=> MODPATH.'orm-3.3-master',        // Object Relationship Mapping
+	'autoload'	=>MODPATH.'autoload',
+	'kostache'	=>MODPATH.'KOstache-master',
+	'sprig'	=>MODPATH.'kohana-sprig-master',
+	'comments'	=>MODPATH.'kohana-comments-master',
+	'pagination'	=>MODPATH.'kohana-pagination',
 	'breadcrumbs'=> MODPATH.'kohana-breadcrumbs-master',
 	'catalog-shop'=> MODPATH.'catalog-shop',
 	'message'=> MODPATH.'kohana-message-master',
@@ -174,8 +179,8 @@ Session::$default ='cookie';
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-//if( ! Route::cache())
-//{ 
+if( ! Route::cache())
+{ 
  
  /* 	
 Route::set('img', 'img(/<action>)')
@@ -272,10 +277,88 @@ Route::set('media', '<type>/<file>', array('type' => 'img|css|js', 'file' => '.+
      ));
 
  */
-//    Route::cache(TRUE);
-//}
+	/* Error routes */
+	Route::set('403', '<error>', array('error' => '403'))
+		->defaults(array(
+			'controller' => 'error',
+			'action' => 'index'
+		));
+	Route::set('404', '<error>', array('error' => '404'))
+		->defaults(array(
+			'controller' => 'error',
+			'action' => 'index'
+		));
+	Route::set('500', '<error>', array('error' => '500'))
+		->defaults(array(
+			'controller' => 'error',
+			'action' => 'index'
+		));
 
 
+	Route::cache(Kohana::$environment === Kohana::PRODUCTION);
+}
+/*
+if ( ! defined('SUPPRESS_REQUEST'))
+{
+//	*
+//	 * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
+//	 * If no source is specified, the URI will be automatically detected.
+	
+	$request = Request::instance();
+	$request = Request::factory('error');
+	try {
+		 Attempt to execute the response
+		 $request->execute();
+	}
+
+	Catch errors
+
+	catch (ReflectionException $e) {
+
+		Kohana::$log->add(Kohana::ERROR, Kohana::exception_text($e));
+
+		if ( Kohana::$environment === Kohana::DEVELOPMENT ) {
+
+			throw $e;
+		}
+
+		$request->response = Request::factory('404')->execute();
+	}
+	catch (Exception404 $e) {
+
+		Kohana::$log->add(Kohana::ERROR, Kohana::exception_text($e));
+
+		if ( Kohana::$environment === Kohana::DEVELOPMENT ) {
+			throw $e;
+		}
+		$request = Request::instance();
+		$request->response = Request::factory('404')->execute();
+	}
+	catch (Kohana_Request_Exception $e) {
+
+		Kohana::$log->add(Kohana::ERROR, Kohana::exception_text($e));
+
+		if ( Kohana::$environment === Kohana::DEVELOPMENT ) {
+			throw $e;
+		}
+
+		$request->response = Request::factory('404')->execute();
+	}
+	catch (Exception $e) {
+
+		Kohana::$log->add(Kohana::ERROR, Kohana::exception_text($e));
+
+		if ( Kohana::$environment === Kohana::DEVELOPMENT ) {
+
+			throw $e;
+		}
+		 
+		$request->response = Request::factory('500')->execute();
+	}
+
+	$request->response AND print $request->send_headers()->response;
+}
+*/
 
 
 

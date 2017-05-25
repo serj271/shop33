@@ -27,9 +27,12 @@ class Controller_Home extends Controller_Common_Home {
 //	$message = Kohana::$environment;
 
         $content = View::factory('/home/content');
-        $this->template->content = 'ok';
+		$this->template->content = 'ok';		
+		$this->template->breadcrumbs = '';
+        
         $navigator=View::factory('/home/navigator')
     	    ->set('message',$message);
+
         $this->template->navigator=$navigator;
 //		Kohana::auto_load('Kostache');
 //		$renderer = Kostache::factory(); 

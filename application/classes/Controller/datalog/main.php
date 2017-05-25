@@ -58,7 +58,7 @@ class Controller_Datalog_Main extends Controller_Admin_Crud {
 			$items = ORM::factory('datalog')
 				->where('row_pk','=',$row_pk)
 				->find_all();
-			Log::instance()->add(Log::NOTICE, Debug::vars($items));	
+//			Log::instance()->add(Log::NOTICE, Debug::vars($items));	
 		}
 		
 		

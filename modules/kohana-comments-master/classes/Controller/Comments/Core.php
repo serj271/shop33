@@ -1,5 +1,4 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
-
 /**
  * Comment controller
  *
@@ -19,7 +18,7 @@ class Controller_Comments_Core extends Controller {
 	);
 
 	// Comment model to use (based on group)
-	protected $model = 'comment';
+	protected $model = 'Comment';
 
 	// Pagination per-page setting (based on group)
 	protected $per_page = 10;

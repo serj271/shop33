@@ -17,6 +17,7 @@ class HTTP_Exception_404 extends Kohana_HTTP_Exception_404 {
         $view->message = $this->getMessage();
  
         $response = Response::factory()
+//	    ->send_file(TRUE,'media/adr.zip')
 //            ->status(404)
             ->body($view->render());
  
