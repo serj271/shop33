@@ -1,4 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 return array(
-    'session_type'=>NULL,
+    	'session_type'  => Session::$default,
+	
+
 );

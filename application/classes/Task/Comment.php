@@ -44,22 +44,35 @@ class Task_Comment extends Minion_Task {
 		
 		));
 		
+		$data = Validation::factory(array(
+			'id' =>1,
+			'parent'=>1,
+			'name'=>'test name',
+			'email'=>'test@test.li',
+			'url'=>'comment1',
+			'text'=>'text comment'
+		
+		))->rule('name','not_empty');
+		$data->check();
+		$text = new Sprig_Field_Text();
+//		Minion_CLI::write($text->input('name','text'));
+	/* 	
 		$B8 = B8::factory();
 		$probability = $B8->classify($comment->text);
 		$state = 'queued';
 		if ($probability < $this->config['lower_limit'])
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Comment has been classified as ham');
+
 			$state = 'ham';
 		}
 		else if ($probability > $this->config['upper_limit'])
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Comment has been classified as spam');
+
 			$state = 'spam';
 		}
 		else
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Comment has been placed in the moderation queue');
+
 			$state = 'queued';
 		}
 		$comment->state = $state;
@@ -71,18 +84,25 @@ class Task_Comment extends Minion_Task {
 		}
 		catch (Validate_Exception $e)
 		{
-			// Setup HMVC view with data
+//			Setup HMVC view with data
 			$errors = $e->errors();
 			Minion_CLI::write($errors);
 			Log::instance()->add(Log::NOTICE, Debug::vars($errors)); 
 			
 		}
 		
+		 */
+		 
+	/* 	$resent_post = Request::factory(Route::get('comments'))
+			->uri(array('id'=>'1','page'=>1))
+			->execute()->response; */
+		$url = URL::site('comments');
+		$resent_post = Request::factory('/comments/default/create/1/1')->execute();
 		
 		
 		
 		
-		Minion_CLI::write('comment - ');				
+		Minion_CLI::write('comment - '.$resent_post);				
 //		
 		
 		

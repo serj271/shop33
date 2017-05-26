@@ -148,6 +148,7 @@ Kohana::modules(array(
 	'breadcrumbs'=> MODPATH.'kohana-breadcrumbs-master',
 	'catalog-shop'=> MODPATH.'catalog-shop',
 	'message'=> MODPATH.'kohana-message-master',
+	'B8'=> MODPATH.'Kohana-B8-master',
 //	'tree'=> MODPATH.'kohana-tree-from-array-master',
 	 'ecommerce'	=> MODPATH.'kohana-oz-ecommerce-3.3-master',        // Object Relationship Mapping
 #	 'unittest'   	=> MODPATH.'unittest',   // Unit testing
@@ -174,7 +175,7 @@ Cookie::$expiration = Date::WEEK; //Date::MONTH * 3
 //Cookie::set($key,$value)
 //Cookie::get($key)
 //Cookie::delete($key)
-Session::$default ='cookie';
+Session::$default ='native';
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
@@ -247,7 +248,24 @@ Route::set('basket', 'basket(/<action>(/<id>))',array('id'=>'[0-9]+'))
 		'controller' => 'main',
 		'action'     => 'index',
 	));
+/*
+Route::set('blog/stats', 'blog/stats/<action>(/<limit>)', array(
+		'limit' => '\d+',
+	))->defaults(array(
+		'directory'  => 'blog',
+		'controller' => 'stats',
+	));
+*/
 
+Route::set('comments', 'comments/<group>/<action>(/<id>(/<page>))(<format>)', array(
+		'id'     => '\d+',
+		'page'   => '\d+',
+		'format' => '\.\w+',
+	))->defaults(array(
+		'controller' => 'comments',
+		'group'      => 'default',
+		'format'     => '.json',
+	));
 
 	
 

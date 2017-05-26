@@ -43,7 +43,7 @@ class Controller_Useradmin_Users extends Controller_Useradmin_Crud{
             {
                 $user_roles[$role->name] = true;
             }
-  
+//			if ( ! Auth::instance()->logged_in('admin') AND $this->request->action !== 'login')  
 //		Log::instance()->add(Log::NOTICE,Debug::vars($user_roles));
 
 		$this->view->user_roles = $user_roles;

@@ -97,7 +97,7 @@ abstract class Controller_Product extends Controller_Common_Product {
 		$renderer = Kostache::factory(); 
 //		$this->view = $renderer->render($view);		
 		$this->template->content=$renderer->render($this->view);
-	
+		$this->template->breadcrumbs = '';	
 	
 //		$message = Message::display('message/bootstrap');			
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());

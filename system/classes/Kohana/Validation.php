@@ -362,7 +362,7 @@ class Kohana_Validation implements ArrayAccess {
 
 				// Default the error name to be the rule (except array and lambda rules)
 				$error_name = $rule;
-
+//				Log::instance()->add(Log::NOTICE, Debug::vars('rule----',$rule));
 				if (is_array($rule))
 				{
 					// Allows rule('field', array(':model', 'some_rule'));
@@ -380,6 +380,7 @@ class Kohana_Validation implements ArrayAccess {
 				{
 					// This is a lambda function, there is no error name (errors must be added manually)
 					$error_name = FALSE;
+//					Log::instance()->add(Log::NOTICE, Debug::vars($rule,$params));
 					$passed = call_user_func_array($rule, $params);
 				}
 				elseif (method_exists('Valid', $rule))

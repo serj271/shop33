@@ -12,6 +12,7 @@ class Lang {
 
 	public function __construct() {
 		$this->_config = Kohana::$config->load('flag');
+//		Log::instance()->add(Log::NOTICE, Debug::vars($this->_config));
 //		Kohana::$log->add(Debug::vars($username), 'Message class instantiated.');
 	}
 

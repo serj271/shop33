@@ -320,7 +320,7 @@ abstract class Model_Cart extends Model
 	
 	public static function SetCartId()
 	{
-		$session = Session::instance('database');
+		$session = Session::instance();
 		$key = 'mCartId';
 	// If the cart ID hasn't already been set ...
 		if (self::$_mCartId == '')

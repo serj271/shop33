@@ -1253,6 +1253,7 @@ abstract class Sprig_Core {
 	 */
 	public function create()
 	{
+		Log::instance()->add(Log::NOTICE, Debug::vars('data----+',$this->as_array()));
 		foreach ($this->_fields as $name => $field)
 		{
 			if ($field instanceof Sprig_Field_Timestamp AND $field->auto_now_create)
@@ -1264,7 +1265,7 @@ abstract class Sprig_Core {
 
 		// Check the all current data
 		$data = $this->check($this->as_array());
-
+//		Log::instance()->add(Log::NOTICE, Debug::vars('data----+'.$data));
 		$values = $relations = array();
 		foreach ($data as $name => $value)
 		{
@@ -1556,8 +1557,8 @@ abstract class Sprig_Core {
 			// Use the current data set
 			$data = $this->changed();
 		}
-
-		$data = Validate::factory($data);
+//		Log::instance()->add(Log::NOTICE,Debug::vars('-----core',$data) );
+		$data = Validation::factory($data)->rule('name',array('not_empty'));
 
 		foreach ($this->_fields as $name => $field)
 		{
@@ -1600,7 +1601,7 @@ abstract class Sprig_Core {
 	 * @param   string  field name
 	 * @return  void
 	 */
-	public function _unique_field(Validate $array, $field)
+	public function _unique_field(Validation $array, $field)
 	{
 		if ($array[$field])
 		{

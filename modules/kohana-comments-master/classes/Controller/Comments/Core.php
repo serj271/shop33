@@ -34,11 +34,11 @@ class Controller_Comments_Core extends Controller {
 	 */
 	public function before() {
 		// Make sure request is an internal request
-		if ($this->request === Request::instance())
-		{
-			Kohana::$log->add(Kohana::ERROR, 'Attempt was made to access comments controller externally');
-			$this->request->redirect('');
-		}
+//		if ($this->request === Request::instance())
+//		{
+//			Kohana::$log->add(Kohana::ERROR, 'Attempt was made to access comments controller externally');
+//			$this->request->redirect('');
+//		}
 
 		// Test to ensure the format requested is supported
 		if ( ! in_array($this->request->param('format'), $this->supported_formats))
@@ -46,7 +46,7 @@ class Controller_Comments_Core extends Controller {
 
 		// Get group settings
 		$group = $this->request->param('group');
-		$config = Kohana::config('comments.'.$group);
+		$config = Kohana::$config->load('comments.'.$group);
 		$this->model    = $config['model'];
 		$this->per_page = $config['per_page'];
 		$this->view     = $config['view'];
@@ -59,14 +59,14 @@ class Controller_Comments_Core extends Controller {
 	 * Create new comment
 	 */
 	public function action_create() {
-		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_create');
+//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_create');
 
 		$id = $this->request->param('id', 0);
 
 		// Comment must have a parent
 		if ($id == 0)
 		{
-			Kohana::$log->add(Kohana::INFO, 'Attempt to create comment without a defined parent');
+			Log::instance()->add(Log::NOTICE, 'Attempt to create comment without a defined parent');
 			$this->request->response = FALSE;
 			return;
 		}
@@ -80,17 +80,17 @@ class Controller_Comments_Core extends Controller {
 		$state = 'queued';
 		if ($probability < $this->config['lower_limit'])
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Comment has been classified as ham');
+//			Kohana::$log->add(Kohana::DEBUG, 'Comment has been classified as ham');
 			$state = 'ham';
 		}
 		else if ($probability > $this->config['upper_limit'])
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Comment has been classified as spam');
+//			Kohana::$log->add(Kohana::DEBUG, 'Comment has been classified as spam');
 			$state = 'spam';
 		}
 		else
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Comment has been placed in the moderation queue');
+//			Kohana::$log->add(Kohana::DEBUG, 'Comment has been placed in the moderation queue');
 			$state = 'queued';
 		}
 		$comment->state = $state;

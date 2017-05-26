@@ -74,12 +74,15 @@ class Controller_Welcome extends Controller {
 		echo $decrypted_string ;
 		
 		$iv = 'aa';
+		echo "</br>";
 		echo  substr(base64_decode(base64_encode($iv.'99')), 0 ,strlen($iv)).'</br>';
-	
-	
-//		phpinfo();
-		
+//		echo Debug::source(__FILE__, __LINE__);
+    // Displays "APPPATH/cache" rather than the real path
+		echo Debug::path(APPPATH.'cache');	
+//		phpinfo();		
 //		echo file_get_contents('/usr/local/www/shop33/media/css/common_v4.css');
+
+	
 
 	}
 } // End home
