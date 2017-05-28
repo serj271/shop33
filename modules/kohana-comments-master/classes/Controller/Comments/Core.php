@@ -234,7 +234,7 @@ class Controller_Comments_Core extends Controller {
 	 * Retrieve moderation queue
 	 */
 	public function action_queue() {
-		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_queue');
+//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_queue');
 		$this->classify();
 		$this->create_list('queued', TRUE);
 	}
@@ -243,7 +243,7 @@ class Controller_Comments_Core extends Controller {
 	 * Retrieve spam comments
 	 */
 	public function action_spam() {
-		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_spam');
+//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_spam');
 		$this->classify();
 		$this->create_list('spam', TRUE);
 	}
@@ -252,7 +252,7 @@ class Controller_Comments_Core extends Controller {
 	 * Perform classification changes
 	 */
 	protected function classify() {
-		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::classify');
+//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::classify');
 
 		$id = 0;
 		$comment = NULL;
@@ -284,25 +284,25 @@ class Controller_Comments_Core extends Controller {
 						$probability_before = $B8->classify($comment->text);
 						$B8->learn($comment->text, B8::HAM);
 						$probability_after = $B8->classify($comment->text);
-						Kohana::$log->add(Kohana::INFO, 'Comment learned as ham.  Probability before='.$probability_before.', after='.$probability_after);
+//						Kohana::$log->add(Kohana::INFO, 'Comment learned as ham.  Probability before='.$probability_before.', after='.$probability_after);
 						break;
 					case 'learn_spam':
 						$probability_before = $B8->classify($comment->text);
 						$B8->learn($comment->text, B8::SPAM);
 						$probability_after = $B8->classify($comment->text);
-						Kohana::$log->add(Kohana::INFO, 'Comment learned as spam.  Probability before='.$probability_before.', after='.$probability_after);
+//						Kohana::$log->add(Kohana::INFO, 'Comment learned as spam.  Probability before='.$probability_before.', after='.$probability_after);
 						break;
 					case 'unlearn_ham':
 						$probability_before = $B8->classify($comment->text);
 						$B8->unlearn($comment->text, B8::HAM);
 						$probability_after = $B8->classify($comment->text);
-						Kohana::$log->add(Kohana::INFO, 'Comment unlearned as ham.  Probability before='.$probability_before.', after='.$probability_after);
+//						Kohana::$log->add(Kohana::INFO, 'Comment unlearned as ham.  Probability before='.$probability_before.', after='.$probability_after);
 						break;
 					case 'unlearn_spam':
 						$probability_before = $B8->classify($comment->text);
 						$B8->unlearn($comment->text, B8::SPAM);
 						$probability_after = $B8->classify($comment->text);
-						Kohana::$log->add(Kohana::INFO, 'Comment unlearned as spam.  Probability before='.$probability_before.', after='.$probability_after);
+//						Kohana::$log->add(Kohana::INFO, 'Comment unlearned as spam.  Probability before='.$probability_before.', after='.$probability_after);
 						break;
 				}
 			}
@@ -317,7 +317,7 @@ class Controller_Comments_Core extends Controller {
 		// Approve the comment
 		if (isset($_POST['classify_ham']))
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Approving comment, id='.$id);
+//			Kohana::$log->add(Kohana::DEBUG, 'Approving comment, id='.$id);
 
 			try
 			{
@@ -326,7 +326,7 @@ class Controller_Comments_Core extends Controller {
 			}
 			catch (Exception $e)
 			{
-				Kohana::$log->add(Kohana::ERROR, 'Error occured approving comment, id='.$id);
+//				Kohana::$log->add(Kohana::ERROR, 'Error occured approving comment, id='.$id);
 				$this->request->response = FALSE;
 				return;
 			}
@@ -335,7 +335,7 @@ class Controller_Comments_Core extends Controller {
 		// Mark the comment as spam
 		if (isset($_POST['classify_spam']))
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Marking comment as spam, id='.$id);
+//			Kohana::$log->add(Kohana::DEBUG, 'Marking comment as spam, id='.$id);
 
 			try
 			{
@@ -344,7 +344,7 @@ class Controller_Comments_Core extends Controller {
 			}
 			catch (Exception $e)
 			{
-				Kohana::$log->add(Kohana::ERROR, 'Error occured marking comment as spam, id='.$id);
+//				Kohana::$log->add(Kohana::ERROR, 'Error occured marking comment as spam, id='.$id);
 				$this->request->response = FALSE;
 				return;
 			}
@@ -355,7 +355,7 @@ class Controller_Comments_Core extends Controller {
 	 * Edit a comment
 	 */
 	public function action_update() {
-		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_update');
+//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_update');
 
 		$id = $this->request->param('id');
 		$comment = Sprig::factory($this->model, array('id' => $id))->load();

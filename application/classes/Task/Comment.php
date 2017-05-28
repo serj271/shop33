@@ -20,7 +20,7 @@ class Task_Comment extends Minion_Task {
 		$db = Database::instance();	
 		// Get the table name from the ORM model			
 		
-		$cart = Cart::instance();
+//		$cart = Cart::instance();
 		$productId = 1;
 		$attributes = 'a';
 		$this->model = 'Comment';
@@ -33,30 +33,40 @@ class Task_Comment extends Minion_Task {
 		$this->config   = $config;
 		
 		
-		
+//		$date = new Sprig_Field_Timestamp();
+//		Minion_CLI::write($date->value('2017-01-01 00:00:00 A'));
+//		$d = $date->value('2017-01-01 00:00:00 A');
 		
 		$comment = Sprig::factory($this->model)->values(array(
-			'parent'=>1,
+			'parent'=>2,
 			'name'=>'test name',
 			'email'=>'test@test.li',
 			'url'=>'comment1',
-			'trxt'=>'text comment'
-		
+			'text'=>'',
+	
 		));
+		$text = new Sprig_Field_Text();
 		
+		$auto = new Sprig_Field_Auto();
 		$data = Validation::factory(array(
-			'id' =>1,
+//			'id' =>$auto,
 			'parent'=>1,
 			'name'=>'test name',
 			'email'=>'test@test.li',
 			'url'=>'comment1',
-			'text'=>'text comment'
+			'text'=>'',
+			'state'  => 'ham'
+//			'text'=>$text->input('name','text'),
+//			'date'=>$date,
 		
-		))->rule('name','not_empty');
-		$data->check();
-		$text = new Sprig_Field_Text();
+		))
+		->rule('text','not_empty')
+		->rule('state','in_array_',array('Validation::in_array_', array(':value',array('ham'=>'ham', 'queued'=>'queued', 'spam'=>'spam'))));
+//		$data->check();
+//		$text = new Sprig_Field_Text();
 //		Minion_CLI::write($text->input('name','text'));
-	/* 	
+//		Minion_CLI::write($date->value(new D);
+		
 		$B8 = B8::factory();
 		$probability = $B8->classify($comment->text);
 		$state = 'queued';
@@ -77,32 +87,33 @@ class Task_Comment extends Minion_Task {
 		}
 		$comment->state = $state;
 
-		try
-		{
-			$comment->create();
+//		try
+//		{
+//			$comment->create();
+			$data->check();
+//			$errors = $data->errors('validation_',TRUE);//from message/validation.php
+			$errors = $data->errors('comment');//from message/comment.php
+			Log::instance()->add(Log::NOTICE, Debug::vars($errors));
+//			throw new Validation_Exception($data,'error!!!!', array('text'=>'text'));	
+//			throw new Kohana_Exception(	'coment eeror');	
+//		}
+//		catch (Exception $e)
+//		{			
+//			$errors = $e->errors();
+//			Log::instance()->add(Log::NOTICE, Debug::vars($e));
+//			Minion_CLI::write($errors['text']);
+//			Log::instance()->add(Log::NOTICE, Debug::vars($e->getMessage()));		
 			
-		}
-		catch (Validate_Exception $e)
-		{
-//			Setup HMVC view with data
-			$errors = $e->errors();
-			Minion_CLI::write($errors);
-			Log::instance()->add(Log::NOTICE, Debug::vars($errors)); 
-			
-		}
+///		}
 		
-		 */
+		
 		 
 	/* 	$resent_post = Request::factory(Route::get('comments'))
 			->uri(array('id'=>'1','page'=>1))
 			->execute()->response; */
-		$url = URL::site('comments');
-		$resent_post = Request::factory('/comments/default/create/1/1')->execute();
-		
-		
-		
-		
-		Minion_CLI::write('comment - '.$resent_post);				
+	/* 	$url = URL::site('comments');
+		$resent_post = Request::factory('/comments/default/create/1/1')->execute();		
+		Minion_CLI::write('comment - '.$resent_post); */				
 //		
 		
 		

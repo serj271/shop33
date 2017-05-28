@@ -18,7 +18,7 @@ class Model_Comment extends Sprig {
 				'model'  => 'article',
 			)),
 			'state'  => new Sprig_Field_Char(array(
-				'choices' => array('ham'=>'Ham', 'queued'=>'Queued', 'spam'=>'Spam'),
+				'choices' => array('ham'=>'ham', 'queued'=>'queued', 'spam'=>'spam'),
 			)),
 			'date'   => new Sprig_Field_Timestamp(array(
 				'auto_now_create' => TRUE,
@@ -27,13 +27,27 @@ class Model_Comment extends Sprig {
 				'min_length' => 3,
 				'max_length' => 64,
 			)),
-			'email'  => new Sprig_Field_Email,
+			'email'  => new Sprig_Field_Email(array(
+				'empty' => TRUE,
+			)),
 			'url'    => new Sprig_Field_Char(array(
 				'empty' => TRUE,
 			)),
-			'text'   => new Sprig_Field_Text,
+			'text'   => new Sprig_Field_Text(array(
+//				'empty' => TRUE,
+			)),
 		);
 	}
+	
+	public function rules(){
+		return array(
+			'text'=>array(
+				array('not_empty', array(':value'))
+			),
+			
+		);		
+	}
+	
 
 }
 

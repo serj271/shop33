@@ -239,7 +239,7 @@ abstract class Sprig_Core {
 				if ( ! $field->empty AND ! isset($field->rules['not_empty']))
 				{
 					// This field must not be empty
-					$field->rules['not_empty'] = NULL;
+					$field->rules['not_empty'] = array('not_empty', array(':value'));
 				}
 
 				if ($field->unique)
@@ -250,18 +250,19 @@ abstract class Sprig_Core {
 
 				if ($field->choices AND ! isset($field->rules['in_array']))
 				{
-					// Field must be one of the available choices
-					$field->rules['in_array'] = array(array_keys($field->choices));
+//					Field must be one of the available choices
+//					$field->rules['in_array'] = array(array_keys($field->choices));
+					$field->rules['in_array'] = array(array($this, 'in_array'));
 				}
 
 				if ( ! empty($field->min_length))
 				{
-					$field->rules['min_length'] = array($field->min_length);
+					$field->rules['min_length'] = array('min_length', array(':value', $field->min_length));
 				}
 
 				if ( ! empty($field->max_length))
 				{
-					$field->rules['max_length'] = array($field->max_length);
+					$field->rules['max_length'] = array('max_length', array(':value', $field->max_length));
 				}
 			}
 
@@ -271,6 +272,11 @@ abstract class Sprig_Core {
 				$this->_original[$name] = $field->value($field->default);
 			}
 		}
+	}
+	
+	public function in_array($value){
+	
+		return in_array($value, array('queued'));
 	}
 
 	/**
@@ -694,7 +700,7 @@ abstract class Sprig_Core {
 			throw new Sprig_Exception('Invalid data type: :value', array(':value' => $value));
 		}
 
-		$this->$name = arr::get($this->_original, $name, array())+$values;
+		$this->$name = Arr::get($this->_original, $name, array())+$values;
 
 		return $this;
 	}
@@ -1253,7 +1259,7 @@ abstract class Sprig_Core {
 	 */
 	public function create()
 	{
-		Log::instance()->add(Log::NOTICE, Debug::vars('data----+',$this->as_array()));
+//		Log::instance()->add(Log::NOTICE, Debug::vars('data----+',$this->as_array()));
 		foreach ($this->_fields as $name => $field)
 		{
 			if ($field instanceof Sprig_Field_Timestamp AND $field->auto_now_create)
@@ -1264,7 +1270,15 @@ abstract class Sprig_Core {
 		}
 
 		// Check the all current data
-		$data = $this->check($this->as_array());
+		try{
+			Log::instance()->add(Log::NOTICE, Debug::vars($this->as_array()));
+			$data = $this->check($this->as_array());
+			
+		}catch (ORM_Validation_Exception $e){
+			Log::instance()->add(Log::NOTICE, Debug::vars($e->errors()));
+			
+		}
+		
 //		Log::instance()->add(Log::NOTICE, Debug::vars('data----+'.$data));
 		$values = $relations = array();
 		foreach ($data as $name => $value)
@@ -1558,7 +1572,7 @@ abstract class Sprig_Core {
 			$data = $this->changed();
 		}
 //		Log::instance()->add(Log::NOTICE,Debug::vars('-----core',$data) );
-		$data = Validation::factory($data)->rule('name',array('not_empty'));
+		$data = Validation::factory($data);
 
 		foreach ($this->_fields as $name => $field)
 		{
@@ -1572,11 +1586,12 @@ abstract class Sprig_Core {
 
 			if ($field->filters)
 			{
-				$data->filters($name, $field->filters);
+//				$data->filters($name, $field->filters);
 			}
 
 			if ($field->rules)
 			{
+//			    Log::instance()->add(Log::NOTICE,Debug::vars('-----core',$name, $field->rules) );
 				$data->rules($name, $field->rules);
 			}
 
@@ -1586,9 +1601,12 @@ abstract class Sprig_Core {
 			}
 		}
 
+		
+		
 		if ( ! $data->check())
 		{
-			throw new Validate_Exception($data);
+			Log::instance()->add(Log::NOTICE,Debug::vars('-----core- err',$data->errors('comment')) );
+//			throw new Validation_Exception($data);
 		}
 
 		return $data->as_array();

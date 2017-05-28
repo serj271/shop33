@@ -9,8 +9,10 @@
  * @copyright   (c) 2010 Kyle Treubig
  * @license     MIT
  */
-class Model_Article extends Versioned_Sprig
-	implements Acl_Resource_Interface {
+class Model_Article 
+//extends Versioned_Sprig
+//	implements Acl_Resource_Interface 
+{
 
 	/**
 	 * Set the fields for the blog article

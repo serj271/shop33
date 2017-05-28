@@ -9,6 +9,7 @@
  */
 class Sprig_Field_Email extends Sprig_Field_Char {
 
-	public $rules = array('email' => NULL);
+//	public $rules = array('email' => NULL);
+//	public $rules = array(array('not_empty',array(':value')));
 
 } // End Sprig_Field_Email
