@@ -1,0 +1,200 @@
+<?php
+
+/**
+ * {@table.php_name} base model for table: {@name}
+
+ */
+
+namespace {@itemNamespace}\Model\Base;
+
+use b8\Store\Factory;
+
+/**
+ * {@table.php_name} Base Model
+ */
+trait {@table.php_name}Base
+{
+    protected function init()
+    {
+        $this->tableName = '{@name}';
+        $this->modelName = '{@table.php_name}';
+
+        // Columns:
+
+{for table.columns}
+        $this->data['{@item.name}'] = null;
+        $this->getters['{@item.name}'] = 'get{@item.php_name}';
+        $this->setters['{@item.name}'] = 'set{@item.php_name}';
+
+{/for}
+
+        // Foreign keys:
+
+{for table.relationships.toOne}
+        $this->getters['{@item.php_name}'] = 'get{@item.php_name}';
+        $this->setters['{@item.php_name}'] = 'set{@item.php_name}';
+
+{/for}
+    }
+
+{for table.columns}
+    /**
+    * Get the value of {@item.php_name} / {@item.name}.
+    *
+
+{if item.validate_int}
+    * @return int
+
+{/if}
+{if item.validate_string}
+    * @return string
+
+{/if}
+{if item.validate_float}
+    * @return float
+
+{/if}
+{if item.validate_date}
+    * @return \DateTime
+
+{/if}
+    */
+    public function get{@item.php_name}()
+    {
+        $rtn = $this->data['{@item.name}'];
+
+{if item.validate_date}
+
+        if (!empty($rtn)) {
+            $rtn = new \DateTime($rtn);
+        }
+
+{/if}
+
+        return $rtn;
+    }
+
+
+{/for}
+{for table.columns}
+
+    /**
+    * Set the value of {@item.php_name} / {@item.name}.
+    *
+
+{if item.validate_null}
+    * Must not be null.
+
+{/if}
+{if item.validate_int}
+    * @param $value int
+
+{/if}
+{if item.validate_string}
+    * @param $value string
+
+{/if}
+{if item.validate_float}
+    * @param $value float
+
+{/if}
+{if item.validate_date}
+    * @param $value \DateTime
+
+{/if}
+    */
+    public function set{@item.php_name}($value)
+    {
+
+{if item.validate_int}
+        $this->validateInt('{@item.php_name}', $value);
+
+{/if}
+{if item.validate_string}
+        $this->validateString('{@item.php_name}', $value);
+
+{/if}
+{if item.validate_float}
+        $this->validateFloat('{@item.php_name}', $value);
+
+{/if}
+{if item.validate_date}
+        $this->validateDate('{@item.php_name}', $value);
+
+{/if}
+{if item.is_foreign_key}
+
+        // As this is a foreign key, empty values should be treated as null:
+        if (empty($value)) {
+            $value = null;
+        }
+
+
+{/if}
+{if item.validate_null}
+        $this->validateNotNull('{@item.php_name}', $value);
+
+{/if}
+
+        if ($this->data['{@item.name}'] === $value) {
+            return;
+        }
+
+        $this->data['{@item.name}'] = $value;
+        $this->setModified('{@item.name}');
+    }
+
+{/for}{for table.relationships.toOne}
+    /**
+    * Get the {@item.table_php_name} model for this {@parent.table.php_name} by {@item.col_php}.
+    *
+    * @uses \{get_namespace model: item.table_php_name}\Store\{@item.table_php_name}Store::getBy{@item.col_php}()
+    * @uses \{get_namespace model: item.table_php_name}\Model\{@item.table_php_name}
+
+    * @return \{get_namespace model: item.table_php_name}\Model\{@item.table_php_name}
+
+    */
+    public function get{@item.php_name}()
+    {
+        $key = $this->get{@item.from_col_php}();
+
+        if (empty($key)) {
+            return null;
+        }
+
+        return Factory::getStore('{@item.table_php_name}', '{get_namespace model: item.table_php_name}')->getBy{@item.col_php}($key);
+    }
+
+    /**
+    * Set {@item.php_name} - Accepts an ID, an array representing a {@item.table_php_name} or a {@item.table_php_name} model.
+    *
+    * @param $value mixed
+    */
+    public function set{@item.php_name}($value)
+    {
+        // Is this an instance of {@item.table_php_name}?
+        if ($value instanceof \{get_namespace model: item.table_php_name}\Model\{@item.table_php_name}) {
+            return $this->set{@item.php_name}Object($value);
+        }
+
+        // Is this an array representing a {@item.table_php_name} item?
+        if (is_array($value) && !empty($value['{@item.col}'])) {
+            return $this->set{@item.from_col_php}($value['{@item.col}']);
+        }
+
+        // Is this a scalar value representing the ID of this foreign key?
+        return $this->set{@item.from_col_php}($value);
+    }
+
+    /**
+    * Set {@item.php_name} - Accepts a {@item.table_php_name} model.
+    *
+    * @param $value \{get_namespace model: item.table_php_name}\Model\{@item.table_php_name}
+
+    */
+    public function set{@item.php_name}Object(\{get_namespace model: item.table_php_name}\Model\{@item.table_php_name} $value)
+    {
+        return $this->set{@item.from_col_php}($value->get{@item.col_php}());
+    }
+
+{/for}}

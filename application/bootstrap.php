@@ -227,13 +227,13 @@ Route::set('user', 'user(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+')
 		'action'     => 'index',
 	));
 
-
+/* 
 Route::set('page', 'useradmin/users(/index/<pole>/<page>)',array('page'=>'[0-9]+'))
 	->defaults(array(
 		'directory' =>'useradmin',
 		'controller' => 'users',
 		'action'     => 'index',
-	));
+	)); */
 
 Route::set('useradmin', 'useradmin(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
 	->defaults(array(
@@ -268,6 +268,12 @@ Route::set('comments', 'comments/<group>/<action>(/<id>(/<page>))(<format>)', ar
 		'format'     => '.json',
 	));
 
+Route::set('comment', 'comment(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
+	->defaults(array(
+		'directory' =>'comment',
+		'controller' => 'main',
+		'action'     => 'index',
+	));
 	
 
 /*Route::set('product', 'product(/<page>)', array(
