@@ -26,24 +26,25 @@ class Model_Comment extends Sprig {
 			'name'   => new Sprig_Field_Char(array(
 				'min_length' => 3,
 				'max_length' => 64,
+				'empty'	=>FALSE
 			)),
 			'email'  => new Sprig_Field_Email(array(
-				'empty' => TRUE,
+//				'empty' => TRUE,
 			)),
 			'url'    => new Sprig_Field_Char(array(
 				'empty' => TRUE,
 			)),
 			'text'   => new Sprig_Field_Text(array(
-//				'empty' => TRUE,
+				'empty' => FALSE,
 			)),
 		);
 	}
 	
 	public function rules(){
 		return array(
-			'text'=>array(
-				array('not_empty', array(':value'))
-			),
+//			'text'=>array(
+//				array('not_empty', array(':value'))
+//			),
 			
 		);		
 	}

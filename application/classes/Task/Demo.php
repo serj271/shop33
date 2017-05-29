@@ -7,6 +7,14 @@
 			'bar' => NULL,
 		);
 
+	public function build_validation(Validation $validation)
+	{
+		return parent::build_validation($validation)
+			->rule('foo', 'not_empty') // Require this param
+			->rule('bar', 'numeric'); // This param should be numeric
+	}
+
+
 		/**
 		 * This is a demo task
 		 *

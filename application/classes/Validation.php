@@ -10,7 +10,4 @@ class Validation extends Kohana_Validation {
     public static function gt($test, $value){//array
 	return $test >= $value[0];
     }
-    public static function in_array_($test, $value){//array
-	return TRUE;
-    }
 }

@@ -104,7 +104,7 @@ abstract class Controller_Useradmin_Crud extends Controller_Useradmin {
 			}
 			catch (ORM_Validation_Exception $e)
 			{
-				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors('validation')));
+//				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors('validation')));
 				$this->view->errors = $e->errors('models/user');
 			}
 		}

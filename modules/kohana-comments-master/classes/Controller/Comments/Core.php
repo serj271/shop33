@@ -118,7 +118,7 @@ class Controller_Comments_Core extends Controller {
 	 * List comments
 	 */
 	protected function create_list($state = 'ham', $admin = FALSE) {
-		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::create_list');
+//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::create_list');
 
 		// Get parent id
 		$parent_id = $this->request->param('id', 0);
@@ -126,14 +126,14 @@ class Controller_Comments_Core extends Controller {
 		// Get total number of comments
 		if ($parent_id == 0)
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Fetching all '.$state.' comments');
+//			Kohana::$log->add(Kohana::DEBUG, 'Fetching all '.$state.' comments');
 			$total = Sprig::factory($this->model, array(
 				'state' => $state,
 			))->load(NULL, FALSE)->count();
 		}
 		else
 		{
-			Kohana::$log->add(Kohana::DEBUG, 'Fetching '.$state.' comments for parent id='.$parent_id);
+//			Kohana::$log->add(Kohana::DEBUG, 'Fetching '.$state.' comments for parent id='.$parent_id);
 			$total = Sprig::factory($this->model, array(
 				'state'  => $state,
 				'parent' => $parent_id,
@@ -172,7 +172,7 @@ class Controller_Comments_Core extends Controller {
 		// If no comments found (bad offset/page)
 		if (count($comments) == 0)
 		{
-			Kohana::$log->add(Kohana::INFO, 'No comments found for state='.$state.', page='.$page);
+//			Kohana::$log->add(Kohana::INFO, 'No comments found for state='.$state.', page='.$page);
 			$this->request->response = FALSE;
 			return;
 		}
@@ -204,7 +204,7 @@ class Controller_Comments_Core extends Controller {
 	 * Retrieve public list of good comments
 	 */
 	public function action_public() {
-		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_public');
+//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_public');
 
 		$id = $this->request->param('id', 0);
 
@@ -225,7 +225,7 @@ class Controller_Comments_Core extends Controller {
 	 * Retrieve good comments
 	 */
 	public function action_ham() {
-		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_ham');
+//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_ham');
 		$this->classify();
 		$this->create_list('ham', TRUE);
 	}
@@ -397,7 +397,7 @@ class Controller_Comments_Core extends Controller {
 	 * Delete a comment
 	 */
 	public function action_delete() {
-		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_create');
+//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_create');
 
 		// If deletion is not desired
 		if (isset($_POST['no']))

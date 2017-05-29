@@ -3,7 +3,7 @@
 class Task_Comment extends Minion_Task {
 	protected $_options = array(
 		// param name => default value
-		'foo'   => 'beautiful',
+//		'foo'   => 'beautiful',
 	);
 	
 	private $cart_id;
@@ -36,32 +36,33 @@ class Task_Comment extends Minion_Task {
 //		$date = new Sprig_Field_Timestamp();
 //		Minion_CLI::write($date->value('2017-01-01 00:00:00 A'));
 //		$d = $date->value('2017-01-01 00:00:00 A');
-		
+		$text = new Sprig_Field_Text();
 		$comment = Sprig::factory($this->model)->values(array(
 			'parent'=>2,
-			'name'=>'test name',
+			'name'=>'name of comment',
 			'email'=>'test@test.li',
-			'url'=>'comment1',
-			'text'=>'',
+			'url'=>'',
+			'state'=>'queued',
+			'text'=>'text comment'
 	
 		));
-		$text = new Sprig_Field_Text();
+		
 		
 		$auto = new Sprig_Field_Auto();
 		$data = Validation::factory(array(
 //			'id' =>$auto,
 			'parent'=>1,
-			'name'=>'test name',
+			'name'=>'t',
 			'email'=>'test@test.li',
 			'url'=>'comment1',
 			'text'=>'',
-			'state'  => 'ham'
+			'state'  => 'ham2'
 //			'text'=>$text->input('name','text'),
 //			'date'=>$date,
 		
 		))
 		->rule('text','not_empty')
-		->rule('state','in_array_',array('Validation::in_array_', array(':value',array('ham'=>'ham', 'queued'=>'queued', 'spam'=>'spam'))));
+		->rule('state','in_array_',array(':value', array('ham'=>'ham', 'queued'=>'queued', 'spam'=>'spam')));
 //		$data->check();
 //		$text = new Sprig_Field_Text();
 //		Minion_CLI::write($text->input('name','text'));
@@ -85,27 +86,37 @@ class Task_Comment extends Minion_Task {
 
 			$state = 'queued';
 		}
-		$comment->state = $state;
-
-//		try
-//		{
-//			$comment->create();
-			$data->check();
+//		$comment->state = $state;
+		I18n::lang('en');
+		
+//		Log::instance()->add(Log::NOTICE, Debug::vars($comment->as_array()));
+		
+//		$comment->create();	
+		
+		$validation  = $comment->check($comment->as_array());
+		if($validation->check()){
+			$comment->create();			
+		} else {			
+			$errors = $validation->errors('comment', TRUE);//from message/comment.php
+			foreach ($errors as $field=>$error){
+				Minion_CLI::write('comment - error -- '.$field.' -- '.$error);
+			}
+			Log::instance()->add(Log::NOTICE, Debug::vars($errors));			
+		}	
+		
+//		$comment = $comment->check();
+//		$errors = $comment->errors('comment', TRUE);//from message/comment.php
+//			Log::instance()->add(Log::NOTICE, Debug::vars($errors));
+		
+//			$data->check();
 //			$errors = $data->errors('validation_',TRUE);//from message/validation.php
-			$errors = $data->errors('comment');//from message/comment.php
-			Log::instance()->add(Log::NOTICE, Debug::vars($errors));
+//			$errors = $data->errors('comment', TRUE);//from message/comment.php
+			
 //			throw new Validation_Exception($data,'error!!!!', array('text'=>'text'));	
 //			throw new Kohana_Exception(	'coment eeror');	
-//		}
-//		catch (Exception $e)
-//		{			
-//			$errors = $e->errors();
-//			Log::instance()->add(Log::NOTICE, Debug::vars($e));
-//			Minion_CLI::write($errors['text']);
-//			Log::instance()->add(Log::NOTICE, Debug::vars($e->getMessage()));		
-			
-///		}
+
 		
+//		Minion_CLI::write(__("Hello, Guest"));
 		
 		 
 	/* 	$resent_post = Request::factory(Route::get('comments'))
