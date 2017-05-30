@@ -100,7 +100,7 @@ class Controller_Comments_Core extends Controller {
 			$comment->create();
 			$this->request->response = TRUE;
 		}
-		catch (Validation_Exception $e)
+		catch (Validate_Exception $e)
 		{
 			// Setup HMVC view with data
 			$form = View::factory($this->view.'/form')

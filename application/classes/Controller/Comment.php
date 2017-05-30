@@ -17,6 +17,7 @@ abstract class Controller_Comment extends Controller_Common_Comment {
 	public $menu='menu.users';
 	
 	public $view_navigator;
+	public $view_content;
 
 	public function before()
 	{
@@ -83,7 +84,7 @@ abstract class Controller_Comment extends Controller_Common_Comment {
 //		$session->set('ragion',$ragion);		
 //		$ragion_checked = $session->get('ragion_checked', array());
 //		$this->template->navigator=$renderer->render($this->view_navigator);	
-		$this->template->content = '';
+		$this->template->content = $this->view_content;
 		$this->template->navigator = '';	
 		$this->template->breadcrumbs = '';
 		

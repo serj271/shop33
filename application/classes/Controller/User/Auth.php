@@ -58,6 +58,7 @@ class Controller_User_Auth extends Controller_User {
 //		   $this->view = 'login';		
 			$login = View::factory('user/menulogin');
 			$this->template->menu=$login;
+			$this->breadcrumbs = '';
 
 
 	}

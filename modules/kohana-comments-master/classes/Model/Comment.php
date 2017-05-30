@@ -40,14 +40,7 @@ class Model_Comment extends Sprig {
 		);
 	}
 	
-	public function rules(){
-		return array(
-//			'text'=>array(
-//				array('not_empty', array(':value'))
-//			),
-			
-		);		
-	}
+	
 	
 
 }

@@ -5,8 +5,6 @@ class Controller_Welcome extends Controller {
 //		Log::instance()->add(Log::NOTICE, 'My Logged Message Here');
 //	$renderer = Kostache::factory(); 
 //		$this->response->body('hello, world!');		
-//		$pagination  = new Pagination::$factory();
-//		$this->response->body('hello, world!');
 //		$this->response->body($renderer->render(new View_Test)); 
 //	    $internal_request=View::factory('welcome');
 		Log::instance()->add(Log::NOTICE, 'okii');		
@@ -81,6 +79,16 @@ class Controller_Welcome extends Controller {
 		echo Debug::path(APPPATH.'cache');	
 //		phpinfo();		
 //		echo file_get_contents('/usr/local/www/shop33/media/css/common_v4.css');
+		$memcache = Cache::instance('memcache');
+		$object = new stdClass;
+		$object->foo = 'bar';
+		$memcache->set('foo', $object, 300);
+		
+		if($object = Cache::instance('memcache')->get('foo', FALSE)){
+			echo 'Cache '.$object->foo;
+		}
+		
+
 
 	
 

@@ -70,7 +70,8 @@ abstract class Controller_User extends Controller_Common_User {
 		}
 		$renderer = Kostache::factory(); 
 //		$this->view = $renderer->render($view);		
-		$this->template->content=$renderer->render($this->view);	
+		$this->template->content=$renderer->render($this->view);
+		$this->template->breadcrumbs = '';		
 //		$message = Message::display('message/bootstrap');			
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());
 //	    $navigator->message=$message;
