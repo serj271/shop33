@@ -9,4 +9,7 @@ return array(
     'state'=> array(
 	'in_array_'=>":field :value in not array",
     ),
+	'comment'=>array('token'=>array(
+		'Security::check'=>'token error'
+	))
 );

@@ -24,11 +24,25 @@ class Controller_Comment_Main extends Controller_Comment {
 		{
 			$validation = Validation::factory($this->request->post())
 				->rule('token','not_empty')
+				->rule('name','not_empty')
 				->rule('token','Security::check');
 				
+			try{
+				$validation->check();
+				throw new Sprig_Exception( 'comment', $validation,'valid error');
+				
+			}catch(Sprig_Exception $e){
+				Log::instance()->add(Log::NOTICE, Debug::vars('valid error',$e->errors('comment')));	
+				
+			}	
+			
+			$this->redirect($this->request->route()->uri(array(
+					'controller' 	=> $this->request->controller(),					
+				)));
+			/* 	
 			try
 			{
-				/* $item->values($this->request->post());
+				$item->values($this->request->post());
 				$code = md5(uniqid(rand(),true));
 				$code = substr($code,0,64);	    
 				$item->one_password = $code;		
@@ -36,13 +50,13 @@ class Controller_Comment_Main extends Controller_Comment {
 					
 				$this->redirect($this->request->route()->uri(array(
 					'controller' 	=> $this->request->controller(),					
-				))); */
+				)));
 			}
 			catch (ORM_Validation_Exception $e)
 			{
 				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors()));
 //				$this->view->errors = $e->errors();
-			}
+			} */
 		}	
 		
 		

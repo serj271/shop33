@@ -1260,7 +1260,6 @@ abstract class Sprig_Core {
 	 */
 	public function create()
 	{
-//		Log::instance()->add(Log::NOTICE, Debug::vars('data----+',$this->as_array()));
 		foreach ($this->_fields as $name => $field)
 		{
 			if ($field instanceof Sprig_Field_Timestamp AND $field->auto_now_create)
@@ -1271,21 +1270,8 @@ abstract class Sprig_Core {
 		}
 
 		// Check the all current data
-/* 		try{
-//			Log::instance()->add(Log::NOTICE, Debug::vars($this->as_array()));
-			$data = $this->check($this->as_array());
-//			return false;
-//			$data = $this->as_array();			
-		}catch (Validation_Exception $e){
-			Log::instance()->add(Log::NOTICE, Debug::vars('check----',$e->getMessage()));			
-		} */
-//		$data = $this->check($this->as_array());
-		$data = $this->as_array();
-		
-		
-		
-		
-//		Log::instance()->add(Log::NOTICE, Debug::vars('data----+'.$data));
+		$data = $this->check($this->as_array());
+
 		$values = $relations = array();
 		foreach ($data as $name => $value)
 		{
@@ -1577,7 +1563,6 @@ abstract class Sprig_Core {
 			// Use the current data set
 			$data = $this->changed();
 		}
-		Log::instance()->add(Log::NOTICE,Debug::vars('-----core',$data));
 		$data = Validation::factory($data);
 
 		foreach ($this->_fields as $name => $field)
@@ -1587,18 +1572,15 @@ abstract class Sprig_Core {
 				// Do not add any rules for this field
 				continue;
 			}
-//Log::instance()->add(Log::NOTICE,Debug::vars('-----core',$name) );
 			$data->label($name, $field->label);
 
 			if ($field->filters)
 			{
-//				$data->filters($name, $field->filters);
+				$data->filters($name, $field->filters);
 			}
 
 			if ($field->rules)
 			{
-//			    Log::instance()->add(Log::NOTICE,Debug::vars('-----core++',$name,$field->rules) );
-//				$data->rules($name, $field->rules);
 				$data->rules($name, $field->rules);
 			}
 
@@ -1607,20 +1589,11 @@ abstract class Sprig_Core {
 				$data->callbacks($name, $field->callbacks);
 			}
 		}
-//		$data->check();
-//		Log::instance()->add(Log::NOTICE,Debug::vars('-----core- err',$data->errors('comment'),$data->check(),$data->as_array()) );
-//		$data->rules('name',array(array('not_empty')));
-//		$text = new Sprig_Field_Text();
-//		$data->check();
-//		Log::instance()->add(Log::NOTICE,Debug::vars('-----core- err',$data->errors('comment')) );
-		/* if ( ! $data->check())
+		if ( ! $data->check())
 		{
-			Log::instance()->add(Log::NOTICE,Debug::vars('-----core- err',$data->errors('comment')) );
-			throw new Validation_Exception($data,'ff');
-		} */
-
-//		return $data->as_array();
-		return $data;
+			throw new Sprig_Exception('sprig', $data,'error validation');
+		}
+		return $data->as_array();
 	}
 
 	/**

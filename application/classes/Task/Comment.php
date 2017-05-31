@@ -39,23 +39,21 @@ class Task_Comment extends Minion_Task {
 		$text = new Sprig_Field_Text();
 		$comment = Sprig::factory($this->model)->values(array(
 			'parent'=>2,
-			'name'=>'name of comment',
+			'name'=>'name comment',
 			'email'=>'test@test.li',
 			'url'=>'',
 			'state'=>'queued',
-			'text'=>'text comment'
-	
-		));
-		
+			'text'=>'     text        comment'	
+		));		
 		
 		$auto = new Sprig_Field_Auto();
 		$data = Validation::factory(array(
 //			'id' =>$auto,
 			'parent'=>1,
-			'name'=>'t',
+			'name'=>'name comment',
 			'email'=>'test@test.li',
 			'url'=>'comment1',
-			'text'=>'',
+			'text'=>'text comment',
 			'state'  => 'ham2'
 //			'text'=>$text->input('name','text'),
 //			'date'=>$date,
@@ -92,7 +90,7 @@ class Task_Comment extends Minion_Task {
 //		Log::instance()->add(Log::NOTICE, Debug::vars($comment->as_array()));
 		
 //		$comment->create();	
-		
+		/* 
 		$validation  = $comment->check($comment->as_array());
 		if($validation->check()){
 			$comment->create();			
@@ -102,9 +100,17 @@ class Task_Comment extends Minion_Task {
 				Minion_CLI::write('comment - error -- '.$field.' -- '.$error);
 			}
 			Log::instance()->add(Log::NOTICE, Debug::vars($errors));			
-		}	
+		}	 */
 		
-//		$comment = $comment->check();
+		try{
+			$comment->create();
+		}catch(Sprig_Exception $e){
+			$errors = $e->errors('comment', TRUE);//from message/comment.php
+			foreach ($errors as $field=>$error){
+				Minion_CLI::write('comment - error -- '.$field.' -- '.$error);
+			}
+			Log::instance()->add(Log::NOTICE, Debug::vars('valid error',$e->errors('comment')));				
+		}
 //		$errors = $comment->errors('comment', TRUE);//from message/comment.php
 //			Log::instance()->add(Log::NOTICE, Debug::vars($errors));
 		
