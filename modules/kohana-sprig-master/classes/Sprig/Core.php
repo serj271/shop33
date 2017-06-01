@@ -1556,6 +1556,72 @@ abstract class Sprig_Core {
 	 * @param   array  data to check, field => value
 	 * @return  array  filtered data
 	 */
+	protected function run_filter($field, $value)
+	{
+		$filters = $this->filters();
+
+		// Get the filters for this column
+		$wildcards = empty($filters[TRUE]) ? array() : $filters[TRUE];
+
+		// Merge in the wildcards
+		$filters = empty($filters[$field]) ? $wildcards : array_merge($wildcards, $filters[$field]);
+
+		// Bind the field name and model so they can be used in the filter method
+		$_bound = array
+		(
+			':field' => $field,
+			':model' => $this,
+		);
+
+		foreach ($filters as $array)
+		{
+			// Value needs to be bound inside the loop so we are always using the
+			// version that was modified by the filters that already ran
+			$_bound[':value'] = $value;
+//			$value='';
+			// Filters are defined as array($filter, $params)
+			$filter = $array[0];
+			$params = Arr::get($array, 1, array(':value'));
+Log::instance()->add(Log::NOTICE, Debug::vars('params--',$params));
+			foreach ($params as $key => $param)
+			{
+				if (is_string($param) AND array_key_exists($param, $_bound))
+				{
+					// Replace with bound value
+					$params[$key] = $_bound[$param];
+				}
+			}
+			
+			if (is_array($filter) OR ! is_string($filter))
+			{
+				// This is either a callback as an array or a lambda
+				$value = call_user_func_array($filter, $params);
+			}
+			elseif (strpos($filter, '::') === FALSE)
+			{
+				// Use a function call
+				$function = new ReflectionFunction($filter);
+
+				// Call $function($this[$field], $param, ...) with Reflection
+//				$value = $function->invokeArgs($params);
+			}
+			else
+			{
+				// Split the class and method of the rule
+				list($class, $method) = explode('::', $filter, 2);
+
+				// Use a static method call
+				$method = new ReflectionMethod($class, $method);
+
+				// Call $Class::$method($this[$field], $param, ...) with Reflection
+				$value = $method->invokeArgs(NULL, $params);
+			}
+		}
+
+		return $value;
+	}
+
+
 	public function check(array $data = NULL)
 	{
 		if ($data === NULL)
@@ -1576,7 +1642,9 @@ abstract class Sprig_Core {
 
 			if ($field->filters)
 			{
-				$data->filters($name, $field->filters);
+				Log::instance()->add(Log::NOTICE, Debug::vars($name,$field->filters));
+				$value = $this->run_filter($name, 'test');
+//				$data->filters($name, $field->filters);
 			}
 
 			if ($field->rules)
@@ -1621,6 +1689,7 @@ abstract class Sprig_Core {
 			}
 		}
 	}
+
 
 	/**
 	 * Initialize the fields. This method will only be called once

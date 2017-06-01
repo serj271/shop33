@@ -36,21 +36,25 @@ class Model_Comment extends Sprig {
 			)),
 			'text'   => new Sprig_Field_Text(array(
 				'empty' => FALSE,
-				'filters'=> array(
-				    TRUE =>array('trim')
-				),
+//				'filters'=> array(
+//				    TRUE =>array('trim')
+//				),
+/* 				'filters'=>array(
+					array($this, 'clearText')
+				), */
+//				'filters'=>array('clearText'),
 			)),
 		);
 	}
 	
     public function filters(){
 		return array(
-			TRUE	=>array(  // for all  fields
+			/* TRUE	=>array(  // for all  fields
 				array('trim'),
 #			array('strtolower'),
-			),
+			), */
 			'text' => array(
-				array(array($this, 'clearText'))
+				array($this, 'clearText')
 			),
 //			'comment' => array(
 //				array(array($this, 'clearText'))

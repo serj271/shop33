@@ -66,7 +66,7 @@ class Controller_Comments_Core extends Controller {
 		// Comment must have a parent
 		if ($id == 0)
 		{
-			Log::instance()->add(Log::NOTICE, 'Attempt to create comment without a defined parent');
+//			Log::instance()->add(Log::NOTICE, 'Attempt to create comment without a defined parent');
 			$this->request->response = FALSE;
 			return;
 		}
