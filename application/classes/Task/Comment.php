@@ -104,7 +104,7 @@ class Task_Comment extends Minion_Task {
 		
 		try{
 			$comment->create();
-		}catch(Sprig_Exception $e){
+		}catch(Sprig_Validation_Exception $e){
 			$errors = $e->errors('comment', TRUE);//from message/comment.php
 			foreach ($errors as $field=>$error){
 				Minion_CLI::write('comment - error -- '.$field.' -- '.$error);

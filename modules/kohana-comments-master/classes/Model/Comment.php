@@ -36,32 +36,17 @@ class Model_Comment extends Sprig {
 			)),
 			'text'   => new Sprig_Field_Text(array(
 				'empty' => FALSE,
-//				'filters'=> array(
-//				    TRUE =>array('trim')
-//				),
-/* 				'filters'=>array(
-					array($this, 'clearText')
-				), */
-//				'filters'=>array('clearText'),
+				'filters'=> array(
+					array('trim'),
+					array(array($this, 'clearText')),
+					array(array($this, 'firstLetter'))
+					
+				),
+
 			)),
 		);
 	}
 	
-    public function filters(){
-		return array(
-			/* TRUE	=>array(  // for all  fields
-				array('trim'),
-#			array('strtolower'),
-			), */
-			'text' => array(
-				array($this, 'clearText')
-			),
-//			'comment' => array(
-//				array(array($this, 'clearText'))
-//			),	
-
-		);
-    }
     public function firstLetter($text){
 		return ucfirst($text);     
     }

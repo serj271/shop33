@@ -265,6 +265,8 @@ abstract class Sprig_Core {
 				{
 					$field->rules[] = array('max_length', array(':value', $field->max_length));
 				}
+				
+//				Log::instance()->add(Log::NOTICE,Debug::vars('editable--++',$field));
 			}
 
 			if ($field instanceof Sprig_Field_BelongsTo OR ! $field instanceof Sprig_Field_ForeignKey)
@@ -464,7 +466,7 @@ abstract class Sprig_Core {
 			throw new Sprig_Exception(':name model does not have a field :field',
 				array(':name' => get_class($this), ':field' => $name));
 		}
-
+		
 		// Get the field object
 		$field = $this->_fields[$name];
 
@@ -1271,7 +1273,7 @@ abstract class Sprig_Core {
 
 		// Check the all current data
 		$data = $this->check($this->as_array());
-
+//		Log::instance()->add(Log::NOTICE, Debug::vars('data === ', $data));
 		$values = $relations = array();
 		foreach ($data as $name => $value)
 		{
@@ -1556,16 +1558,12 @@ abstract class Sprig_Core {
 	 * @param   array  data to check, field => value
 	 * @return  array  filtered data
 	 */
-	protected function run_filter($field, $value)
+	protected function run_filter($filters, $value, $field)
 	{
-		$filters = $this->filters();
-
 		// Get the filters for this column
-		$wildcards = empty($filters[TRUE]) ? array() : $filters[TRUE];
-
+//		$wildcards = empty($filters[TRUE]) ? array() : $filters[TRUE];
 		// Merge in the wildcards
-		$filters = empty($filters[$field]) ? $wildcards : array_merge($wildcards, $filters[$field]);
-
+//		$filters = empty($filters[$field]) ? $wildcards : array_merge($wildcards, $filters[$field]);
 		// Bind the field name and model so they can be used in the filter method
 		$_bound = array
 		(
@@ -1582,28 +1580,28 @@ abstract class Sprig_Core {
 			// Filters are defined as array($filter, $params)
 			$filter = $array[0];
 			$params = Arr::get($array, 1, array(':value'));
-Log::instance()->add(Log::NOTICE, Debug::vars('params--',$params));
+
 			foreach ($params as $key => $param)
 			{
+				
 				if (is_string($param) AND array_key_exists($param, $_bound))
 				{
 					// Replace with bound value
 					$params[$key] = $_bound[$param];
 				}
-			}
-			
+			}			
 			if (is_array($filter) OR ! is_string($filter))
-			{
+			{				
 				// This is either a callback as an array or a lambda
-				$value = call_user_func_array($filter, $params);
+				$value = call_user_func_array($filter, $params);				
 			}
 			elseif (strpos($filter, '::') === FALSE)
 			{
 				// Use a function call
 				$function = new ReflectionFunction($filter);
-
 				// Call $function($this[$field], $param, ...) with Reflection
-//				$value = $function->invokeArgs($params);
+				$value = $function->invokeArgs($params);
+				
 			}
 			else
 			{
@@ -1629,7 +1627,8 @@ Log::instance()->add(Log::NOTICE, Debug::vars('params--',$params));
 			// Use the current data set
 			$data = $this->changed();
 		}
-		$data = Validation::factory($data);
+		
+		$data = Validation::factory($data);		
 
 		foreach ($this->_fields as $name => $field)
 		{
@@ -1639,14 +1638,14 @@ Log::instance()->add(Log::NOTICE, Debug::vars('params--',$params));
 				continue;
 			}
 			$data->label($name, $field->label);
-
 			if ($field->filters)
 			{
-				Log::instance()->add(Log::NOTICE, Debug::vars($name,$field->filters));
-				$value = $this->run_filter($name, 'test');
+//				Log::instance()->add(Log::NOTICE, Debug::vars($this->$name,$field->filters));
+				$value = $this->run_filter($field->filters, $this->$name,$name);
+				Log::instance()->add(Log::NOTICE, Debug::vars($this->$name,$value));
 //				$data->filters($name, $field->filters);
+				$data->$name = $value;
 			}
-
 			if ($field->rules)
 			{
 				$data->rules($name, $field->rules);
@@ -1657,9 +1656,10 @@ Log::instance()->add(Log::NOTICE, Debug::vars('params--',$params));
 				$data->callbacks($name, $field->callbacks);
 			}
 		}
+		Log::instance()->add(Log::NOTICE, Debug::vars('--------',$data));
 		if ( ! $data->check())
 		{
-			throw new Sprig_Exception('sprig', $data,'error validation');
+			throw new Sprig_Validation_Exception('sprig', $data,'error validation');
 		}
 		return $data->as_array();
 	}
