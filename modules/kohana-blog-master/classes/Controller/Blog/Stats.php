@@ -15,8 +15,8 @@ class Controller_Blog_Stats extends Controller_Template_Website {
 	 * Show recent articles
 	 */
 	public function action_recent_articles() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Blog_Stats::action_recent_articles');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Blog_Stats::action_recent_articles');
 		$this->template->content = View::factory('blog/stats/articles')
 			->set('legend', __('Recent Articles'))
 			->bind('articles', $articles);
@@ -30,8 +30,8 @@ class Controller_Blog_Stats extends Controller_Template_Website {
 	 * Show popular articles for the current week
 	 */
 	public function action_popular_articles() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Blog_Stats::action_popular_articles');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Blog_Stats::action_popular_articles');
 		$this->template->content = View::factory('blog/stats/articles')
 			->set('legend', __('Popular This Week'))
 			->bind('articles', $articles);
@@ -45,8 +45,8 @@ class Controller_Blog_Stats extends Controller_Template_Website {
 	 * Show recent comments
 	 */
 	public function action_recent_comments() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Blog_Stats::action_recent_comments');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Blog_Stats::action_recent_comments');
 		$this->template->content = View::factory('blog/stats/comments')
 			->set('legend', __('Recent Comments'))
 			->bind('comments', $comments);

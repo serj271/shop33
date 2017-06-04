@@ -7,8 +7,7 @@ class Controller_Comment_Main extends Controller_Comment {
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';
     public function action_index(){
-		if (!Auth::instance()->logged_in('login')){
-		
+		if (!Auth::instance()->logged_in('login')){		
 //			$this->redirect('user/auth/login');
 		}
 //		$user = Auth::instance()->get_user();
@@ -16,8 +15,15 @@ class Controller_Comment_Main extends Controller_Comment {
 //		$this->template->content = Message::display();
 //    Log::instance()->add(Log::NOTICE, Route::url('admin'));
 //    $this->request->redirect('admin/news');
-		$comment = Sprig::factory($this->model);
+		
 //		Log::instance()->add(Log::NOTICE, Debug::vars($comment));
+		$form = View::factory('comment/form')
+			->bind('legend', $legend)
+			->set('submit', __('Create'))
+			->bind('errors',$errors)
+			->bind('comment', $comment);
+		$this->view_content = $form;
+		$comment = Sprig::factory($this->model)->values($this->request->post());
 		$legend = 'form action';
 		
 		if ($this->request->method() === Request::POST)
@@ -27,46 +33,38 @@ class Controller_Comment_Main extends Controller_Comment {
 				->rule('name','not_empty')
 				->rule('token','Security::check');
 				
-			try{
-				$validation->check();
-				throw new Sprig_Exception( 'comment', $validation,'valid error');
-				
-			}catch(Sprig_Exception $e){
-				Log::instance()->add(Log::NOTICE, Debug::vars('valid error',$e->errors('comment')));	
-				
-			}	
+			Log::instance()->add(Log::NOTICE, Debug::vars('post-----',$this->request->post()));
+			if($validation->check()){
+				try
+				{
+					$comment->parent = '1';
+					$comment->create();					
+					$this->redirect($this->request->route()->uri(array(
+						'controller' 	=> $this->request->controller(),					
+					)));
+//					throw new Sprig_Validation_Exception( 'comment', $validation,'valid error');				
+				}catch(Sprig_Validation_Exception $e)
+				{
+					$errors = $e->errors('comment');
+					Log::instance()->add(Log::NOTICE, Debug::vars('valid error',$errors));				
+				}	
 			
-			$this->redirect($this->request->route()->uri(array(
-					'controller' 	=> $this->request->controller(),					
-				)));
-			/* 	
-			try
-			{
-				$item->values($this->request->post());
-				$code = md5(uniqid(rand(),true));
-				$code = substr($code,0,64);	    
-				$item->one_password = $code;		
-				$item->create($validation);
-					
-				$this->redirect($this->request->route()->uri(array(
-					'controller' 	=> $this->request->controller(),					
-				)));
+				
+			} else {
+				$errors = $validation->errors('comment');
+//				$this->view->errors = $errors;
+				Log::instance()->add(Log::NOTICE, Debug::vars('valid error',$validation->errors('comment')));	
 			}
-			catch (ORM_Validation_Exception $e)
-			{
-				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors()));
-//				$this->view->errors = $e->errors();
-			} */
+				
+			
+			
+			
+		
 		}	
 		
 		
+//		$errors = array('name'=>'not');
 		
-		$form = View::factory('comment/form')
-			->bind('legend', $legend)
-			->set('submit', __('Create'))
-			->set('comment', $comment);
-		$this->view_content = $form;
-
 //    $this->response->body('admin');
 //		$login = View::factory('user/menulogout');
 //		$this->template->menu=$login;

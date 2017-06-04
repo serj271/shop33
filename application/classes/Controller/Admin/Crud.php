@@ -60,7 +60,7 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 			->offset($pagination->offset)
 			->order_by($order_by)
 			->find_all();
-//		Log::instance()->add(Log::NOTICE,Debug::vars($items));
+		Log::instance()->add(Log::NOTICE,Debug::vars($items));
 		// Pass to view
 		$this->view->items 		= $items;
 		$this->view->pagination = $pagination;

@@ -60,8 +60,8 @@ class Model_Blog_Search extends Sprig {
 	 * @return  Model_Article
 	 */
 	public function load_by_date($date) {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Model_Blog_Search::load_by_date');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Model_Blog_Search::load_by_date');
 
 		list($year, $month, $day) = explode('/', $date, 3);
 		$begin = strtotime($year.'-'.$month.'-'.$day);
@@ -81,8 +81,8 @@ class Model_Blog_Search extends Sprig {
 	 * @return  Model_Article
 	 */
 	public function load_by_slug($slug) {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Model_Blog_Search::load_by_slug');
+//		Kohana::$log->add(Kohana::DEBUG,
+///			'Executing Model_Blog_Search::load_by_slug');
 
 		return Sprig::factory('article', array('slug' => $slug))
 			->load();
@@ -151,8 +151,8 @@ class Model_Blog_Search extends Sprig {
 	 * @return  Model_Article collection
 	 */
 	public function search_by_date($date, $state = 'published') {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Model_Blog_Search::search_by_date');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Model_Blog_Search::search_by_date');
 
 		// Get date ranges
 		$data = explode('/', $date, 2);
@@ -197,8 +197,8 @@ class Model_Blog_Search extends Sprig {
 	 * @return  Model_Article collection
 	 */
 	public function search_by_state($state = 'all') {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Model_Blog_Search::search_by_state');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Model_Blog_Search::search_by_state');
 
 		$query = DB::select()
 			->order_by('id', 'DESC')
@@ -232,8 +232,8 @@ class Model_Blog_Search extends Sprig {
 	 * @return  Model_Article collection
 	 */
 	public function search_by_tag($tag, $state = 'published') {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Model_Blog_Search::search_by_tag');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Model_Blog_Search::search_by_tag');
 
 		$tag = Sprig::factory('tag', array(
 			'name' => $tag))->load();
@@ -274,8 +274,8 @@ class Model_Blog_Search extends Sprig {
 	 * @return  Model_Article collection
 	 */
 	public function get_recent_articles($limit = 5, $state = 'published') {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Model_Blog_Search::get_recent_articles');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Model_Blog_Search::get_recent_articles');
 
 		$query = DB::select()->where('state', '=', $state)
 			->order_by('date', 'DESC');
@@ -291,8 +291,8 @@ class Model_Blog_Search extends Sprig {
 	 * @return  Model_Article collection
 	 */
 	public function get_popular_articles($limit = 5, $state = 'published') {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Model_Blog_Search::get_popular_articles');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Model_Blog_Search::get_popular_articles');
 
 		$stat    = Sprig::factory('statistic');
 		$s_table = $stat->table();
@@ -317,8 +317,8 @@ class Model_Blog_Search extends Sprig {
 	 * @return  Model_Blog_Comment collection
 	 */
 	public function get_recent_comments($limit = 5) {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Model_Blog_Search::get_recent_comments');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Model_Blog_Search::get_recent_comments');
 
 		$query = DB::select()->order_by('date', 'DESC');
 		return Sprig::factory('blog_comment')->load($query, $limit);

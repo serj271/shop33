@@ -7,7 +7,7 @@
  * @copyright   (c) 2010 Kyle Treubig
  * @license     MIT
  */
-class Controller_Comments_Core extends Controller {
+class Controller_Comments_Core extends Controller_Common_Comments {
 
 	// Supported return formats
 	protected $supported_formats = array(
@@ -21,7 +21,7 @@ class Controller_Comments_Core extends Controller {
 	protected $model = 'Comment';
 
 	// Pagination per-page setting (based on group)
-	protected $per_page = 10;
+	protected $per_page = 2;
 
 	// View folder (based on group)
 	protected $view = 'comments';
@@ -41,11 +41,12 @@ class Controller_Comments_Core extends Controller {
 //		}
 
 		// Test to ensure the format requested is supported
-		if ( ! in_array($this->request->param('format'), $this->supported_formats))
-			throw new Kohana_Exception('File not found');
+	/* 	if ( ! in_array($this->request->param('format'), $this->supported_formats))
+			throw new Kohana_Exception('File not found'); */
 
 		// Get group settings
-		$group = $this->request->param('group');
+//		$group = $this->request->param('group');
+		$group = 'default';
 		$config = Kohana::$config->load('comments.'.$group);
 		$this->model    = $config['model'];
 		$this->per_page = $config['per_page'];
@@ -58,19 +59,19 @@ class Controller_Comments_Core extends Controller {
 	/**
 	 * Create new comment
 	 */
-	public function action_create() {
+	public function action_create() 
+	{
 //		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_create');
-
-		$id = $this->request->param('id', 0);
+		$id = $this->request->param('id', 1);//  must be 0
 
 		// Comment must have a parent
 		if ($id == 0)
 		{
-			Log::instance()->add(Log::NOTICE, 'Attempt to create comment without a defined parent');
+//			Log::instance()->add(Log::NOTICE, 'Attempt to create comment without a defined parent');
 			$this->request->response = FALSE;
 			return;
 		}
-
+/* 
 		$comment = Sprig::factory($this->model)->values($_POST);
 		$comment->parent = $id;
 
@@ -85,12 +86,10 @@ class Controller_Comments_Core extends Controller {
 		}
 		else if ($probability > $this->config['upper_limit'])
 		{
-//			Kohana::$log->add(Kohana::DEBUG, 'Comment has been classified as spam');
 			$state = 'spam';
 		}
 		else
 		{
-//			Kohana::$log->add(Kohana::DEBUG, 'Comment has been placed in the moderation queue');
 			$state = 'queued';
 		}
 		$comment->state = $state;
@@ -102,45 +101,99 @@ class Controller_Comments_Core extends Controller {
 		}
 		catch (Validation_Exception $e)
 		{
-			// Setup HMVC view with data
 			$form = View::factory($this->view.'/form')
 				->set('legend', __('Post a Comment'))
 				->set('submit', __('Create'))
 				->set('comment', $comment)
 				->set('errors', count($_POST) ? $e->array->errors('comments') : array() );
-
-			// Set request response
 			$this->request->response = $form;
-		}
+		} */
+		$form = View::factory('comment/form')
+			->bind('legend', $legend)
+			->set('submit', __('Create'))
+			->bind('errors',$errors)
+			->bind('comment', $comment);
+		$this->template->content = $form;
+		$comment = Sprig::factory($this->model)->values($this->request->post());
+		$legend = 'form action';
+		
+		if ($this->request->method() === Request::POST)
+		{
+			$validation = Validation::factory($this->request->post())
+				->rule('token','not_empty')
+				->rule('name','not_empty')
+				->rule('token','Security::check');
+				
+			Log::instance()->add(Log::NOTICE, Debug::vars('post-----',$this->request->post()));
+			if($validation->check()){
+				try
+				{
+					$comment->parent = $id;
+					$B8 = B8::factory();
+					$probability = $B8->classify($comment->text);
+					$state = 'queued';
+					if ($probability < $this->config['lower_limit'])
+					{
+			//			Kohana::$log->add(Kohana::DEBUG, 'Comment has been classified as ham');
+						$state = 'ham';
+					}
+					else if ($probability > $this->config['upper_limit'])
+					{
+						$state = 'spam';
+					}
+					else
+					{
+						$state = 'queued';
+					}
+					$comment->state = $state;
+					
+					$comment->create();					
+					$this->redirect($this->request->route()->uri(array(
+						'controller' 	=> $this->request->controller(),
+						'action'	=>'public'						
+					)));
+//					throw new Sprig_Validation_Exception( 'comment', $validation,'valid error');				
+				}catch(Sprig_Validation_Exception $e)
+				{
+					$errors = $e->errors('comment');
+					Log::instance()->add(Log::NOTICE, Debug::vars('valid error',$errors));				
+				}				
+				
+			} else {
+				$errors = $validation->errors('comment');
+//				$this->view->errors = $errors;
+//				Log::instance()->add(Log::NOTICE, Debug::vars('valid error',$validation->errors('comment')));	
+			}
+		
+		}	
+		
+		
+		
+		
 	}
 
 	/**
 	 * List comments
 	 */
-	protected function create_list($state = 'ham', $admin = FALSE) {
-//		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::create_list');
-
-		// Get parent id
+	protected function create_list($state = 'ham', $admin = FALSE) 
+	{
 		$parent_id = $this->request->param('id', 0);
 
-		// Get total number of comments
 		if ($parent_id == 0)
 		{
-//			Kohana::$log->add(Kohana::DEBUG, 'Fetching all '.$state.' comments');
 			$total = Sprig::factory($this->model, array(
 				'state' => $state,
 			))->load(NULL, FALSE)->count();
 		}
 		else
 		{
-//			Kohana::$log->add(Kohana::DEBUG, 'Fetching '.$state.' comments for parent id='.$parent_id);
-			$total = Sprig::factory($this->model, array(
+			$Log::instance()->add(Log::NOTICE, Debug::vars('list ---',$list->render(),$comments)); = Sprig::factory($this->model, array(
 				'state'  => $state,
 				'parent' => $parent_id,
 			))->load(NULL, FALSE)->count();
 		}
-
-		// Check if there are any comments to display
+//Log::instance()->add(Log::NOTICE, Debug::vars('list ---',$total));
+		
 		if ($total == 0)
 		{
 			$this->request->response = FALSE;
@@ -168,57 +221,59 @@ class Controller_Comments_Core extends Controller {
 				'parent' => $parent_id,
 			))->load($query, $this->per_page);
 		}
-
+		
 		// If no comments found (bad offset/page)
 		if (count($comments) == 0)
 		{
-//			Kohana::$log->add(Kohana::INFO, 'No comments found for state='.$state.', page='.$page);
 			$this->request->response = FALSE;
 			return;
 		}
 
 		// Create pagination
-		$pagination = Pagination::factory(array(
+		/* $pagination = Pagination::factory(array(
 			'current_page'   => array('source'=>'route', 'key'=>'page'),
 			'total_items'    => $total,
 			'items_per_page' => $this->per_page,
 		));
-
+ */
 		// Setup admin view
-		$admin_view = View::factory($this->view.'/admin')
+		/* $admin_view = View::factory($this->view.'/admin')
 			->set('is_ham', ($state == 'ham'))
-			->set('is_spam', ($state == 'spam'));
+			->set('is_spam', ($state == 'spam')); */
 
 		// Setup view with data
 		$list = View::factory($this->view.'/list')
 			->set('legend', ucfirst($state).' Comments')
-			->set('admin', $admin ? $admin_view : '')
-			->set('pagination', $pagination)
-			->set('comments', $comments);
 
+//			->set('pagination', $pagination)
+			->set('comments', $comments);
+//			$list = View::factory('home/content');
+//
 		// Set request response
-		$this->request->response = $list;
+		$this->template->content = $list;
+//		$this->request->response = $list;
 	}
 
 	/**
 	 * Retrieve public list of good comments
 	 */
-	public function action_public() {
+	public function action_public() 
+	{
 //		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_public');
 
-		$id = $this->request->param('id', 0);
+//		$id = $this->request->param('id', 0);
 
 		// Comment must have a parent
-		if ($id == 0)
-		{
+//		if ($id == 0)
+//		{
 //			Kohana::$log->add(Kohana::INFO, 'Attempt to load all public comments without a defined parent');
-			$this->request->response = FALSE;
-			return;
-		}
-		else
-		{
-			$this->create_list('ham', FALSE);
-		}
+//			$this->request->response = FALSE;
+//			return;
+//		}
+//		else
+//		{
+			$this->create_list('queued', FALSE);
+//		}
 	}
 
 	/**
@@ -251,7 +306,8 @@ class Controller_Comments_Core extends Controller {
 	/**
 	 * Perform classification changes
 	 */
-	protected function classify() {
+	protected function classify() 
+	{
 //		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::classify');
 
 		$id = 0;
@@ -390,13 +446,15 @@ class Controller_Comments_Core extends Controller {
 		}
 
 		// Set request response
-		$this->request->response = $form;
+//		$this->request->response = $form;
+		$this->template->content = $form;
 	}
 
 	/**
 	 * Delete a comment
 	 */
-	public function action_delete() {
+	public function action_delete() 
+	{
 //		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_create');
 
 		// If deletion is not desired
@@ -438,13 +496,15 @@ class Controller_Comments_Core extends Controller {
 			->set('comment', $comment);
 
 		// Set request response
-		$this->request->response = $confirm;
+		$this->template->content = $confirm;
+//		$this->request->response = $confirm;
 	}
 
 	/**
 	 * Generate comment report
 	 */
-	public function action_report() {
+	public function action_report() 
+	{
 //		Kohana::$log->add(Kohana::DEBUG, 'Executing Controller_Comments_Core::action_report');
 
 		// Determine time period
@@ -452,12 +512,12 @@ class Controller_Comments_Core extends Controller {
 		$now     = time();
 		$then    = strtotime('-'.$seconds.' seconds', $now);
 		$hours   = ($now - $then) / 3600;
-		Kohana::$log->add(Kohana::DEBUG, 'Fetching all comments created in the past '.$hours.' hours');
+//		Kohana::$log->add(Kohana::DEBUG, 'Fetching all comments created in the past '.$hours.' hours');
 
 		// Create query
 		$query = DB::select()->where('date', '>=', $then)->where('date', '<', $now)
 			->order_by('date', $this->config['order']);
-		Kohana::$log->add(Kohana::DEBUG, 'Running query '.$query);
+//		Kohana::$log->add(Kohana::DEBUG, 'Running query '.$query);
 		$comments = Sprig::factory($this->model)->load($query, FALSE);
 
 		// Check if there are any comments to report
@@ -473,7 +533,9 @@ class Controller_Comments_Core extends Controller {
 			->set('comments', $comments);
 
 		// Set request response
-		$this->request->response = $list;
+//		$this->request->response = $list;
+		$this->template->content = $list;
+
 	}
 
 }	// End of Controller_Comments_Core

@@ -79,7 +79,8 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 //		$this->view = $renderer->render($view);		
 		$this->template->content=$renderer->render($this->view);	
 //		Message::set(Message::SUCCESS, 'ok');
-//		$message = Message::display('message/bootstrap');		
+//		$message = Message::display('message/bootstrap');	
+		$message='ok';	
 		$this->template->navigator = $message;
 //Log::instance()->add(Log::NOTICE, Debug::vars($this->view->errors));		
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());

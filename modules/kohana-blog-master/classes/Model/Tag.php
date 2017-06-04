@@ -43,7 +43,7 @@ class Model_Tag extends Sprig
 	 * from the article-tag pivot table
 	 */
 	public function delete(Database_Query_Builder_Delete $query = NULL) {
-		Kohana::$log->add(Kohana::DEBUG, 'Beginning tag deletion for tag_id='.$this->id);
+//		Kohana::$log->add(Kohana::DEBUG, 'Beginning tag deletion for tag_id='.$this->id);
 		if (Kohana::$profiling === TRUE)
 		{
 			$benchmark = Profiler::start('blog', 'delete tag');
@@ -55,7 +55,7 @@ class Model_Tag extends Sprig
 		}
 		catch (Database_Exception $e)
 		{
-			Kohana::$log->add(Kohana::ERROR, 'Exception occured while modifying deleted tag\'s articles. '.$e->getMessage());
+//			Kohana::$log->add(Kohana::ERROR, 'Exception occured while modifying deleted tag\'s articles. '.$e->getMessage());
 			return $this;
 		}
 

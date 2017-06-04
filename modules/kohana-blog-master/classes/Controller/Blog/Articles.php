@@ -60,8 +60,8 @@ abstract class Controller_Blog_Articles extends Controller_Template_Website {
 	 * Set request param `name` to the tag name
 	 */
 	public function action_tag() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Blog::action_tag');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Blog::action_tag');
 		$this->template->content = View::factory('blog/front/list')
 			->bind('legend', $legend)
 			->bind('articles', $articles)
@@ -85,8 +85,8 @@ abstract class Controller_Blog_Articles extends Controller_Template_Website {
 	 * param `slug` to the article slug
 	 */
 	public function action_article() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Blog::action_article');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Blog::action_article');
 		$this->template->content = View::factory('blog/front/article')
 			->bind('article', $article)
 			->bind('comment_form', $form)
@@ -125,10 +125,10 @@ abstract class Controller_Blog_Articles extends Controller_Template_Website {
 	 * Set request param `date` to either YYYY/MM or YYYY
 	 */
 	public function action_archive() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Blog::action_archive');
-		Kohana::$log->add(Kohana::DEBUG,
-			'Route is '.Route::name($this->request->route));
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Blog::action_archive');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Route is '.Route::name($this->request->route));
 		$this->template->content = View::factory('blog/front/list')
 			->set('legend', __('Published Articles'))
 			->bind('articles', $articles)

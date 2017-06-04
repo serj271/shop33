@@ -11,5 +11,5 @@ return array(
     ),
 	'comment'=>array('token'=>array(
 		'Security::check'=>'token error'
-	))
+	)),
 );

@@ -11,7 +11,7 @@
 	<dt>URL:</dt>
 	<dd><?php echo $comment->url ?></dd>
 	<dt>Date:</dt>
-	<dd><?php echo date('F jS, Y', $comment->date) ?></dd>
+	<dd><?php // echo date('F jS, Y', $comment->date) ?></dd>
 	<dt>Text:</dt>
 	<dd><?php echo $comment->text ?></dd>
 </dl>

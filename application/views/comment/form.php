@@ -1,34 +1,35 @@
 <h2><?php echo $legend ?></h2>
 <?php echo Form::open('comment', array('method'=>'POST')) ?> 
 
-<?php echo isset($errors['name']) ? '<p class="error">'.$errors['name'].'</p>' : ''; ?> 
+
 <p>
 	<?php echo $comment->label('name') ?> 
 	<?php echo $comment->input('name') ?> 
+	<?php echo isset($errors['name']) ? '<span class="text-error">'.$errors['name'].'</span>' : ''; ?> 
 </p>
 
-<?php echo isset($errors['email']) ? '<p class="error">'.$errors['email'].'</p>' : ''; ?> 
 <p>
 	<?php echo $comment->label('email') ?> 
 	<?php echo $comment->input('email') ?> 
+	<?php echo isset($errors['email']) ? '<span class="text-error">'.$errors['email'].'</span>' : ''; ?> 
 </p>
 
-<?php echo isset($errors['url']) ? '<p class="error">'.$errors['url'].'</p>' : ''; ?> 
 <p>
 	<?php echo $comment->label('url') ?> 
 	<?php echo $comment->input('url') ?> 
+	<?php echo isset($errors['url']) ? '<span class="text-error">'.$errors['url'].'</span>' : ''; ?> 
 </p>
 
-<?php echo isset($errors['state']) ? '<p class="error">'.$errors['state'].'</p>' : ''; ?> 
 <p>
 	<?php echo $comment->label('state') ?> 
 	<?php echo $comment->input('state') ?> 
+	<?php echo isset($errors['state']) ? '<span class="text-error">'.$errors['state'].'</span>' : ''; ?> 
 </p>
 
-<?php echo isset($errors['text']) ? '<p class="error">'.$errors['text'].'</p>' : ''; ?> 
 <p>
 	<?php echo $comment->label('text') ?> 
 	<?php echo $comment->input('text') ?> 
+	<?php echo isset($errors['text']) ? '<span class="text-error">'.$errors['text'].'</span>' : ''; ?> 
 </p>
 
 <?php echo Form::hidden('token',Security::token()); ?>

@@ -38,7 +38,7 @@ class Model_Category extends Sprig
 	 * to become children of the uncategorized category
 	 */
 	public function delete(Database_Query_Builder_Delete $query = NULL) {
-		Kohana::$log->add(Kohana::DEBUG, 'Beginning category deletion for category_id='.$this->id);
+//		Kohana::$log->add(Kohana::DEBUG, 'Beginning category deletion for category_id='.$this->id);
 		if (Kohana::$profiling === TRUE)
 		{
 			$benchmark = Profiler::start('blog', 'delete category');
@@ -54,7 +54,7 @@ class Model_Category extends Sprig
 		}
 		catch (Database_Exception $e)
 		{
-			Kohana::$log->add(Kohana::ERROR, 'Exception occured while modifying deleted category\'s articles. '.$e->getMessage());
+//			Kohana::$log->add(Kohana::ERROR, 'Exception occured while modifying deleted category\'s articles. '.$e->getMessage());
 			return $this;
 		}
 

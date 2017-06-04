@@ -140,7 +140,7 @@ class Model_Article
 		}
 		catch (Database_Exception $e)
 		{
-			Kohana::$log->add(Kohana::ERROR, 'Exception occured while modifying deleted article\'s tags. '.$e->getMessage());
+//			Kohana::$log->add(Kohana::ERROR, 'Exception occured while modifying deleted article\'s tags. '.$e->getMessage());
 			return $this;
 		}
 

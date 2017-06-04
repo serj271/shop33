@@ -242,7 +242,13 @@ Route::set('useradmin', 'useradmin(/<controller>(/<action>(/<id>)))',array('id'=
 		'action'     => 'index',
 	));
 
-
+Route::set('adminmodel', 'admin(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
+	->defaults(array(
+		'directory' =>'admin',
+		'controller' => 'main',
+		'action'     => 'index',
+	));
+	
 Route::set('basket', 'basket(/<action>(/<id>))',array('id'=>'[0-9]+'))
 	->defaults(array(
 		'directory' =>'basket',
@@ -257,14 +263,15 @@ Route::set('blog/stats', 'blog/stats/<action>(/<limit>)', array(
 		'controller' => 'stats',
 	));
 */
-
-Route::set('comments', 'comments/<group>/<action>(/<id>(/<page>))(<format>)', array(
+ 
+Route::set('comments', 'comments/<action>(/<id>(/<page>))(<format>)', array(
 		'id'     => '\d+',
 		'page'   => '\d+',
 		'format' => '\.\w+',
 	))->defaults(array(
-		'controller' => 'comments',
-		'group'      => 'default',
+		'directory' =>'comments',
+		'controller' => 'main',
+//		'group'      => 'default',
 		'format'     => '.json',
 	));
 

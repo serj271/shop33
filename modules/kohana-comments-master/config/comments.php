@@ -2,8 +2,8 @@
 
 return array(
 	'default' => array(
-		'model'       => 'comment',
-		'per_page'    => 10,
+		'model'       => 'Comment',
+		'per_page'    => 2,
 		'view'        => 'comments',
 		'lower_limit' => 0.2,
 		'upper_limit' => 0.9,

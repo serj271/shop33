@@ -80,8 +80,8 @@ class Controller_Admin_Blog_Article extends Controller_Admin {
 	 * Display list of articles
 	 */
 	public function action_list() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Admin_Article::action_list');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Admin_Article::action_list');
 		$this->template->content = View::factory('blog/admin/article_list')
 			->bind('request', $this->request)
 			->bind('legend', $legend)
@@ -98,8 +98,8 @@ class Controller_Admin_Blog_Article extends Controller_Admin {
 	 * Create a new article
 	 */
 	public function action_new() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Admin_Article::action_new');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Admin_Article::action_new');
 		$this->template->content = View::factory('blog/admin/article_form')
 			->set('legend', __('Create Article'))
 			->set('submit', __('Save'))
@@ -143,8 +143,8 @@ class Controller_Admin_Blog_Article extends Controller_Admin {
 	 * Edit article details
 	 */
 	public function action_edit() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Admin_Article::action_edit');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Admin_Article::action_edit');
 		$this->template->content = View::factory('blog/admin/article_form')
 			->set('legend', __('Modify Article'))
 			->set('submit', __('Save'))
@@ -196,8 +196,8 @@ class Controller_Admin_Blog_Article extends Controller_Admin {
 	 * List revision history for an article
 	 */
 	public function action_history() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Admin_Article::action_history');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Admin_Article::action_history');
 
 		if ( ! empty($_POST['ver1']) AND ! empty($_POST['ver2']))
 		{
@@ -219,8 +219,8 @@ class Controller_Admin_Blog_Article extends Controller_Admin {
 	 * Show inline difference between two versions
 	 */
 	public function action_diff() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Admin_Article::action_diff');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Admin_Article::action_diff');
 		$this->template->content = View::factory('blog/admin/article_diff')
 			->bind('article', $this->_resource)
 			->bind('ver1', $ver1)
@@ -245,8 +245,8 @@ class Controller_Admin_Blog_Article extends Controller_Admin {
 	 * Delete an article
 	 */
 	public function action_delete() {
-		Kohana::$log->add(Kohana::DEBUG,
-			'Executing Controller_Admin_Article::action_delete');
+//		Kohana::$log->add(Kohana::DEBUG,
+//			'Executing Controller_Admin_Article::action_delete');
 
 		// If deletion is not desired, redirect to list
 		if (isset($_POST['no']))

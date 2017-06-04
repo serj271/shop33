@@ -3,11 +3,11 @@
 
 <div class="text-warning">
 	
-
+<p>Home content</p>	
 </div>
 
 <?php 
-	
+
 //	echo Message::display();
 //	$messages = Session::instance()->get('flash_message', array());
 //	Log::instance()->add(Log::NOTICE,Debug::vars($messages));

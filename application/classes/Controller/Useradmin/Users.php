@@ -3,13 +3,7 @@
 class Controller_Useradmin_Users extends Controller_Useradmin_Crud{
 	protected $_model='User';
 	public $menu = 'menu.useradmin';
-//	public function action_index()
-//	{
-//	$this->template->menu='gg';
-//		$this->template->navigator='ll';
-//		$this->response->body('ok');
-//		$this->template->content=$this->view;		
-//	}
+
 	public function action_read()
 	{
 		$user = ORM::factory($this->_model, $this->request->param('id'));

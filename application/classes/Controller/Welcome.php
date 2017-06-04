@@ -79,14 +79,14 @@ class Controller_Welcome extends Controller {
 		echo Debug::path(APPPATH.'cache');	
 //		phpinfo();		
 //		echo file_get_contents('/usr/local/www/shop33/media/css/common_v4.css');
-		$memcache = Cache::instance('memcache');
+		/* $memcache = Cache::instance('memcache');
 		$object = new stdClass;
 		$object->foo = 'bar';
 		$memcache->set('foo', $object, 300);
 		
 		if($object = Cache::instance('memcache')->get('foo', FALSE)){
 			echo 'Cache '.$object->foo;
-		}
+		} */
 		
 
 

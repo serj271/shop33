@@ -106,7 +106,7 @@ abstract class Controller_Comment extends Controller_Common_Comment {
 			if ($request->action() !== 'login')
 			{
 				// Get the reverse route and redirect user to the login page
-				$request->redirect('user/login');
+//				$request->redirect('user/login');
 			}
 		}
 	}

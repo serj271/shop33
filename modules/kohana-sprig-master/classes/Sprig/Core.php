@@ -239,7 +239,6 @@ abstract class Sprig_Core {
 				
 				if ( ! $field->empty)
 				{
-//					Log::instance()->add(Log::NOTICE, Debug::vars($field));
 					// This field must not be empty
 					$field->rules[] = array('not_empty');
 				}
@@ -266,7 +265,6 @@ abstract class Sprig_Core {
 					$field->rules[] = array('max_length', array(':value', $field->max_length));
 				}
 				
-//				Log::instance()->add(Log::NOTICE,Debug::vars('editable--++',$field));
 			}
 
 			if ($field instanceof Sprig_Field_BelongsTo OR ! $field instanceof Sprig_Field_ForeignKey)
@@ -1253,7 +1251,6 @@ abstract class Sprig_Core {
 		}
 	}
 
-
 	/**
 	 * Create a new record using the current data.
 	 *
@@ -1269,11 +1266,14 @@ abstract class Sprig_Core {
 				// Set the value to the current timestamp
 				$this->$name = time();
 			}
+			
+			if($field->editable && !empty($this->_changed[$name])){			
+					$this->_changed[$name] = $this->run_filter($name, $this->_changed[$name]);				
+			}
 		}
 
 		// Check the all current data
 		$data = $this->check($this->as_array());
-//		Log::instance()->add(Log::NOTICE, Debug::vars('data === ', $data));
 		$values = $relations = array();
 		foreach ($data as $name => $value)
 		{
@@ -1349,7 +1349,7 @@ abstract class Sprig_Core {
 				}
 			}
 		}
-
+		
 		return $this;
 	}
 
@@ -1369,6 +1369,9 @@ abstract class Sprig_Core {
 				{
 					// Set the value to the current timestamp
 					$this->$name = time();
+				}
+				if($field->editable && !empty($this->_changed[$name])){			
+					$this->_changed[$name] = $this->run_filter($name, $this->_changed[$name]);				
 				}
 			}
 
@@ -1558,12 +1561,13 @@ abstract class Sprig_Core {
 	 * @param   array  data to check, field => value
 	 * @return  array  filtered data
 	 */
-	protected function run_filter($filters, $value, $field)
+	protected function run_filter($field, $value)
 	{
+		$filters = $this->filters();
 		// Get the filters for this column
-//		$wildcards = empty($filters[TRUE]) ? array() : $filters[TRUE];
+		$wildcards = empty($filters[TRUE]) ? array() : $filters[TRUE];
 		// Merge in the wildcards
-//		$filters = empty($filters[$field]) ? $wildcards : array_merge($wildcards, $filters[$field]);
+		$filters = empty($filters[$field]) ? $wildcards : array_merge($wildcards, $filters[$field]);
 		// Bind the field name and model so they can be used in the filter method
 		$_bound = array
 		(
@@ -1576,7 +1580,6 @@ abstract class Sprig_Core {
 			// Value needs to be bound inside the loop so we are always using the
 			// version that was modified by the filters that already ran
 			$_bound[':value'] = $value;
-//			$value='';
 			// Filters are defined as array($filter, $params)
 			$filter = $array[0];
 			$params = Arr::get($array, 1, array(':value'));
@@ -1638,14 +1641,6 @@ abstract class Sprig_Core {
 				continue;
 			}
 			$data->label($name, $field->label);
-			if ($field->filters)
-			{
-//				Log::instance()->add(Log::NOTICE, Debug::vars($this->$name,$field->filters));
-				$value = $this->run_filter($field->filters, $this->$name,$name);
-				Log::instance()->add(Log::NOTICE, Debug::vars($this->$name,$value));
-//				$data->filters($name, $field->filters);
-				$data->$name = $value;
-			}
 			if ($field->rules)
 			{
 				$data->rules($name, $field->rules);
@@ -1656,7 +1651,7 @@ abstract class Sprig_Core {
 				$data->callbacks($name, $field->callbacks);
 			}
 		}
-		Log::instance()->add(Log::NOTICE, Debug::vars('--------',$data));
+
 		if ( ! $data->check())
 		{
 			throw new Sprig_Validation_Exception('sprig', $data,'error validation');

@@ -39,12 +39,13 @@ if ($module_type === 'root') {
 	}); */
 	
 	
-	Route::set('testing', 'testing')
+	Route::set('testing', 'testing(/<testing_uri>(/<testing_uri1>(/<id>)))')
 		->defaults(
 			array(
-//				'directory'=>'catalog',
+//				'directory'=>'admin',
 				'controller' => 'welcome',
-				'action' => 'index'
+				'action' => 'index',
+//				'id'=>1,
 			)	
 		)
 		->filter(
@@ -72,9 +73,12 @@ if ($module_type === 'root') {
 				$params['controller'] = 'Website';
 				$params['action'] = 'index';
 			  } */
+//				$paams['directory'] = 'admin';
 				$params['controller'] = 'Welcome';
 				$params['action'] = 'index';
-			return true;
+//				$params['id'] = 1;
+				return $params;
+//			return true;
 			}
 		);
 		

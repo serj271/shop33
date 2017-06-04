@@ -3,10 +3,10 @@
 class View_Useradmin_Main_Index {
 
 
-//	public function model()
-//	{
-//		return Inflector::humanize($this->model);
-//	}	
+	public function model()
+	{
+		return Inflector::humanize($this->model);
+	}	
 
 
 

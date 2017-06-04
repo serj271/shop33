@@ -29,7 +29,7 @@ abstract class Controller_Useradmin extends Controller_Common_Useradmin {
 			->headers('x-xss-protection','1; mode=block');
 			
 		// Check if user is allowed to continue
-//		static::check_permissions($this->request);
+		static::check_permissions($this->request);
 		
 		// Automatically figure out the ViewModel for the current action 
 		if ($this->auto_view === TRUE)
@@ -72,7 +72,7 @@ abstract class Controller_Useradmin extends Controller_Common_Useradmin {
 			}
 		}
 		$renderer = Kostache::factory(); 
-//		$this->view = $renderer->render($view);		
+	
 		$this->template->content=$renderer->render($this->view);	
 //		$message = Message::display('message/bootstrap');			
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());
@@ -82,7 +82,8 @@ abstract class Controller_Useradmin extends Controller_Common_Useradmin {
 		$session = Session::instance();
 //		$session->set('ragion',$ragion);		
 //		$ragion_checked = $session->get('ragion_checked', array());
-		$this->template->navigator=$renderer->render($this->view_navigator);		
+		$this->template->navigator=$renderer->render($this->view_navigator);
+		$this->template->breadcrumbs = 'ok';	
 		
 		return parent::after();
 	}
@@ -102,7 +103,8 @@ abstract class Controller_Useradmin extends Controller_Common_Useradmin {
 			if ($request->action() !== 'login')
 			{
 				// Get the reverse route and redirect user to the login page
-				$request->redirect('user/login');
+				
+				HTTP::redirect('/user/auth');
 			}
 		}
 	}
