@@ -13,14 +13,14 @@ class Model_Catalog_Category extends ORM_Base {
 			'foreign_key' => 'category_id',
 		),
 		'categories' => array(
-			'model' => 'catalog_Category',
+			'model' => 'Catalog_Category',
 			'foreign_key' => 'category_id',
 		),
 	);
 	
 	protected $_belongs_to = array(
 		'parent' => array(
-			'model' => 'catalog_Category',
+			'model' => 'Catalog_Category',
 			'foreign_key' => 'category_id',
 		),
 	);

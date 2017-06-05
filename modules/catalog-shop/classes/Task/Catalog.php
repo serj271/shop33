@@ -93,23 +93,6 @@ class Task_Catalog extends Minion_Task {
 		}
 		
 		
-		/* $catalog_category = ORM::factory('catalog_category');
-		$catalog_category->category_id = $category_item->id;
-		$catalog_category->level = 1;		
-		$catalog_category->title = 'title category1';		
-		$catalog_category->text = 'text1';	
-		$catalog_category->uri = 'category1';	
-		$catalog_category->description_tag = '';
-		$catalog_category->created = 
-		$catalog_category->creator_id = 0;
-		$catalog_category->updated		
-		$catalog_category->updater_id = 0;
-		$catalog_category->deleted		
-		$catalog_category->deleter_id = 0;
-		$catalog_category->delete_bit = 0; */
-
-		
-		
 		
 	}
 	

@@ -2,6 +2,7 @@
 
 class Controller_Home extends Controller_Common_Home {
 //    public $template ='main';
+	protected $config = 'example';
     public function action_index(){
 //		$this->title = Kohana::$config->load('personal.personal.title');	    
 //	Kohana::message('forms','foobar');
@@ -27,7 +28,11 @@ class Controller_Home extends Controller_Common_Home {
 //	$message = Kohana::$environment;
 
         $content = View::factory('/home/content');
-		$this->template->content = 'ok';		
+		$this->menu = Menu::factory($this->config);
+		
+		
+		
+		$this->template->content = $this->menu->render();		
 		$this->template->breadcrumbs = '';
         
         $navigator=View::factory('/home/navigator')

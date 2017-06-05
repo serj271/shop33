@@ -20,7 +20,7 @@ class Controller_Catalog_Category extends Controller_Catalog {
 		foreach (Breadcrumbs::get() as $breadcrumb){
 			$breadcrumbs[] = array('title'=>$breadcrumb->get_title(),'url'=>$breadcrumb->get_url());			
 		}
-		Log::instance()->add(Log::NOTICE, Debug::vars($breadcrumbs,Breadcrumbs::render()));
+//		Log::instance()->add(Log::NOTICE, Debug::vars($breadcrumbs,Breadcrumbs::render()));
 //		$this->view->breadcrumbs = Breadcrumbs::render();
 		$this->view->countBreadcrumbs = count($breadcrumbs);
 		$sep = Kohana::$config->load('breadcrumbs.separator');

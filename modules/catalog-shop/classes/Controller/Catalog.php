@@ -35,7 +35,7 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 		if ($this->auto_view === TRUE)
 		{
 			list($view_name, $view_path) = static::find_view($this->request);
-//Log::instance()->add(Log::NOTICE, $view_name);		
+	
 			
 			if (Kohana::find_file('classes', $view_path))
 			{			
@@ -48,7 +48,7 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 				
 			}
 //			list($view_name_navigator, $view_path_navigator) = static::find_view_navigator($this->request);
-//Log::instance()->add(Log::NOTICE, $view_path_navigator.$view_name_navigator);		
+	
 //			if (Kohana::find_file('classes', $view_path_navigator))
 //			{			
 //				$this->view_navigator = new $view_name_navigator();
@@ -82,7 +82,7 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 //		$message = Message::display('message/bootstrap');	
 		$message='ok';	
 		$this->template->navigator = $message;
-//Log::instance()->add(Log::NOTICE, Debug::vars($this->view->errors));		
+
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());
 //	    $navigator->message=$message;
 //	    $navigator = Menu::factory($this->menu)->render();   
@@ -90,7 +90,7 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 		$session = Session::instance();
 //		$session->set('ragion',$ragion);		
 //		$ragion_checked = $session->get('ragion_checked', array());
-//		Log::instance()->add(Log::NOTICE, Debug::vars($ragion_checked));
+
 //		$this->template->navigator=$renderer->render($this->view_navigator);
 		return parent::after();
 	}
@@ -107,7 +107,7 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 		if ( ! Auth::instance()->logged_in('admin'))
 		{
 //			throw new HTTP_Exception_403('Access denied.');
-//			Log::instance()->add(Log::NOTICE, $request->action());
+
 			if ($request->action() !== 'login')
 			{
 				// Get the reverse route and redirect user to the login page
@@ -140,7 +140,7 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 		
 		// Get the path respecting the class naming convention
 		$view_path = strtolower(str_replace('_', '/', $view_name));
-//		Log::instance()->add(Log::NOTICE, 'navig'.$view_name.$view_path);		
+	
 		return array($view_name, $view_path);
 	}
 	public static function find_view(Request $request)

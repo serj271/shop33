@@ -17,7 +17,7 @@ function category_uri_list() {
 	return $result;
 }
 $module_type = Kohana::$config->load('catalog.mode');
-//Log::instance()->add(Log::NOTICE, 'type__'.$module_type);
+
 if ($module_type === 'root') {
 	
 	$routes = Kohana::$config->load('routes/catalog')
@@ -82,39 +82,6 @@ if ($module_type === 'root') {
 			}
 		);
 		
-/*	
-	Route::set('catalog',  function($uri)
-	{
-		$categories = category_uri_list();
-		Log::instance()->add(Log::NOTICE, Debug::vars('cat',$categories));	
-		Log::instance()->add(Log::NOTICE, Debug::vars('regex',$uri));
-		$uri = rtrim($uri, '/');
-		$asParts = @ explode('/',$uri);
-		$prefix = @ $asParts[0];
-//		$action = @ $asParts[1];
-		if($prefix !== 'catalog'){
-			return FALSE;
-		}		
-		$uri = str_replace('catalog/','', $uri);
-			
-		if (!in_array($uri, $categories)) {
-			return FALSE;
-		}
-		$params = array(
-			'directory'=>'catalog',
-			'controller' => 'category',
-			'action' => 'index'
-		);
-		$params['category_uri'] = array();
-		$sergments = explode('/', $uri);
-		foreach ($sergments as $_seg) {
-			$params['category_uri'][] = $_seg;
-		}
-		
-		return $params;			
-	});
-	
-*/
 /*
 	Route::set('catalog/element','catalog/element(/<element_uri>)',array(
 		'element_uri'=>'.*'
@@ -147,7 +114,7 @@ if ($module_type === 'root') {
 			function(Route $route, $params, Request $request) 			
 			{
 				$uri = $request::detect_uri();
-
+				Log::instance()->add(Log::NOTICE, Debug::vars('uri---------++',$uri));
 //				Log::instance()->add(Log::NOTICE, Debug::vars($route, $params, $request));
 			/*   $result = DB::select(
 				'id', 
