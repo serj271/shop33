@@ -21,7 +21,7 @@ class Kohana_Menu
 		$this->view = View::factory($this->config['view']);
 
                 if ($this->config['driver'] == 'database') {
-                    $menu = ORM::factory('menu_item');
+                    $menu = ORM::factory('Menu_Item');
                     $items = $menu->where('parent_id', '=', 0)->find_all();
                     $this->menu['items'] = $this->get_from_database_orm($items);
                 }

@@ -144,6 +144,8 @@ Kohana::modules(array(
 	'kostache'	=>MODPATH.'KOstache-master',
 	'sprig'	=>MODPATH.'kohana-sprig-master',
 	'comments'	=>MODPATH.'kohana-comments-master',
+	'menu'        	=> MODPATH.'kohana-menu-master', 
+	'captcha'        	=> MODPATH.'kohana-captcha-master',  	
 //	'blog'	=>MODPATH.'kohana-blog-master',
 	'pagination'	=>MODPATH.'kohana-pagination',
 	'breadcrumbs'=> MODPATH.'kohana-breadcrumbs-master',
