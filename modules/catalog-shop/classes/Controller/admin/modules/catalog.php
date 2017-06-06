@@ -54,7 +54,7 @@ class Controller_Admin_Modules_Catalog extends Controller_Admin_Front {
 	
 	protected function _get_categories_list()
 	{
-		$categories_db = ORM::factory('catalog_Category')
+		$categories_db = ORM::factory('Catalog_Category')
 			->order_by('category_id', 'asc')
 			->order_by('position', 'asc')
 			->find_all();
@@ -212,7 +212,7 @@ class Controller_Admin_Modules_Catalog extends Controller_Admin_Front {
 	
 	protected function _get_breadcrumbs()
 	{
-		$categories = ORM::factory('catalog_Category')
+		$categories = ORM::factory('Catalog_Category')
 			->order_by('category_id', 'asc')
 			->order_by('position', 'asc')
 			->find_all()

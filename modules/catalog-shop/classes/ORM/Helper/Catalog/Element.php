@@ -25,14 +25,14 @@ class ORM_Helper_Catalog_Element extends ORM_Helper_Property_Support {
 	{
 		return array(
 			'image_1' => array(
-				array('Ku_File::valid'),
-				array('Ku_File::size', array(':value', '3M')),
-				array('Ku_File::type', array(':value', 'jpg, jpeg, bmp, png, gif')),
+//				array('Ku_File::valid'),
+//				array('Ku_File::size', array(':value', '3M')),
+//				array('Ku_File::type', array(':value', 'jpg, jpeg, bmp, png, gif')),
 			),
 			'image_2' => array(
-				array('Ku_File::valid'),
-				array('Ku_File::size', array(':value', '3M')),
-				array('Ku_File::type', array(':value', 'jpg, jpeg, bmp, png, gif')),
+//				array('Ku_File::valid'),
+//				array('Ku_File::size', array(':value', '3M')),
+//				array('Ku_File::type', array(':value', 'jpg, jpeg, bmp, png, gif')),
 			),
 		);
 	}

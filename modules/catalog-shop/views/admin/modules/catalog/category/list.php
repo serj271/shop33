@@ -89,7 +89,7 @@
 		</thead>
 		<tbody>
 <?php 
-		$orm_helper = ORM_Helper::factory('catalog_Category');
+		$orm_helper = ORM_Helper::factory('Catalog_Category');
 		foreach ($list as $_orm):
 ?>
 			<tr>

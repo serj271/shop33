@@ -103,9 +103,10 @@ if ($module_type === 'root') {
 		)	
 	); */
 
-	Route::set('catalog/main', 'catalog(/<category_uri>)')->defaults(
+	Route::set('catalog/main', '(<page>(/<subpage>))')
+	->defaults(
 		array(
-			'directory'=>'catalog',
+//			'directory'=>'catalog',
 			'controller' => 'category',
 			'action' => 'index'
 		)
@@ -114,7 +115,7 @@ if ($module_type === 'root') {
 			function(Route $route, $params, Request $request) 			
 			{
 				$uri = $request::detect_uri();
-				Log::instance()->add(Log::NOTICE, Debug::vars('uri---------++',$uri));
+				Log::instance()->add(Log::NOTICE, Debug::vars('uri---------++',$uri,category_uri_list(), $params));
 //				Log::instance()->add(Log::NOTICE, Debug::vars($route, $params, $request));
 			/*   $result = DB::select(
 				'id', 
@@ -149,19 +150,24 @@ if ($module_type === 'root') {
 				$categories = category_uri_list();		
 				$uri = rtrim($uri, '/');
 				if($uri == 'catalog'){					
-					return true;
+//					return true;
 				}
 				$asParts = @ explode('/',$uri);
 				$prefix = @ $asParts[0];
 		//		$action = @ $asParts[1];
 				if($prefix !== 'catalog'){
-					return FALSE;
+//					return FALSE;
 				}		
 				
 				$uri = str_replace('catalog/','', $uri);	
 				if (!in_array($uri, $categories)) {
-					return FALSE;
-				}		
+//					return FALSE;
+				}	
+//				$params = array();
+				$params['controller'] = 'Welcome';
+				$params['action'] = 'index';
+//				$params['id'] = 1;
+				return $params;
 			}
 	);
 	

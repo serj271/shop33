@@ -8,10 +8,10 @@ class Model_Catalog_Category extends ORM_Base {
 	protected $_active_column = 'active';
 
 	protected $_has_many = array(
-		'items' => array(
-			'model' => 'catalog_Element',
-			'foreign_key' => 'category_id',
-		),
+//		'items' => array(
+//			'model' => 'Catalog_Element',
+//			'foreign_key' => 'category_id',
+//		),
 		'categories' => array(
 			'model' => 'Catalog_Category',
 			'foreign_key' => 'category_id',

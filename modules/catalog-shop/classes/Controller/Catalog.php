@@ -111,7 +111,7 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 			if ($request->action() !== 'login')
 			{
 				// Get the reverse route and redirect user to the login page
-				$request->redirect('admin/auth/login');
+//				$request->redirect('admin/auth/login');
 //				Request::current()->redirect('admin/auth');
 			}
 		}
