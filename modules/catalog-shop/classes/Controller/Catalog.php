@@ -34,8 +34,7 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 		// Automatically figure out the ViewModel for the current action 
 		if ($this->auto_view === TRUE)
 		{
-			list($view_name, $view_path) = static::find_view($this->request);
-	
+			list($view_name, $view_path) = static::find_view($this->request);	
 			
 			if (Kohana::find_file('classes', $view_path))
 			{			

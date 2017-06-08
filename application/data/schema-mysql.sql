@@ -70,17 +70,17 @@ DROP TABLE IF EXISTS catalog_categories;
 CREATE TABLE `product_categories_products` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`product_id` int(10) unsigned NOT NULL,
-	`category_id` int(10) unsigned NOT NULL,
+	`catalog_category_id` int(10) unsigned NOT NULL,
 /* 	`uri` VARCHAR(255) NOT NULL DEFAULT '',
 	`delete_bit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0', */
 	PRIMARY KEY (`id`),
 	KEY `fk_product` (`product_id`),
-	KEY `fk_category_id` (`category_id`)
+	KEY `fk_category_id` (`catalog_category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE TABLE `catalog_categories` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`category_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+	`catalog_category_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`level` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`uri` VARCHAR(255) NOT NULL DEFAULT '',
 	`code` VARCHAR(255) NOT NULL DEFAULT '',
@@ -242,7 +242,7 @@ ALTER TABLE `product_categories`
   ADD CONSTRAINT `product_categories_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `product_categories` (`id`) ON DELETE CASCADE; */
 
 ALTER TABLE `product_categories_products`
-  ADD CONSTRAINT `product_categories_products_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `product_categories` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `product_categories_products_ibfk_2` FOREIGN KEY (`catalog_category_id`) REFERENCES `product_categories` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `product_categories_products_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `product_photos`

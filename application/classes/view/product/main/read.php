@@ -86,13 +86,11 @@ class View_Product_Main_Read {
 			$push = array(
 				'label' => Arr::get($labels, $field),
 				'value' => $value,
-			);
-			
+			);			
 			if ($push['label'] === NULL)
 			{				
 				$push['label'] = ucfirst(Inflector::humanize($field));
-			}			
-						
+			}						
 			$result[] = $push; */				
 		}
 		

@@ -8,8 +8,8 @@ function category_uri_list() {
 		->find_all();
 	$result = array();
 	foreach ($list as $_orm) {
-		if ($_orm->level > 0 AND array_key_exists($_orm->category_id, $result)) {
-			$result[$_orm->id] = $result[$_orm->category_id].'/'.$_orm->uri;
+		if ($_orm->level > 0 AND array_key_exists($_orm->catalog_category_id, $result)) {
+			$result[$_orm->id] = $result[$_orm->catalog_category_id].'/'.$_orm->uri;
 		} elseif ($_orm->level == 0) {
 			$result[$_orm->id] = $_orm->uri;
 		}
@@ -26,18 +26,7 @@ if ($module_type === 'root') {
 	foreach ($routes as $_name => $_config) {
 /* 		Route::set($_name, Arr::get($_config, 'uri_callback', Arr::get($_config, 'regex')))
 			->defaults(Arr::get($_config, 'defaults'));	 */
-	}
-
-	/* 
-	Route::set('testing', function($uri)
-	{
-		if($uri == 'foo/bar')
-		return array(
-			'controller'=>'welcome1',
-			'action'=>'index'
-		);
-	}); */
-	
+	}	
 	
 	Route::set('testing', 'testing(/<testing_uri>(/<testing_uri1>(/<id>)))')
 		->defaults(
@@ -103,10 +92,10 @@ if ($module_type === 'root') {
 		)	
 	); */
 
-	Route::set('catalog/main', '(<page>(/<subpage>))')
+	Route::set('catalog/main', 'catalog(/<category_uri>)', array('category_uri' => '.*'))
 	->defaults(
 		array(
-//			'directory'=>'catalog',
+			'directory'=>'catalog',
 			'controller' => 'category',
 			'action' => 'index'
 		)
@@ -115,8 +104,7 @@ if ($module_type === 'root') {
 			function(Route $route, $params, Request $request) 			
 			{
 				$uri = $request::detect_uri();
-				Log::instance()->add(Log::NOTICE, Debug::vars('uri---------++',$uri,category_uri_list(), $params));
-//				Log::instance()->add(Log::NOTICE, Debug::vars($route, $params, $request));
+//				Log::instance()->add(Log::NOTICE, Debug::vars('uri---------++',$uri,category_uri_list(), $params));
 			/*   $result = DB::select(
 				'id', 
 				'uri', 
@@ -142,32 +130,30 @@ if ($module_type === 'root') {
 				/* $params['controller'] = 'Welcome';
 				$params['action'] = 'index'; */
 //				$params['category_uri'] = array();
-//				$params['category_uri'][] = 'category0';
-			/* 	if($params['category_uri'] == 'category0'){
-					return true;
-				} */
+//				$params['category_uri'][] = 'category0';			
 				
 				$categories = category_uri_list();		
 				$uri = rtrim($uri, '/');
 				if($uri == 'catalog'){					
-//					return true;
+					return TRUE;
 				}
 				$asParts = @ explode('/',$uri);
 				$prefix = @ $asParts[0];
 		//		$action = @ $asParts[1];
 				if($prefix !== 'catalog'){
-//					return FALSE;
+					return FALSE;
 				}		
 				
 				$uri = str_replace('catalog/','', $uri);	
 				if (!in_array($uri, $categories)) {
-//					return FALSE;
+					return FALSE;
 				}	
-//				$params = array();
+		/* 		$params['directory'] ='';
 				$params['controller'] = 'Welcome';
 				$params['action'] = 'index';
-//				$params['id'] = 1;
-				return $params;
+				$params['id'] = 1;
+				return $params; */
+				return TRUE;
 			}
 	);
 	

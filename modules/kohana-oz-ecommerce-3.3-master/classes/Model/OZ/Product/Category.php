@@ -8,6 +8,7 @@
  * @license    http://openzula.org/license-bsd-3c BSD 3-Clause License
  */
 abstract class Model_OZ_Product_Category extends ORM {
+	protected $_table_name='product_categories';
 
 	protected $_has_many = array(
 		'products' => array(

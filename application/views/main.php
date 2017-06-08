@@ -52,11 +52,12 @@
 </div>
 
 <div id="header">
-	<?=$menu; ?>
-	<?=$breadcrumbs; ?>
 	<div id="logo">
 	    <a title="To main" href="<?=URL::base()?>personal"></a>
 	</div>
+	<?=$menu; ?>
+	<?=$breadcrumbs; ?>
+
 </div>
 
 

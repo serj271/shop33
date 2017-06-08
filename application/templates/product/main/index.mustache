@@ -1,5 +1,10 @@
 <div id="result">
-<h1>Welcome, {{username}}!</h1>
+<h1>Welcome, {{username}}
+{{^ username }}
+  Guest
+{{/ username }}!
+
+</h1>
 
 {{test}}
 
@@ -10,8 +15,7 @@
 </div>
  
 
-{{# product}}
-	
+{{# product}}	
     {{{name}}
     {{# photo}}
 	<img src={{path_fullsize}} />
@@ -44,19 +48,6 @@
 		
 		{{/ reviews}}
 {{/ product}}
-
-
-{{# items}}
-    {{{name}}
-    {{# photo}}
-	d
-	{{path_fullsize}}
-    {{/ photo}}
-
-
-{{/ items}}
-
-
 {{{pagination}}}
  
 

@@ -5,10 +5,43 @@
 
 <ul id="breadcrumbs" class="breadcrumbs">
 {{# breadcrumbs}}
-
 <li><a href="{{url}}">{{title}} > </a></li>
-
-
 {{/ breadcrumbs}}
 
+{{# product}}	
+    {{{name}}
+    {{# photo}}
+	<img src={{path_fullsize}} />
+	{{path_fullsize}}
+    {{/ photo}}
+		{{# specifications}}
+			<p>
+				specification name <a href="{{link}}" > {{name}} </a>
+			</p>
+			<p>
+				specification value {{value}}
+			</p>
+		{{/ specifications}}
+		{{# reviews}}
+		<p>
+			reviews date {{date}}
+		</p>
+		<p>
+			reviews name {{name}}
+		</p>
+		<p>
+			reviews rating {{rating}}
+		</p>
+		<p>
+			reviews summary  {{summary}}
+		</p>
+		<p>
+			reviews body {{body}}
+		</p>
+		
+		{{/ reviews}}
+{{/ product}}
+{{count_products}}
+{{{pagination}}}
+{{}}
 

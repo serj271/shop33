@@ -16,27 +16,10 @@ class Task_Catalog extends Minion_Task {
 		Kohana::$config->attach(new Config_File);
 
 		$db = Database::instance();
-		// Get the table name from the ORM model		
+		// Get the table name from the ORM model
+//			Log::instance()->add(Log::NOTICE, Debug::vars($errors));		
 		
-		
-		/* $catalog_element = ORM::factory('catalog_element');		
-		foreach($catalog_element->find_all() as $element)
-		{
-		   $element->delete();
-		}		
-		$catalog_item = ORM::factory('catalog_item');		
-		foreach($catalog_item->find_all() as $item)
-		{
-		   $item->delete();
-		} */		
-		
-		
-			
-//			Log::instance()->add(Log::NOTICE, Debug::vars($errors));
-	
-		
-		
-		$config = Kohana::$config->load('test/catalog/catalog');
+//		$config = Kohana::$config->load('test/catalog/catalog');
 //		Minion_CLI::write($config->get('mode'));
 		
 		/* 
@@ -51,15 +34,15 @@ class Task_Catalog extends Minion_Task {
 			mysql_select_db($database_name, $link) or die ("Wrong MySQL Database");
 			read the sql file */
 			$this->id = 0;
-			$this->category_id = 0;
+			$this->catalog_category_id = 0;
 			$this->level = 0;
 			$this->uri = 0;
 			
 			$this->delete_catalog_category();
-			$this->catalog_category($this->category_id,$this->level);
+			$this->catalog_category($this->catalog_category_id,$this->level);
 	
-			$this->catalog_category($this->category_id,1);
-			$this->catalog_category($this->category_id,2);
+			$this->catalog_category($this->catalog_category_id,1);
+			$this->catalog_category($this->catalog_category_id,2);
 			
 			$this->catalog_category(0,0);
 //			$this->catalog_category($temp,1);
@@ -69,19 +52,19 @@ class Task_Catalog extends Minion_Task {
 
 	}
 
-	protected function catalog_category($category_id=0, $level =0)
+	protected function catalog_category($catalog_category_id=0, $level =0)
 	{
 		$catalog_category = ORM::factory('Catalog_Category');	
 		
 //		$catalog_category->id = $id;
-		$catalog_category->category_id = $category_id;	
-		$catalog_category->title = 'title category'.$category_id;		
-		$catalog_category->text = 'text'.$category_id;
+		$catalog_category->catalog_category_id = $catalog_category_id;	
+		$catalog_category->title = 'title category'.$catalog_category_id;		
+		$catalog_category->text = 'text'.$catalog_category_id;
 		$catalog_category->level = $level;
 		$catalog_category->uri = 'category'.$this->uri;
 		try{			
 			$category_item = $catalog_category->save();
-			$this->category_id = $category_item->id;
+			$this->catalog_category_id = $category_item->id;
 			Minion_CLI::write('id create - '.$category_item->id);
 			$this->uri++;
 		}

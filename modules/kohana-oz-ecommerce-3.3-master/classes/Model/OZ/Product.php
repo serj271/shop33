@@ -11,8 +11,10 @@ abstract class Model_OZ_Product extends ORM {
 
 	protected $_has_many = array(
 		'categories' => array(
-			'model'   => 'Product_Category',
+			'model'   => 'Catalog_Category',
 			'through' => 'product_categories_products',
+			'far_key'=> 'category_id',
+//			'foreign_key' =>'category_id'
 		),
 		'photos' => array(
 			'model' => 'Product_Photo',

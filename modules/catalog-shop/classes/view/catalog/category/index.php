@@ -15,5 +15,25 @@ class View_Catalog_Category_Index {
 
     }   
 
+    public $products = array();
+
+
+    public function count_products(){
+	return count($this->products);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 }

@@ -11,7 +11,7 @@ class Controller_Product_Main extends Controller_Product {
 //		$cart = Cart::instance();
 //		$content = $cart->content;
 //		$session = Session::instance();
-		Log::instance()->add(Log::NOTICE,Debug::vars($this->_mCartId));
+//		Log::instance()->add(Log::NOTICE,Debug::vars($this->_mCartId));
 //		if (!Auth::instance()->logged_in('login')){		
 //			$this->redirect('user/auth/login');
 //		}
@@ -79,7 +79,7 @@ class Controller_Product_Main extends Controller_Product {
 			}
 			$this->view->pagination = $pagination;
 			$this->view->product = $result;
-			Log::instance()->add(Log::NOTICE,Debug::vars('+++++++-----',$products_as_array));
+//			Log::instance()->add(Log::NOTICE,Debug::vars('+++++++-----',$products_as_array));
 //			$this->view = $result;
 //						Log::instance()->add(Log::NOTICE,Debug::vars('+++++++',$pagination->render()));
 //						$content_view->product = $result;
@@ -104,7 +104,7 @@ class Controller_Product_Main extends Controller_Product {
 	public function action_read()
 	{
 //		Session::instance();
-		Log::instance()->add(Log::NOTICE,Debug::vars($this->_mCartId));
+//		Log::instance()->add(Log::NOTICE,Debug::vars($this->_mCartId));
 		$item_uri = $this->request->param('item_uri');
 		$item = ORM::factory($this->_model)
 			->where('uri','=',$item_uri)
@@ -156,7 +156,7 @@ class Controller_Product_Main extends Controller_Product {
 			$keys=array('cart_id','attributes','product_id');
 			$last_input=Arr::extract($post,$keys,NULL); 	
 			$session = Session::instance('native');			
-			Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));	
+//			Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));	
 			$mCartId = $session->get('mCartId', false);	
 			if(!$mCartId){
 				$session->set('mCartId',md5(uniqid(rand(), true)));
@@ -186,7 +186,7 @@ class Controller_Product_Main extends Controller_Product {
 			}
 			catch (ORM_Validation_Exception $e)
 			{
-				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors('validation')));
+//				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors('validation')));
 				$this->view->errors = $e->errors('models/user');
 			}
 		}

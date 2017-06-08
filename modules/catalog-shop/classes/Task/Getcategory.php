@@ -6,7 +6,6 @@ class Task_Getcategory extends Minion_Task {
 		'foo'   => 'beautiful',
 	);
 
-
 	protected function _execute(array $params)
 	{
 		spl_autoload_register(array('Kohana', 'auto_load'));
@@ -18,11 +17,10 @@ class Task_Getcategory extends Minion_Task {
 
 		$db = Database::instance();
 		// Get the table name from the ORM model
-		$this->categories = array();
-		
+		$this->categories = array();		
 		
 		$categories_db = ORM::factory('Catalog_Category')
-			->order_by('category_id', 'asc')
+			->order_by('catalog_category_id', 'asc')
 			->order_by('position', 'asc')
 			->find_all();
 		
@@ -56,10 +54,7 @@ class Task_Getcategory extends Minion_Task {
 		} */
 //		$this->buildTree($categories_db);
 		$tree = $this->print_recursive($categories_db);
-//		Log::instance()->add(Log::NOTICE, Debug::vars('cat---tree----',$tree));
-		
-//		Log::instance()->add(Log::NOTICE, Debug::vars($categories));
-		
+		Log::instance()->add(Log::NOTICE, Debug::vars('cat---tree----',$tree));		
 			
 		Minion_CLI::write('Get catalog categories');
 	}
@@ -75,7 +70,7 @@ class Task_Getcategory extends Minion_Task {
 				$children = $this->print_recursive($structure[$i]->categories->find_all());
 				$recursive_items[] = $parent . $children;
 			}
-			return '<ul><li>' . implode('</li><li>', $recursive_items) . '</li></ul>';
+			return '<ul><li>'.implode('</li><li>', $recursive_items).'</li></ul>';
 		}
 		return '';
 	}
@@ -86,9 +81,8 @@ class Task_Getcategory extends Minion_Task {
 	{
 			
 		foreach ($elements as $element) {
-			$_key = $element->id;
-			
-				Log::instance()->add(Log::NOTICE, Debug::vars($element->category_id,$parentId));
+			$_key = $element->id;			
+//				Log::instance()->add(Log::NOTICE, Debug::vars($element->category_id,$parentId));
 				if ($element->category_id == $parentId) {
 					
 					$children = $this->buildTree($elements, $element->id);

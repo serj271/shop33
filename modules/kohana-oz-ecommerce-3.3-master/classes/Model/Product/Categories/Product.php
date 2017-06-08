@@ -7,31 +7,20 @@
  * @copyright  Copyright (c) 2011, 2012 OpenZula
  * @license    http://openzula.org/license-bsd-3c BSD 3-Clause License
  */
-abstract class Model_OZ_Product_Categories_Product extends ORM {
-
+class Model_Product_Categories_Product extends Model_OZ_Product_Categories_Product{
+/*
 	protected $_table_name='product_categories_products';
-	protected $_primary_key = 'id';
-	protected $_has_many = array(
+	protected $_belongs_to = array(
 		'product' => array(
 			'model' => 'Product',
-			'through'=>'products',
-			'far_key'=>'product_id',
-			'foreign_key'=>'id'
+			'foreign_key'=>'product_id'
 		),
 		'category' => array(
 			'model' => 'Catalog_Category',
-			'through'=>'catalog_categories',
-			'far_key'=>'catalog_category_id',
-			'foreign_key'=>'id'
+			'foreign_key'=>'category_id'
 		),
 	);
 
-//	protected $_has_many = array(
-//		'category' => array(
-//			'model'   => 'Product_Categories_Product',
-//			'through' => 'categories_posts',
-//		),
-//	);
 	protected $_table_columns = array(
 		'id'         => array('type' => 'int'),
 		'product_id' => array('type' => 'int'),
@@ -56,14 +45,9 @@ abstract class Model_OZ_Product_Categories_Product extends ORM {
 //				array('gt', array(':value', 0)),
 			),
 		);
+
+
 	}
 
-	/**
-	 * Overload the save method to set the sale_price to NULL if an empty
-	 * or 0.00 value was given
-	 *
-	 * @param   Validation  $validation
-	 * @return  mixed
-	 */
-
+*/
 }

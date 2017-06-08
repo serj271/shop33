@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 
-class Task_Products extends Minion_Task {
+class Task_ProductCategory extends Minion_Task {
 	protected $_options = array(
 		// param name => default value
 		'foo'   => 'beautiful',
@@ -18,50 +18,17 @@ class Task_Products extends Minion_Task {
 		Kohana::$config->attach(new Config_File);		
 		$db = Database::instance();
 		// Get the table name from the ORM model	
-		$this->product_id = 1;
-		$this->photo_id =1;
-		$this->parent_id = 1;
-
-		$this->delete_product();
-		$this->delete_photo();
-		$this->delete_product_specification();
-		$this->delete_product_review();
-		$this->delete_create_category();
 		
-		$this->create_product($this->product_id,$this->photo_id);
-//		$this->create_category($this->parent_id,$this->parent_id);
-		$this->create_category($this->parent_id,3,$this->product_id);//parent, category_id , product
-		
-		$this->create_photo($this->product_id,$this->photo_id);
-		
-//		$this->product_categories_products($this->product_id);
-		$this->product_specification($this->product_id);		
-		$this->product_reviews($this->product_id);		
-		
-		$this->product_id = 2;
-		$this->photo_id =2;
-		$this->parent_id = 2;
-		
-		$this->create_product($this->product_id,$this->photo_id);
-		$this->create_photo($this->product_id,$this->photo_id);
-		$this->product_reviews($this->product_id);
-		$this->product_specification($this->product_id);
-		$this->create_variation($this->product_id);		
+		Minion_CLI::write('Get products category');
+		$model = 'Product';
+//		$product = ORM::factory($model,1);
+//		Log::instance()->add(Log::NOTICE, Debug::vars($product->categories));
+//		Minion_CLI::write($product->description);
+		$category = ORM::factory('Catalog_Category',3);
+		$products = $category->products->find_all();
 	
-		$this->product_id = 3;
-		$this->photo_id =3;
-		$this->parent_id = 3;
-		
-		$this->create_product($this->product_id,$this->photo_id);
-		$this->create_photo($this->product_id,$this->photo_id);
-		$this->product_reviews($this->product_id);
-		$this->product_specification($this->product_id);
-		$this->create_variation(1);		
-	
-//		$this->create_category($this->parent_id);
-			
-		Minion_CLI::write('Create products instance');
-
+//		Minion_CLI::write($category->catalog_category_id);
+		Log::instance()->add(Log::NOTICE, Debug::vars($products->as_array()[0]->name));
 	}
 	
 	
@@ -116,7 +83,7 @@ class Task_Products extends Minion_Task {
 		{			
 			$orm_id = $orm->save();	
 			if($product_id){
-					$query = DB::insert('product_categories_products',array('product_id', 'catalog_category_id'))
+					$query = DB::insert('product_categories_products',array('product_id', 'category_id'))
 				->values(array($product_id,$category_id));				
 				$query->execute();
 			}			

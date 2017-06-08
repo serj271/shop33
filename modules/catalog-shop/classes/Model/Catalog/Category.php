@@ -6,6 +6,7 @@ class Model_Catalog_Category extends ORM_Base {
 	protected $_sorting = array('position' => 'ASC');
 	protected $_deleted_column = 'delete_bit';
 	protected $_active_column = 'active';
+	protected $_primary_id='id';
 
 	protected $_has_many = array(
 //		'items' => array(
@@ -14,21 +15,28 @@ class Model_Catalog_Category extends ORM_Base {
 //		),
 		'categories' => array(
 			'model' => 'Catalog_Category',
-			'foreign_key' => 'category_id',
+			'foreign_key' => 'catalog_category_id',
 		),
+		    'products' => array(
+			'model'       => 'Product',
+			'through' => 'product_categories_products',
+			'far_key'=>'product_id',
+//			'foreign_key' => 'product_id',
+		    ),
+
 	);
 	
-	protected $_belongs_to = array(
-		'parent' => array(
-			'model' => 'Catalog_Category',
-			'foreign_key' => 'category_id',
-		),
-	);
+//	protected $_belongs_to = array(
+//		'parent' => array(
+//			'model' => 'Catalog_Category',
+//			'foreign_key' => 'category_id',
+//		),
+//	);
 
 	public function labels()
 	{
 		return array(
-			'category_id' => 'Category',
+			'catalog_category_id' => 'Category',
 			'level' => 'Level',
 			'uri' => 'URI',
 			'code' => 'Code',
@@ -49,7 +57,7 @@ class Model_Catalog_Category extends ORM_Base {
 			'id' => array(
 				array('digit'),
 			),
-			'category_id' => array(
+			'catalog_category_id' => array(
 				array('not_empty'),
 				array('digit'),
 			),
@@ -131,7 +139,7 @@ class Model_Catalog_Category extends ORM_Base {
 		}
 	
 		$orm
-			->where('category_id', '=', $this->category_id)
+			->where('catalog_category_id', '=', $this->category_id)
 			->where('uri', '=', $this->uri)
 			->where('delete_bit', '=', 0)
 			->find();
