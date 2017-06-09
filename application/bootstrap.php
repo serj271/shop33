@@ -136,28 +136,31 @@ Kohana::modules(array(
 	'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   	=> MODPATH.'database-3.3-master',   // Database access
-	'mysqli'   	=> MODPATH.'kohana-3.3-mysqli-master',   // Database access
+	'mysqli'   	=> MODPATH.'mysqli',   // Database access
 	'image'     	=> MODPATH.'image',      // Image manipulation
 	'minion'     	=> MODPATH.'minion-3.3-master',     // CLI Tasks
 	'orm'        	=> MODPATH.'orm-3.3-master',        // Object Relationship Mapping
 	'autoload'	=>MODPATH.'autoload',
 	'kostache'	=>MODPATH.'KOstache-master',
-	'sprig'	=>MODPATH.'kohana-sprig-master',
-	'comments'	=>MODPATH.'kohana-comments-master',
-	'menu'        	=> MODPATH.'kohana-menu-master', 
-	'captcha'        	=> MODPATH.'kohana-captcha-master',  	
+	'sprig'	=>MODPATH.'sprig',
+	'comments'	=>MODPATH.'comments',
+	'menu'        	=> MODPATH.'menu', 
+	'captcha'        	=> MODPATH.'captcha',  	
 //	'blog'	=>MODPATH.'kohana-blog-master',
-	'pagination'	=>MODPATH.'kohana-pagination',
-	'breadcrumbs'=> MODPATH.'kohana-breadcrumbs-master',
+	'pagination'	=>MODPATH.'pagination',
+	'breadcrumbs'=> MODPATH.'breadcrumbs',
 	'catalog-shop'=> MODPATH.'catalog-shop',
-	'message'=> MODPATH.'kohana-message-master',
-	'B8'=> MODPATH.'Kohana-B8-master',
+	'message'=> MODPATH.'message',
+	'B8'=> MODPATH.'B8',
 //	'tree'=> MODPATH.'kohana-tree-from-array-master',
-	 'ecommerce'	=> MODPATH.'kohana-oz-ecommerce-3.3-master',        // Object Relationship Mapping
+	 'ecommerce'	=> MODPATH.'oz-ecommerce',        // Object Relationship Mapping
 #	 'unittest'   	=> MODPATH.'unittest',   // Unit testing
 #	 'userguide'  	=> MODPATH.'userguide',  // User guide and API documentation
-//	 'datalog'  	=> MODPATH.'kohana-datalog',  // 
-	 'media'		=> MODPATH.'kohana-media',
+//	 'datalog'  	=> MODPATH.'datalog',  // 
+	'image' => MODPATH.'image',  // Image manipulation
+	'imagefly' => MODPATH.'imagefly',
+	'imagemagick' => MODPATH.'imagemagick',  // Image manipulation
+	 'media'		=> MODPATH.'media',
 	));
 
 /**

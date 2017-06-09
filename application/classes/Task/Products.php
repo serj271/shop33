@@ -8,6 +8,7 @@ class Task_Products extends Minion_Task {
 	
 	private $product_id;
 	private $photo_id;
+	private $products = array();
 
 	protected function _execute(array $params)
 	{
@@ -21,28 +22,63 @@ class Task_Products extends Minion_Task {
 		$this->product_id = 1;
 		$this->photo_id =1;
 		$this->parent_id = 1;
+		$this->catalog_category_id = 0;
+		$this->category_uri = 0;
+		$this->level = 0; 
+		
 
-		$this->delete_product();
+		/* $this->delete_product();
 		$this->delete_photo();
 		$this->delete_product_specification();
 		$this->delete_product_review();
-		$this->delete_create_category();
+		$this->delete_create_category(); */
 		
+		$this->clear_model('Product');
+		$this->clear_model('Product_Photo');
+		$this->clear_model('Product_Specification');		
+		$this->clear_model('Product_Categories_Product');
+		$this->clear_model('Catalog_Category');
+		
+			
 		$this->create_product($this->product_id,$this->photo_id);
-//		$this->create_category($this->parent_id,$this->parent_id);
-		$this->create_category($this->parent_id,3,$this->product_id);//parent, category_id , product
-		
 		$this->create_photo($this->product_id,$this->photo_id);
 		
+		
+		$this->product_id++;
+		
+		$this->create_product($this->product_id,$this->photo_id);		
+		$this->product_id++;
+		
+		$this->create_catalog_category($this->catalog_category_id,0);	
+		$this->create_catalog_category($this->catalog_category_id,1);
+		$this->create_catalog_category($this->catalog_category_id,2); 
+		
+//		Log::instance()->add(Log::NOTICE, Debug::vars(1,$this->catalog_category_id));
+		$this->add_category(1, $this->catalog_category_id);//product_id catalog_category_id
+		$this->add_category(2, $this->catalog_category_id);//product_id catalog_category_id
+		
+		$this->catalog_category_id = 0;
+		$this->create_catalog_category($this->catalog_category_id,0);	
+		$this->create_catalog_category($this->catalog_category_id,1);
+		
+		$this->create_product($this->product_id,$this->photo_id);		
+		$this->product_id++;
+		
+		$this->add_category(3, $this->catalog_category_id);//product_id catalog_category_id
+//		$this->create_category($this->parent_id,$this->parent_id);
+//		$this->create_category($this->parent_id,3,$this->product_id);//parent, catcategory_id , product
+		
+//		$this->create_photo($this->product_id,$this->photo_id);
+		
 //		$this->product_categories_products($this->product_id);
-		$this->product_specification($this->product_id);		
-		$this->product_reviews($this->product_id);		
+//		$this->product_specification($this->product_id);		
+//		$this->product_reviews($this->product_id);		
 		
 		$this->product_id = 2;
 		$this->photo_id =2;
 		$this->parent_id = 2;
 		
-		$this->create_product($this->product_id,$this->photo_id);
+		/* $this->create_product($this->product_id,$this->photo_id);
 		$this->create_photo($this->product_id,$this->photo_id);
 		$this->product_reviews($this->product_id);
 		$this->product_specification($this->product_id);
@@ -56,7 +92,7 @@ class Task_Products extends Minion_Task {
 		$this->create_photo($this->product_id,$this->photo_id);
 		$this->product_reviews($this->product_id);
 		$this->product_specification($this->product_id);
-		$this->create_variation(1);		
+		$this->create_variation(1);		 */
 	
 //		$this->create_category($this->parent_id);
 			
@@ -64,79 +100,53 @@ class Task_Products extends Minion_Task {
 
 	}
 	
-	
-	protected function product_categories_products($product_id=1)
-	{
-		$model = 'Product_Categories_Product';
-		$orm = ORM::factory($model);
-		foreach($orm->find_all() as $item)
-		{
-		   $item->delete();
-		}
-		
-		$orm = ORM::factory($model);
-		$orm->id = 1;		
-		$orm->catalog_category_id = 1;
-		$orm->product_id = $product_id;		
-		
-
-		try
-		{			
-			$orm_id = $orm->save();			
-//			Log::instance()->add(Log::NOTICE, Debug::vars($product->id));
-			Minion_CLI::write('id create  product_categories_products- '.$orm_id->id);
 			
-		}
-		 catch (ORM_Validation_Exception $e)
-		{
-//			Minion_CLI::write(Kohana::message('product_variation', 'Validation::lt'));
-//			$errors = $extra_validation->errors('validation_', TRUE)	;	
-			$errors = $e->errors();		
-			foreach($errors as $key=>$value){
-				Log::instance()->add(Log::NOTICE, Debug::vars($value));//+ field				
-			}
-			Minion_CLI::write($errors);		
-//			Log::instance()->add(Log::NOTICE, Debug::vars($errors));//+ field			
-		}
-	
-	}
-	
-	protected function create_category($parent_id = 1,$category_id=1,$product_id=NULL)
+	protected function create_catalog_category($catalog_category_id=0, $level =0)
 	{		
-		$model = 'Product_Category';
-		$orm = ORM::factory($model);
-		$orm->id = $category_id;		
-		$orm->name = 'name '.$parent_id;
-		$orm->description = 'description'.$parent_id;		
-//		$orm->order = 500;
-		$orm->uri = 'uri'.$parent_id.$category_id;
-		$orm->parent_id = $parent_id;
-
-		try
-		{			
-			$orm_id = $orm->save();	
-			if($product_id){
-					$query = DB::insert('product_categories_products',array('product_id', 'catalog_category_id'))
-				->values(array($product_id,$category_id));				
-				$query->execute();
-			}			
-//			Log::instance()->add(Log::NOTICE, Debug::vars($product->id));
-			Minion_CLI::write('id create  Product_Category- '.$orm_id->id);
-			
+		$catalog_category = ORM::factory('Catalog_Category');			
+//		$catalog_category->id = $id;
+		$catalog_category->catalog_category_id = $catalog_category_id;	
+		$catalog_category->title = 'title category'.$catalog_category_id;		
+		$catalog_category->text = 'text'.$catalog_category_id;
+		$catalog_category->level = $level;
+		$catalog_category->uri = 'category'.$this->category_uri;
+		try{			
+			$category_item = $catalog_category->save();
+			$this->catalog_category_id = $category_item->id;
+			Minion_CLI::write('id create - '.$category_item->id);
+			$this->category_uri++;
 		}
-		 catch (ORM_Validation_Exception $e)
+		catch (ORM_Validation_Exception $e)
 		{
-//			Minion_CLI::write(Kohana::message('product_variation', 'Validation::lt'));
-//			$errors = $extra_validation->errors('validation_', TRUE)	;	
-			$errors = $e->errors();		
-			foreach($errors as $key=>$value){
-				Log::instance()->add(Log::NOTICE, Debug::vars($value));//+ field				
-			}
-			Minion_CLI::write($errors);		
-			Log::instance()->add(Log::NOTICE, Debug::vars($e));//+ field			
-		}
+			$errors = $e->errors();
+			Minion_CLI::write($errors);
+			Log::instance()->add(Log::NOTICE, Debug::vars($errors));
+		} 
 	}
 	
+	protected function add_category($product_id=NULL, $catalog_category_id=NULL){
+		if($product_id){
+			try
+			{					
+				$query = DB::insert('product_categories_products',array('product_id', 'catalog_category_id'))
+					->values(array($product_id,$catalog_category_id));				
+					$query->execute();						
+				Minion_CLI::write('Create  product_categories_products  '.$product_id.' '.$catalog_category_id);
+				
+			}
+			catch (ORM_Validation_Exception $e)
+			{
+	//			Minion_CLI::write(Kohana::message('product_variation', 'Validation::lt'));
+	//			$errors = $extra_validation->errors('validation_', TRUE)	;	
+				$errors = $e->errors();		
+				foreach($errors as $key=>$value){
+					Log::instance()->add(Log::NOTICE, Debug::vars($value));//+ field				
+				}
+				Minion_CLI::write($errors);		
+				Log::instance()->add(Log::NOTICE, Debug::vars($e));//+ field			
+			}
+		}		
+	}	
 	
 	protected function product_reviews($product_id=1){
 		
@@ -244,16 +254,11 @@ class Task_Products extends Minion_Task {
 		
 	}
 	
-	protected function create_product($product_id=1,$photo_id=1){
-		
-		$products_orm = ORM::factory('Product');		
-	/* 	foreach($products_orm->find_all() as $item)
-		{
-			$item->delete();
-		} */
+	protected function create_product($product_id=1,$photo_id=1)
+	{
+		$products_orm = ORM::factory('Product');	
 		$products_orm->id = $product_id;
 		$products_orm->name = 'name products'.$product_id;
-
 		$products_orm->description = 'description '.$product_id;
 		$products_orm->primary_photo_id = $photo_id ;
 		$products_orm->uri = 'product'.$product_id;
@@ -272,24 +277,12 @@ class Task_Products extends Minion_Task {
 			$errors = $e->errors();
 			Minion_CLI::write($errors);
 			Log::instance()->add(Log::NOTICE, Debug::vars($errors));
-		}
-		
-	}
-	
-	protected function delete_product(){
-		$products_orm = ORM::factory('Product');		
-		foreach($products_orm->find_all() as $item)
-		{
-			$item->delete();
 		}		
 	}
 	
+		
 	protected function create_photo($product_id=1,$photo_id=1){
-		$photos = ORM::factory('Product_Photo');
-	/* 	foreach($photos->find_all() as $item)
-		{
-		   $item->delete();
-		} */
+		$photos = ORM::factory('Product_Photo');	
 		$photos->id = $photo_id;
 		$photos->product_id = (int) $product_id;
 		$photos->path_fullsize =  'media/img/1.jpg';
@@ -307,34 +300,16 @@ class Task_Products extends Minion_Task {
 			Log::instance()->add(Log::NOTICE, Debug::vars($errors));
 		}
 	}
-	protected function delete_photo(){
-		$photos = ORM::factory('Product_Photo');
-		foreach($photos->find_all() as $item)
-		{
-		   $item->delete();
-		}
-	}
+
 	
-	protected function delete_product_specification(){
-		$items = ORM::factory('Product_Specification');
-		foreach($items->find_all() as $item)
-		{
-		   $item->delete();
-		}
-	}
-	protected function delete_product_review(){
-		$items = ORM::factory('Product_Review');
-		foreach($items->find_all() as $item)
-		{
-		   $item->delete();
-		}
-	}
-	protected function delete_create_category(){
-		$items = ORM::factory('Product_Category');
-		foreach($items->find_all() as $item)
-		{
-		   $item->delete();
-		}
+	protected function clear_model($model=NULL){
+		if($model){
+			$items = ORM::factory($model);
+			foreach($items->find_all() as $item)
+			{
+			   $item->delete();
+			}			
+		}		
 	}
 	
 
