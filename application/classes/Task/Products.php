@@ -9,6 +9,7 @@ class Task_Products extends Minion_Task {
 	private $product_id;
 	private $photo_id;
 	private $products = array();
+	private $rating = 0;
 
 	protected function _execute(array $params)
 	{
@@ -26,13 +27,7 @@ class Task_Products extends Minion_Task {
 		$this->category_uri = 0;
 		$this->level = 0; 
 		
-
-		/* $this->delete_product();
-		$this->delete_photo();
-		$this->delete_product_specification();
-		$this->delete_product_review();
-		$this->delete_create_category(); */
-		
+				
 		$this->clear_model('Product');
 		$this->clear_model('Product_Photo');
 		$this->clear_model('Product_Specification');		
@@ -42,11 +37,13 @@ class Task_Products extends Minion_Task {
 			
 		$this->create_product($this->product_id,$this->photo_id);
 		$this->create_photo($this->product_id,$this->photo_id);
-		
-		
+		$this->product_reviews($this->product_id);
+		$this->create_variation($this->product_id);	
 		$this->product_id++;
 		
-		$this->create_product($this->product_id,$this->photo_id);		
+		$this->create_product($this->product_id,$this->photo_id);	
+		$this->product_reviews($this->product_id);
+		$this->create_variation($this->product_id);			
 		$this->product_id++;
 		
 		$this->create_catalog_category($this->catalog_category_id,0);	
@@ -61,7 +58,9 @@ class Task_Products extends Minion_Task {
 		$this->create_catalog_category($this->catalog_category_id,0);	
 		$this->create_catalog_category($this->catalog_category_id,1);
 		
-		$this->create_product($this->product_id,$this->photo_id);		
+		$this->create_product($this->product_id,$this->photo_id);
+		$this->product_reviews($this->product_id);		
+		$this->create_variation($this->product_id);	
 		$this->product_id++;
 		
 		$this->add_category(3, $this->catalog_category_id);//product_id catalog_category_id
@@ -148,24 +147,22 @@ class Task_Products extends Minion_Task {
 		}		
 	}	
 	
-	protected function product_reviews($product_id=1){
-		
+	protected function product_reviews($product_id=1)
+	{		
 		$model = 'Product_Review';
 		$orm = ORM::factory($model);
 		$orm->id = $product_id;	
 		$orm->product_id = $product_id;		
 		$orm->name = 'name '.$product_id;
-		$orm->rating = '2';		
+		$orm->rating = $this->rating;		
 		$orm->summary = 'summary'.$product_id;
 		$orm->body = 'body'.$product_id;
-		
+		$this->rating++;		
 
 		try
 		{			
-			$orm_id = $orm->save();			
-			Log::instance()->add(Log::NOTICE, Debug::vars($product_id));
-			Minion_CLI::write('id create  product_reviews- '.$orm_id->id);
-			
+			$orm_id = $orm->save();
+			Minion_CLI::write('id create  product_reviews- '.$orm_id->id);		
 		}
 		 catch (ORM_Validation_Exception $e)
 		{
@@ -175,14 +172,13 @@ class Task_Products extends Minion_Task {
 			foreach($errors as $key=>$value){
 				Log::instance()->add(Log::NOTICE, Debug::vars($value));//+ field				
 			}
-			Minion_CLI::write($errors);		
-//			Log::instance()->add(Log::NOTICE, Debug::vars($errors));//+ field			
+			Minion_CLI::write($errors);					
 		}
 	}
 	
 	
-	protected function product_specification($product_id=1){
-		
+	protected function product_specification($product_id=1)
+	{		
 		$model = 'Product_Specification';
 		$orm = ORM::factory($model);				
 //		$orm->id = 1;		
@@ -211,16 +207,16 @@ class Task_Products extends Minion_Task {
 			
 	}
 	
-	protected function create_variation($product_id=1){
-		
+	protected function create_variation($product_id=1)
+	{		
 		$model = 'Product_Variation';
 		$variation_orm = ORM::factory($model);
 //		$variation_orm->id = 1;
 		$variation_orm->product_id = $product_id;
 		$variation_orm->name = 'name variation '.$product_id;
-		$variation_orm->price = 10.00;
+		$variation_orm->price = $product_id * 10.00;
 		$variation_orm->sale_price = 8.00;
-		$variation_orm->quantity = 5;
+		$variation_orm->quantity = $product_id * 1;
 		$external_values= array();		
 		$extra_validation = Validation::factory($external_values);
 //		$extra_validation->bind(':model', $variation_orm);
@@ -249,9 +245,7 @@ class Task_Products extends Minion_Task {
 			}
 			Minion_CLI::write($errors);		
 //			Log::instance()->add(Log::NOTICE, Debug::vars($errors));//+ field			
-		}
-		
-		
+		}		
 	}
 	
 	protected function create_product($product_id=1,$photo_id=1)

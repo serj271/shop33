@@ -23,14 +23,13 @@ class Task_Cart extends Minion_Task {
 		$cart = Cart::instance();
 		$productId = 1;
 		$attributes = 'a';
-		$this->model = 'Shopping_Cart';
-		
+		$this->model = 'Shopping_Cart';		
 		$this->delete_item();
 		
 		$this->cart_id = md5(uniqid(rand(), true));
 		
 		
-		$shopping_cart = ORM::factory('Shopping_Cart');	
+		$shopping_cart = ORM::factory($this->model);	
 		$shopping_cart->cart_id = $this->cart_id;
 		$shopping_cart->product_id = 1; 
 		$shopping_cart->quantity = 2;
@@ -127,19 +126,7 @@ class Task_Cart extends Minion_Task {
 	}
 	
 	
-	
-	protected function create_photo($product_id=1,$photo_id=1){
 
-
-	}
-	protected function delete_photo(){
-
-	}
-	
-	protected function delete_product_review(){
-
-		
-	}
 	protected function delete_item(){		
 		$items = ORM::factory($this->model);		
 		foreach($items->find_all() as $item)

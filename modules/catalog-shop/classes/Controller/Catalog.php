@@ -38,16 +38,9 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 			
 			if (Kohana::find_file('classes', $view_path))
 			{			
-				$this->view = new $view_name();
-//				$this->view = new View_Admin_Index_Index();
-//				$view = new View_Admin_Auth_Login();
-//				Kohana::auto_load('Kostache');
-//				$renderer = Kostache::factory(); 
-//				$this->view = $renderer->render($view);
-				
+				$this->view = new $view_name();				
 			}
-//			list($view_name_navigator, $view_path_navigator) = static::find_view_navigator($this->request);
-	
+//			list($view_name_navigator, $view_path_navigator) = static::find_view_navigator($this->request);	
 //			if (Kohana::find_file('classes', $view_path_navigator))
 //			{			
 //				$this->view_navigator = new $view_name_navigator();

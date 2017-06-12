@@ -31,7 +31,11 @@ class Task_Getproducts extends Minion_Task {
 			$result[] = $products_as_array;
 //			$p = call_user_func(array('Task_Getproducts','addBase'),'tt');
 			$photo = Arr::map(array(array('Task_Getproducts','addBase')), $photo, array('path_fullsize','path_thumbnail'));
-			Log::instance()->add(Log::NOTICE, Debug::vars($photo));
+//			Log::instance()->add(Log::NOTICE, Debug::vars($product->reviews->find_all()[0]->as_array()));
+			$reviews = $product->reviews->find_all()[0]->as_array();
+			Minion_CLI::write($reviews);
+			$variations = $product->variations->find();
+			Minion_CLI::write('quantity - '.$variations->quantity);
 		}else {
 			$products = ORM::factory('Product')
 //						->where('id','=',$product->id)
@@ -57,7 +61,7 @@ class Task_Getproducts extends Minion_Task {
 
 	}
 	public static function addBase($url){
-		Minion_CLI::write(URL::base().$url);
+//		Minion_CLI::write(URL::base().$url);
 			return URL::base().$url;			
 	}
 	

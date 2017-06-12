@@ -7,7 +7,7 @@ return array(
     'default' => array(
         // source: "query_string" or "route"
         'current_page'      => array('source' => 'query_string', 'key'    => 'page'),
-        'total_items'       => 3,
+        'total_items'       => 10,
         'items_per_page'    => 1,
         'view'              => 'pagination/basic',
         'auto_hide'         => TRUE,

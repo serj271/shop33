@@ -64,13 +64,16 @@ class Controller_Catalog_Category extends Controller_Catalog {
 //		$this->response->body($renderer->render(new View_Test)); 
 //	    $internal_request=View::factory('welcome');
 		$config = Kohana::$config->load('pagination.default');
+		$count = $category->products
+				->count_all();
 			$pagination = Pagination::factory(array(
 				'items_per_page'=> $config['items_per_page'],
-				'total_items' 	=> $config['total_items'],
+				'total_items' 	=> $count,
 			))->route_params(array(
 				'directory' 	=> $this->request->directory(),
 				'controller' 	=> $this->request->controller(),
 				'action'		=> $this->request->action(),
+				'category_uri'	=> $uri,
 				'pole'			=>'id',
 				'view'			=> $config['view'],
 				));
@@ -94,12 +97,14 @@ class Controller_Catalog_Category extends Controller_Catalog {
 				$products_as_array['reviews'] = $reviews;
 				$link = $this->createLink($product->uri);
 				$products_as_array['link'] = $link;
+				$variations = $product->variations->find();
+				$products_as_array['variations'] = $variations;
 				$result[] = $products_as_array;	
 			}
 			$this->view->pagination = $pagination;
 			$this->view->products = $products;
 			$this->view->product = $result;
-//			Log::instance()->add(Log::NOTICE,Debug::vars('+++++++-----',$products_as_array));
+//			Log::instance()->add(Log::NOTICE,Debug::vars('+++++++-----',$products));
 
 
 	}

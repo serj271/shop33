@@ -22,12 +22,14 @@ abstract class Model_OZ_Product extends ORM {
 		),
 		'reviews' => array(
 			'model' => 'Product_Review',
+			'far_key'=> 'product_id',
 		),
 		'specifications' => array(
 			'model' => 'Product_Specification',
 		),
 		'variations' => array(
 			'model' => 'Product_Variation',
+			'far_key'=> 'product_id',
 		),
 	);
 
