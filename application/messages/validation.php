@@ -4,6 +4,6 @@ return array(
     'not_empty' => "Yo dawg, this field can't be empty!",
     'Validation::lt' => "[other message]",
     'text'=>array(
-	'not_empty'=>'text empty'
+	'not_empty'=>'text is empty'
     )
 );
