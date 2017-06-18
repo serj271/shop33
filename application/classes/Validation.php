@@ -12,7 +12,7 @@ class Validation extends Kohana_Validation {
     }
 	
     public function filters($name, $filters){
-		Log::instance()->add(Log::NOTICE, Debug::vars('model_commnets-',$name,$filters));
+//		Log::instance()->add(Log::NOTICE, Debug::vars('model_commnets-',$name,$filters));
 		/* return array(
 			TRUE	=>array(  // for all  fields
 				array('trim'),

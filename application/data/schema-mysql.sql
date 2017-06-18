@@ -191,14 +191,14 @@ CREATE TABLE `product_photos` (
 
 DROP TABLE IF EXISTS `shopping_cart`;
 CREATE TABLE `shopping_cart` (
-	`item_id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`cart_id` CHAR(32) NOT NULL,
 	`product_id` INT NOT NULL,
 	`attributes` VARCHAR(1000) NOT NULL,
 	`quantity` INT NOT NULL,
 	`buy_now` BOOL NOT NULL DEFAULT true,
 	`added_on` DATETIME NOT NULL,
-	PRIMARY KEY (`item_id`),
+	PRIMARY KEY (`id`),
 	KEY `product_id` (`product_id`),
 	KEY `idx_shopping_cart_cart_id` (`cart_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
@@ -234,6 +234,7 @@ END
 DELIMITER ;
 
 delimiter //
+DROP procedure IF EXISTS `total_orders`;
 create procedure total_orders (out total float)
 BEGIN
 	select sum(amount) into total from orders;
@@ -242,15 +243,18 @@ END
 delimiter ;
 
 delimiter //
+DROP function IF EXISTS `add_tax`;
 create function add_tax (price float) returns float
+DETERMINISTIC
 begin
 	declare tax float default 0.10;
-	return price*(1+tax);
+	return price*(1 + tax);
 end
 //
 delimiter ;
 
 delimiter //
+DROP procedure IF EXISTS `largest_order`;
 create procedure largest_order(out largest_id int)
 begin
 	declare this_id int;
@@ -258,8 +262,8 @@ begin
 	declare l_amount float default 0.0;
 	declare l_id int;
 	declare done int default 0;
-	declare continue handler for sqlstate ‘02000’ set done = 1;
-	declare c1 cursor for select orderid, amount from orders;
+	declare c1 cursor for select order_id, amount from orders;
+	declare continue handler for sqlstate '02000' set done = 1;	
 	open c1;
 	repeat
 	fetch c1 into this_id, this_amount;

@@ -118,20 +118,20 @@ class Controller_Product_Main extends Controller_Product {
 			throw new HTTP_Exception_404(':model with ID :id doesn`t exist!',
 				array(':model' => $this->_model, ':id' => $this->request->param('id')));
 
-			$lang = Lang::instance()->get();
-			if($lang == 'ru'){
-				I18n::lang('ru');	
-			} else {
-				I18n::lang('en-us');		
-			}
+//			$lang = Lang::instance()->get();
+//			if($lang == 'ru'){
+//				I18n::lang('ru');	
+//			} else {
+//				I18n::lang('en-us');		
+//			}
 		   /*  Message::error(__(':model with ID :id not exist!',
 				array(':model' => $this->_model, ':id' => $this->request->param('id'))));
 		$this->view_navigator->message = __(':model with ID :id not exist!',
 				array(':model' => $this->_model, ':id' => $this->request->param('id'))); */
-			$this->redirect($this->request->route()->uri(array(
-					'directory'		=> $this->request->directory(),
-					'controller' 	=> $this->request->controller(),					
-				)));
+//			$this->redirect($this->request->route()->uri(array(
+//					'directory'		=> $this->request->directory(),
+//					'controller' 	=> $this->request->controller(),					
+//				)));
 
 		}	
 

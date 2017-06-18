@@ -7,7 +7,7 @@ class Controller_Welcome extends Controller {
 //		$this->response->body('hello, world!');		
 //		$this->response->body($renderer->render(new View_Test)); 
 //	    $internal_request=View::factory('welcome');
-		Log::instance()->add(Log::NOTICE, 'okii');		
+//		Log::instance()->add(Log::NOTICE, 'okii');		
 		$filepath = $this->request->param('filepath');
 		$uid = $this->request->param('uid');
 

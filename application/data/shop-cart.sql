@@ -37,16 +37,16 @@ delimiter ;
 
 GRANT EXECUTE ON PROCEDURE shopping_cart_add_product TO 'user_db'@'localhost';
 
-DROP PROCEDURE IF EXISTS  shopping_cart_remove_product;
+DROP PROCEDURE IF EXISTS  shopping_cart_remove_product_to_cart;
 delimiter //
-CREATE PROCEDURE shopping_cart_remove_product(IN inItemId INT)
+CREATE PROCEDURE shopping_cart_remove_product_to_cart(IN inItemId INT)
 BEGIN
 	DELETE FROM shopping_cart WHERE id = inItemId;
 	SELECT 'ok';
 END
 //
 delimiter ;
-GRANT EXECUTE ON PROCEDURE shopping_cart_remove_product TO 'user_db'@'localhost';
+GRANT EXECUTE ON PROCEDURE shopping_cart_remove_product_to_cart TO 'user_db'@'localhost';
 
 
 DROP PROCEDURE IF EXISTS  shopping_cart_update;
@@ -64,10 +64,6 @@ END
 //
 delimiter ;
 GRANT EXECUTE ON PROCEDURE shopping_cart_update TO 'user_db'@'localhost';
-
-
-
-
 
 DROP PROCEDURE IF EXISTS  shopping_cart_get_products;
 delimiter //

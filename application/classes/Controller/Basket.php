@@ -12,6 +12,8 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 	 * @var	Kostache	View model
 	 */
 	public $view;
+	protected $mCartId;
+	protected $_model;
 	/**
 	config menu
 	*/
@@ -23,7 +25,11 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 	{
 		parent::before();
 		$session = Session::instance('native');
-//		Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));
+		Cart::SetCartId();
+//		
+//		$this->mCartId = $session->get('mCartId', false);	
+//		Log::instance()->add(Log::NOTICE,Debug::vars($session->get('mCartId', false)));
+		$this->mCartId = $session->get('mCartId', false);
 		// Set security headers
 		$this->response
 			->headers('x-content-type-options','nosniff')

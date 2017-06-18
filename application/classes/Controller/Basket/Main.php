@@ -13,8 +13,21 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 //		}
 //		$user = Auth::instance()->get_user();
 //		$this->view->username = $user->username;		
+		$results = Cart::GetProducts($this->mCartId);
+		$carts = array();
 		
-//	Log::instance()->add(Log::NOTICE,Debug::vars(Auth::instance()->get_user_roles()));
+		foreach($results as $result){
+			$carts[] =  $result;							
+		}
+		$results = Cart::GetTotalAmount($this->mCartId);
+		$total_amount = $results[0]['total_amount'];
+//		Log::instance()->add(Log::NOTICE, Debug::vars($carts));
+		
+		$this->view->carts = $carts;//id, cart_id, name from variontion, attributes, price, quantity, subtotal, uri 
+		$this->view->items = $carts;//id, cart_id, name from variontion, attributes, price, quantity, subtotal, uri 
+		$this->view->total_amount = $total_amount;
+		
+		
 //		$this->template->content = Message::display();
 //    Log::instance()->add(Log::NOTICE, Route::url('admin'));
 //    $this->request->redirect('admin/news');
@@ -43,13 +56,13 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 			->find_all(); */
 		
 //		$cart_model = ORM::factory($this->_model,1);
-		$session = Session::instance('native');			
-//		Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));	
+		/* $session = Session::instance('native');			
+		Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));	
 		$mCartId = $session->get('mCartId', false);	
 		if($mCartId){
 			$items = Cart::GetProducts($mCartId);				
 			$this->view->items 		= $items;			
-		}
+		} */
 //		$cart_id = Cart::GetCartId();
 //		$items = Cart::GetProducts($cart_id);	
 			

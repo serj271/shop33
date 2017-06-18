@@ -21,7 +21,7 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 				array(':controller' => $this->request->controller()));
 		}
 		
-		// If there is no action specific view, use the CRUD default
+//		If there is no action specific view, use the CRUD default
 		if ($this->auto_view === TRUE and ! $this->view)
 		{
 			list ($view_name, $view_path) = static::find_view($this->request);
@@ -31,14 +31,21 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 				$this->view = new $view_name();
 			}
 		}
-		
-		// If view has been detected/specified already, pass required vars to it
+		/* Log::instance()->add(Log::NOTICE,Debug::vars('uri',Request->route()->uri(array(
+			'directory'=>'Product',
+			'controller'=>'Main',
+			'action'=>'read',
+			'item_uri'=>'product1'		
+		)
+		))); */
+//		If view has been detected/specified already, pass required vars to it
 		if ($this->view)
 		{
 			$this->view->action 	= $this->request->action();			
 			$this->view->controller = $this->request->controller();		
 			$this->view->directory 	= $this->request->directory();		
 			$this->view->model 		= $this->_model;
+			$this->view->mCartId = $this->mCartId;
 		}
 		if ($this->view_navigator)
 		{
@@ -80,36 +87,52 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 	 * Action for creating a single record
 	 */
 	public function action_create()
-	{
-		$item = ORM::factory($this->_model);
-
+	{		
+		$id = $this->request->param('id');
+		$product = ORM::factory('Product', $id);
 		
+		if ($this->request->method() === Request::GET && !$product->loaded())
+		{
+			throw new HTTP_Exception_404(ucfirst('product').' doesn`t exist: :id', 
+				array(':id' => $this->request->param('id')));
+		}
+		$item = ORM::factory($this->_model);
+		$item->cart_id =  $this->mCartId;
+		$item->product_id = $product->id;
+		$item->quantity = 1;
+//		$item->attributes = '';
 		if ($this->request->method() === Request::POST)
 		{
-			$validation = Validation::factory($this->request->post())
+			$validation = Validation::factory(Arr::merge($this->request->post(), $item->as_array()))
 				->rule('token','not_empty')
-				->rule('token','Security::check');
-				
+				->rule('token','Security::check')
+				->rules('cart_id',$item->rules()['cart_id'])
+				->rules('product_id',$item->rules()['product_id']);
+//			->rules('cart_id',array(array('not_empty'),array('digit')))		
+			
+			if($validation->check()){
+				Cart::AddProduct($this->mCartId,$product->id, '');//create shopping_cart cart_id product_id attributes
+				$this->redirect(strtolower($this->request->directory()),303);
+			} else {
+				Log::instance()->add(Log::NOTICE, Debug::vars($validation->errors()));//validation		
+//				$this->view->errors = $e->errors('models', TRUE);//'models' -> directory message file -> alias name model shopping_cart				
+			}
+			/* 
 			try
 			{
 				$item->values($this->request->post());
-				$code = md5(uniqid(rand(),true));
-				$code = substr($code,0,64);	    
-				$item->one_password = $code;		
-				$item->create($validation);
-					
-				$this->redirect($this->request->route()->uri(array(
-					'controller' 	=> $this->request->controller(),					
-				)));
+//				Log::instance()->add(Log::NOTICE, Debug::vars($this->request->post()));	
 			}
 			catch (ORM_Validation_Exception $e)
 			{
-				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors('validation')));
-				$this->view->errors = $e->errors('models/user');
-			}
+//				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors()));//validation				
+			} */
 		}
-//		Log::instance()->add(Log::NOTICE,Debug::vars($item));			
+		
 		$this->view->item = $item;
+		$this->view->product_id = $id;			
+		$this->view->product = $product;
+//		Log::instance()->add(Log::NOTICE, Debug::vars($product_item));//validation	
 	}
 	
 	/**

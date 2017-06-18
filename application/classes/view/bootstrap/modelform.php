@@ -13,7 +13,7 @@ class View_Bootstrap_ModelForm extends View_Bootstrap_Form {
 	/**
 	 * @var	array	Columns to use as name for remote relations
 	 */
-//	protected $_name_columns = array('name','title','username','email');
+	protected $_name_columns = array();
 
 	/**
 	 * @var	string	Model fields are currently loaded for (object_name)
@@ -99,7 +99,6 @@ class View_Bootstrap_ModelForm extends View_Bootstrap_Form {
 			unset($columns[$updated['column']]);
 		}
 		foreach ($this->_includables as $includable){
-//		    Log::inctance()->add(log::NOTICE , Debug::vars($includabe));
 		    if(isset($columns[$includable])){
 			unset($columns[$includable]);
 		    }

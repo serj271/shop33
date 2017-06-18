@@ -35,11 +35,12 @@ class View_Product_Main_Read {
 			),
 			array(
 				'class' => 'large error',
-				'text' => 'Delete',
-				'url' => Route::url('useradmin', array(
-					'controller' 	=> $this->controller,
-					'action' 		=> 'delete',
-//					'id' 			=> $this->item->id,
+				'text' => 'Add shop cart',
+				'url' => Route::url('basket', array(
+					'directory'	=>'Basket',
+					'controller' 	=> 'index',
+					'action' 		=> 'create',
+					'id' 			=> $this->item->id,
 				)),
 			),
 		);

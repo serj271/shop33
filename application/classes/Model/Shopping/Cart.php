@@ -22,12 +22,17 @@ class Model_Shopping_Cart extends ORM_Base {
 //		'name'              => array('type' => 'string'),
 		'attributes'       => array('type' => 'string'),
 		'product_id'  => array('type' => 'int'),
-		'cart_id'  => array('type' => 'int'),
-//		'avg_review_rating' => array('type' => 'float'),
+		'cart_id'  => array('type' => 'string'),
+		'added_on' => array('type' => 'string'),
 		'quantity'           => array('type' => 'int'),
-//		'uri'           	=> array('type' => 'string'),
+		'buy_now'           	=> array('type' => 'string'),
 
 	);
+//	public function list_columns(){
+//	    return array(
+//		'product_id'=>'product_id'
+//	    );	
+//	} 
 
 	/**
 	 * Return the primary product photo
@@ -47,10 +52,14 @@ class Model_Shopping_Cart extends ORM_Base {
 	public function labels()
 	{
 		return array(
-			'cart_id' => 'Cart',
-			'product_id' => 'Product',
-			'quantity' => 'Quantity',
+			'cart_id' => __('Cart'),
+//			'product_id' => 'Product',
+			'quantity' => __('Quantity'),
 			'price' => 'Price',
+			'attributes' => __('Attributes'),
+			'name'=> __('Product'),
+			'subtotal'=> __('Subtotal'),
+			'total_amount'=> __('Total Amount'),
 //			'discount' => 'Discount',
 		);
 	}
@@ -71,7 +80,7 @@ class Model_Shopping_Cart extends ORM_Base {
 			),
 			'cart_id' => array(
 				array('not_empty'),
-				array('digit'),
+				array('alpha_numeric'),
 			),
 
 			'quantity' => array(
@@ -79,7 +88,7 @@ class Model_Shopping_Cart extends ORM_Base {
 				array('digit'),
 			),
 			'attributes' => array(
-				array('not_empty')
+//				array('not_empty')
 			
 			),
 //			'price' => array(

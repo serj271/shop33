@@ -136,13 +136,12 @@ abstract class Model_Cart extends Model
 	}
 	
 	public static function MoveProduct($inItemId){
-		$query = "CALL shopping_cart_move_product_to_cart(:id)";
+		$query = "CALL shopping_cart_remove_product_to_cart(:id)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':id'=>$inItemId,
 		))->execute();		
 	}
-	
-	
+		
 	public static function AddProduct($cart_id,$product_id, $attributes){
 		$query = "CALL shopping_cart_add_product(:cart_id, :product_id, :attributes)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
