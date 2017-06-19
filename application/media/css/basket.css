@@ -17,7 +17,7 @@ td,th {
     border-left: 5px solid #369;
 }
 
-caption{
+.caption{
     padding: 20px 0;
     font: italic 30px 'palatino linotype', 'book antiqua', serif;
 }

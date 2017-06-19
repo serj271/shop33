@@ -21,7 +21,7 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 		}
 		$results = Cart::GetTotalAmount($this->mCartId);
 		$total_amount = $results[0]['total_amount'];
-//		Log::instance()->add(Log::NOTICE, Debug::vars($carts));
+//		Log::instance()->add(Log::NOTICE, Debug::vars($carts,$this->mCartId));
 		
 		$this->view->carts = $carts;//id, cart_id, name from variontion, attributes, price, quantity, subtotal, uri 
 		$this->view->items = $carts;//id, cart_id, name from variontion, attributes, price, quantity, subtotal, uri 
@@ -130,20 +130,61 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 			throw new HTTP_Exception_404(ucfirst($this->_model).' doesn`t exist: :id', 
 				array(':id' => $this->request->param('id')));
 		}
-//		Cart::DeleteShoppingCart( $this->request->param('id'));
-//		Log::instance()->add(Log::NOTICE,'delete '.$this->request->param('id'));
+		
 		if ($this->request->method() === Request::POST)
 		{
-	
-				
-			$this->redirect(Route::get('basket')->uri(array(
-					'action'     => 'index',					
-				)));
-
-	
+			if($post = $this->request->post()){
+				$post = array_map('trim', $post);
+				$last_input = Arr::extract($post, array('action'), NULL);
+				if($last_input['action'] == 'yes'){
+//					Log::instance()->add(Log::NOTICE,Debug::vars('delete yes',$last_input,$this->request->param('id')));
+					Cart::DeleteShoppingCart( $this->request->param('id'));
+				}
+			}
+//			$this->redirect(strtolower($this->request->directory()),303);	
+			$this->redirect($this->request->route()->uri(array(
+					'directory'		=> $this->request->directory(),
+					'controller' 	=> $this->request->controller(),
+					'action'		=>'index',
+				)));	
 		}		
+		$login = View::factory('user/menulogout');
+		$this->template->menu=$login;
+	}
 	
+	public function action_update()
+	{
+		$item = ORM::factory($this->_model, $this->request->param('id'));
 		
+		if ( ! $item->loaded())
+			throw new HTTP_Exception_404(ucfirst($this->_model).' doesn`t exist: :id', 
+				array(':id' => $this->request->param('id')));
+			
+		if ($this->request->method() === Request::POST)
+		{
+			$validation = Validation::factory($this->request->post())
+				->rule('token','not_empty')
+				->rule('token','Security::check');
+				
+			try
+			{
+				$item->values($this->request->post());
+				$item->logins = 0;					
+				$item->update($validation);
+//				Log::instance()->add(Log::NOTICE, Debug::vars(Route::get('useradmin')));
+//				$this->redirect('/');
+
+				$this->redirect($this->request->route()->uri(array(
+					'controller' 	=> $this->request->controller(),
+					'action'		=> 'read',
+					'id'			=> $item->id,
+				)));
+			}
+			catch (ORM_Validation_Exception $e)
+			{
+				$this->view->errors = $e->errors('validation');
+			}
+		}			
 		$login = View::factory('user/menulogout');
 		$this->template->menu=$login;
 	}

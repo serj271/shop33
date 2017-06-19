@@ -103,6 +103,7 @@ BEGIN
 	UPDATE shopping_cart
 	SET buy_now = false, quantity = 1
 	WHERE id = inItemId;
+	SELECT 'ok';
 END
 //
 delimiter ;
@@ -117,6 +118,7 @@ BEGIN
 	UPDATE shopping_cart
 	SET buy_now = true, added_on = NOW()
 	WHERE id = inItemId;
+	SELECT 'ok';
 END
 //
 delimiter ;

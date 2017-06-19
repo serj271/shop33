@@ -31,16 +31,23 @@ class View_Basket_Index {
 		return ucfirst(Inflector::plural($this->model()));
 	} 
 	
-	public function create_button()
+	public function options()
 	{
 		return array(
-			'url' => Route::url('useradmin', array(
-				'controller' 	=> $this->controller,
-				'action'		=> 'create',
-			)),
-			'text' => 'Create  new id to '.$this->model(),
+			'read' => array(
+				'class' 	=> 'btn primary',
+				'text' 		=> __('Decrement'),
+			),
+			'update' => array(
+				'class' 	=> 'btn success',
+				'text' 		=> __('Increment'),
+			),
+			'delete' => array(
+				'class' 	=> 'btn danger',
+				'text' 		=> __('Delete'),
+			),
 		);
-	} 	
+	}
 
 	public function buttons()
 	{
@@ -91,12 +98,31 @@ class View_Basket_Index {
 											
 				$item = Arr::map(array(array(__CLASS__,'addBase')), $item, array('uri'));//replace uri
 				// Push data to the rows array
+
+				$options = array();
+				
+				foreach ($this->options() as $action => $details)
+				{
+					$options[] = array(
+						'class' => $details['class'],
+						'text' 	=> $details['text'],
+						'url'	=> Route::url('basket', array(
+							'directory'		=> $this->directory,
+							'controller' 	=> $this->controller,
+							'action'		=> $action,
+							'id'			=> $item['id'],
+						)),
+					);
+				}
 				$result['rows'][] = array(
 					'item'		=> $item,
 					'total_amount'	=> $this->total_amount,
-//					'options' 	=> $options,
+					'options' 	=> $options,
 //					'values' 	=> $values,
 				);
+
+
+
 			}
 		}
 		$labels = ORM::factory($this->model)->labels();
@@ -107,7 +133,7 @@ class View_Basket_Index {
 		} */
 		$this->_labels = $labels;
 		$result['labels'] = $labels;
-//		Log::instance()->add(Log::NOTICE, Debug::vars('result',$result));
+		Log::instance()->add(Log::NOTICE, Debug::vars('result',$result));
 		return $this->_result = $result;
 		
 	}
@@ -118,7 +144,7 @@ class View_Basket_Index {
 	
 
 	public function repo(){
-		return array('name'=>'repo');
+		return array('name'=>'repo33');
 		
 	}
 
@@ -134,8 +160,12 @@ class View_Basket_Index {
 			return URL::base().'product/read/'.$url;			
 	} 
 	
-	
-	
+	public function in_ca(){
+	    return $this->total_amount > 0;
+	}
+	public function message_empty_shopping_cart(){
+	    return __("Your shopping cart is empty");
+	}
 	
 	
 

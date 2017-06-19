@@ -76,7 +76,7 @@ class Task_ShoppingCart extends Minion_Task {
 			foreach($results as $result){
 				$id = $result['id'];//get cart_id name attributes, subtotal uri
 				Minion_CLI::write('id GetProducts - price'.$result['price'].'quantity'.$result['quantity'].'subtotal'.$result['subtotal']);				
-//				Log::instance()->add(Log::NOTICE, Debug::vars($result));			
+				Log::instance()->add(Log::NOTICE, Debug::vars($result));			
 			}	
 			
 			$results = Cart::SaveProduct($this->cart_id);

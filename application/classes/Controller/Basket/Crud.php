@@ -114,7 +114,7 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 				Cart::AddProduct($this->mCartId,$product->id, '');//create shopping_cart cart_id product_id attributes
 				$this->redirect(strtolower($this->request->directory()),303);
 			} else {
-				Log::instance()->add(Log::NOTICE, Debug::vars($validation->errors()));//validation		
+//				Log::instance()->add(Log::NOTICE, Debug::vars($validation->errors()));//validation		
 //				$this->view->errors = $e->errors('models', TRUE);//'models' -> directory message file -> alias name model shopping_cart				
 			}
 			/* 
