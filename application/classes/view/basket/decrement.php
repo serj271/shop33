@@ -2,7 +2,7 @@
 /** 
  * Generic (U)PDATE view model - for single record
  */
-class View_Basket_Update {
+class View_Basket_Decrement {
 	public $item;
 	public $model;
 
@@ -15,8 +15,8 @@ class View_Basket_Update {
 	{
 		return 'Update '.$this->model().' #'.$this->item->id;
 	} */
-	public function increment(){
-		return $this->item->quantity +1;
+	public function updated_value(){
+		return $this->item->quantity > 0 ? $this->item->quantity -1 : 0;
 	}
 	
 	public function token(){

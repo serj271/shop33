@@ -34,11 +34,11 @@ class View_Basket_Index {
 	public function options()
 	{
 		return array(
-			'read' => array(
+			'decrement' => array(
 				'class' 	=> 'btn primary',
 				'text' 		=> __('Decrement'),
 			),
-			'update' => array(
+			'increment' => array(
 				'class' 	=> 'btn success',
 				'text' 		=> __('Increment'),
 			),

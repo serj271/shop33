@@ -79,7 +79,7 @@ class Task_ShoppingCart extends Minion_Task {
 				Log::instance()->add(Log::NOTICE, Debug::vars($result));			
 			}	
 			
-			$results = Cart::SaveProduct($this->cart_id);
+			$results = Cart::SaveProduct($id);//id
 			Minion_CLI::write('SaveProduct ');
 			$results = Cart::GetTotalAmount($this->cart_id);
 			$total_amount = $results[0]['total_amount'];

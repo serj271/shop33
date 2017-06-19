@@ -99,13 +99,7 @@ abstract class Model_Cart extends Model
 			':attributes'=>$attributes,
 		))->execute();
 	} */
-	public static function DeleteShoppingCart($id){
-		$query = "call shopping_cart_remove_product(:inItemId)";
-		return DB::query(Database::SELECT, $query)->parameters(array(
-			':inItemId'=>$id,					
-		))->execute();	
-	}
-	
+		
 	public static function UpdateProduct($id,$inQuantity){
 		$query = "call shopping_cart_update(:inItemId,:inQuantity)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
@@ -135,7 +129,7 @@ abstract class Model_Cart extends Model
 		))->execute();		
 	}
 	
-	public static function MoveProduct($inItemId){
+	public static function MoveProduct($inItemId){//delete cart from shopping cart to id
 		$query = "CALL shopping_cart_remove_product_to_cart(:id)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':id'=>$inItemId,

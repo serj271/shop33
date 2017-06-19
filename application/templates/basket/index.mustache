@@ -11,56 +11,12 @@
 </p>
 
 {{#in_ca}}
-	<table class="table-bordered">
-		<caption class="caption"><span class="text-info"> {{caption}} </span></caption>
-		<colgroup>
-		<col span="4" width="200">
-		</colgroup>
-		<thead>
-			{{#labels}}
-			<tr>
-				<th>{{name}}</th>
-				<th>{{price}}</th>
-				<th>{{quantity}}</th>
-				<th>{{subtotal}}</th>
-				
-			</tr>
-			{{/labels}}
-		</thead>
-		<tbody>
-	   {{#carts}}
-			<tr>
-				<td>
-					{{name}}
-				</td>
-				<td class="text-center">
-					{{price}}
-				</td>
-				<td>
-					{{quantity}}
-				</td>
-				<td> 
-					{{subtotal}}
-				</td>
-				
-				
-			</tr>
-		{{/carts}}
-		<tr>
-			<td colspan="3" >Total</td>
-			<td>{{total_amount}}</td>
-		</tr>
-		</tbody>
-	</table>
-
-
-
-
 <table class="table-bordered">
 	<caption class="caption"><span class="text-info"> {{caption}} </span></caption>
 	<colgroup>
-	<col span="4" width="200">
-	<col span="1" width="600">
+	<col span="1" width="200">
+	<col span="3" width="50">
+	<col span="1" width="300">
 	</colgroup>
 	{{#result}}
 	<thead>
