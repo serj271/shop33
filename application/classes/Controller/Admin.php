@@ -27,7 +27,7 @@ abstract class Controller_Admin extends Controller_Common_Admin {
 		if ($this->auto_view === TRUE)
 		{
 			list($view_name, $view_path) = static::find_view($this->request);
-			
+Log::instance()->add(Log::NOTICE, Debug::vars($view_name, $view_path));			
 			if (Kohana::find_file('classes', $view_path))
 			{			
 				$this->view = new $view_name();
@@ -135,14 +135,13 @@ abstract class Controller_Admin extends Controller_Common_Admin {
 		$request->directory() and array_push($view_name, $request->directory(), $request->controller());
 		
 		// Append controller and action name to the view name array
-		array_push($view_name, 'navigator');
+		array_push($view_name, 'Navigator');
 		
 		// Merge all parts together to get the class name
 		$view_name = implode('_', $view_name);
 		
 		// Get the path respecting the class naming convention
 		$view_path = strtolower(str_replace('_', '/', $view_name));
-//		Log::instance()->add(Log::NOTICE, 'navig'.$view_name.$view_path);		
 		return array($view_name, $view_path);
 	}
 

@@ -246,18 +246,24 @@ Route::set('useradmin', 'useradmin(/<controller>(/<action>(/<id>)))',array('id'=
 		'controller' => 'main',
 		'action'     => 'index',
 	));
-
+/* 
 Route::set('adminmodel', 'admin(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
 	->defaults(array(
 		'directory' =>'admin',
 		'controller' => 'main',
 		'action'     => 'index',
-	));
+	)); */
 	
 Route::set('basket', 'basket(/<action>(/<id>))',array('id'=>'[0-9]+'))
 	->defaults(array(
 		'directory' =>'basket',
 		'controller' => 'main',
+		'action'     => 'index',
+	));
+Route::set('admin/basket', 'admin/basket(/<action>(/<id>))',array('id'=>'[0-9]+'))
+	->defaults(array(
+		'directory' =>'admin',
+		'controller' => 'basket',
 		'action'     => 'index',
 	));
 /*

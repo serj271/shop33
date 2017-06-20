@@ -12,7 +12,7 @@ class View_Admin_Main_Index {
 
 
     public function message(){
-	return 'Hello admin';	
+	return 'Hello admin22';	
 
     }   
 

@@ -6,7 +6,6 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';
     public function action_index(){
-//		Session::instance('database');
 //		if (!Auth::instance()->logged_in('login')){
 //		
 //			$this->redirect('user/auth/login');
