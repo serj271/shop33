@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class View_Admin_Basket_Index {
+class View_Admin_Product_Index {
     public function message(){
 		return 'Hello useradmin';	
     }   
@@ -11,7 +11,7 @@ class View_Admin_Basket_Index {
 	/**
 	 * @var	array	Field names to create table columns out of
 	 */
-	protected $_includables = array('cart_id','product_id','quantity','added_on','buy_now');//for display columns from table
+	protected $_includables = array('name','description','uri','avg_review_rating','visible', 'primary_photo_id');//for display columns from table
 //	protected $_includables = array('username','email');		
 	/**
 	 * @var	array	Mustache template
@@ -176,8 +176,8 @@ class View_Admin_Basket_Index {
 					$options[] = array(
 						'class' => $details['class'],
 						'text' 	=> $details['text'],
-						'url'	=> Route::url('admin/basket', array(
-							'directory'		=> $this->directory,
+						'url'	=> Route::url('admin/product', array(
+							'directory'	=> $this->directory,
 							'controller' 	=> $this->controller,
 							'action'		=> $action,
 							'id'			=> $item->id,

@@ -5,12 +5,7 @@ class Controller_Product_Main extends Controller_Product {
 	protected $_model = 'Product';
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';
-    public function action_index(){
-		/* $cart = Cart::SetCartId();
-		Log::instance()->add(Log::NOTICE,Debug::vars(Cart::GetCartId()));	 */
-//		$cart = Cart::instance();
-//		$content = $cart->content;
-//		$session = Session::instance();
+    public function action_index(){		
 //		Log::instance()->add(Log::NOTICE,Debug::vars($this->_mCartId));
 //		if (!Auth::instance()->logged_in('login')){		
 //			$this->redirect('user/auth/login');
@@ -20,7 +15,7 @@ class Controller_Product_Main extends Controller_Product {
 		$item_uri = $this->request->param('item_uri');
 		$model = 'Product';
 		$result = array();
-
+//		Log::instance()->add(Log::NOTICE,Debug::vars('result----',$item_uri));
 		if($item_uri)
 		{
 			$products_orm = ORM::factory($model)
@@ -41,12 +36,10 @@ class Controller_Product_Main extends Controller_Product {
 			$this->view->product = $result;
 //						$content_view->product = $result;					
 //						$content = $renderer->render($content_view);												
-//						$this->template->content = $content;
-						
+//						$this->template->content = $content;						
 //						Log::instance()->add(Log::NOTICE,Debug::vars('result----',$controller));						
 		} else 
-		{	
-
+		{
 			$pagination = Pagination::factory(array(
 				'items_per_page'=> 1,
 				'total_items' 	=> 3,
@@ -78,40 +71,17 @@ class Controller_Product_Main extends Controller_Product {
 				$result[] = $products_as_array;	
 			}
 			$this->view->pagination = $pagination;
-			$this->view->product = $result;
-//			Log::instance()->add(Log::NOTICE,Debug::vars('+++++++-----',$products_as_array));
-//			$this->view = $result;
-//						Log::instance()->add(Log::NOTICE,Debug::vars('+++++++',$pagination->render()));
-//						$content_view->product = $result;
-//						$content_view->pagination = $pagination->render();
-//						$content = $renderer->render($content_view);		
-//											
-//						$this->template->content = $content;
-						
+			$this->view->items = $products_orm;
+//			$this->view->product = $result;
 		} 
-		
-
-	
-//		$this->view->test = 'Test ---';
-//		$this->template->content = Message::display();
-//    Log::instance()->add(Log::NOTICE, Route::url('admin'));
-//    $this->request->redirect('admin/news');
-//    $this->response->body('admin');
-//		$login = View::factory('user/menulogout');
-//		$this->template->menu=$login;
     }
 	
 	public function action_read()
 	{
-//		Session::instance();
-//		Log::instance()->add(Log::NOTICE,Debug::vars($this->_mCartId));
 		$item_uri = $this->request->param('item_uri');
 		$item = ORM::factory($this->_model)
 			->where('uri','=',$item_uri)
-			->find();
-			
-
-//		Log::instance()->add(Log::NOTICE,Debug::vars(Cart::GetCartId()));
+			->find();			
 		
 		if ( ! $item->loaded())
 		{

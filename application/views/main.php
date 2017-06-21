@@ -60,7 +60,7 @@
 
 </div>
 
-
+<?php echo $captcha; ?>  
 
 <!--[if IE]>
     <script type="text/javascript">

@@ -217,8 +217,7 @@ Route::set('home', '(/<action>/(<pole>(/<id>(/<overflow>))))')
 
 Route::set('product', 'product(/<action>(/<item_uri>))', array(
 	'item_uri'=>'.*'
-))
-	->defaults(array(
+	))->defaults(array(
 		'directory' =>'product',
 		'controller' => 'main',
 		'action'     => 'index',
@@ -266,6 +265,13 @@ Route::set('admin/basket', 'admin/basket(/<action>(/<id>))',array('id'=>'[0-9]+'
 		'controller' => 'basket',
 		'action'     => 'index',
 	));
+Route::set('admin/product', 'admin/product(/<action>(/<id>))',array('id'=>'[0-9]+'))
+	->defaults(array(
+		'directory' =>'admin',
+		'controller' => 'product',
+		'action'     => 'index',
+	));	
+	
 /*
 Route::set('blog/stats', 'blog/stats/<action>(/<limit>)', array(
 		'limit' => '\d+',

@@ -59,6 +59,7 @@ abstract class Controller_Product extends Controller_Common_Product {
 		if ($this->view)
 		{
 			$this->view->action 	= $this->request->action();			
+			$this->view->directory = $this->request->directory();		
 			$this->view->controller = $this->request->controller();		
 			$this->view->action 	= $this->request->directory();		
 			$this->view->model 		= $this->_model;

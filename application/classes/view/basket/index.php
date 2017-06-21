@@ -12,6 +12,7 @@ class View_Basket_Index {
 	
 	public $carts;
 
+	public $referer;
 //	protected $_includables = array('cart_id','name','quantity','attributes','price','subtotal');//for display columns from table
 		
 	public $items;	
@@ -27,7 +28,6 @@ class View_Basket_Index {
 
 	public function headline()
 	{
-//		Log::instance()->add(Log::NOTICE, Debug::vars($this->model(),$this->model));
 		return ucfirst(Inflector::plural($this->model()));
 	} 
 	
@@ -133,9 +133,8 @@ class View_Basket_Index {
 		} */
 		$this->_labels = $labels;
 		$result['labels'] = $labels;
-		Log::instance()->add(Log::NOTICE, Debug::vars('result',$result));
-		return $this->_result = $result;
-		
+//		Log::instance()->add(Log::NOTICE, Debug::vars('result',$result));
+		return $this->_result = $result;		
 	}
 
 	public function labels(){
@@ -155,8 +154,7 @@ class View_Basket_Index {
 		return __('Shop Cart');
 	}
 
-	public static function addBase($url){
-		
+	public static function addBase($url){		
 			return URL::base().'product/read/'.$url;			
 	} 
 	
@@ -166,6 +164,29 @@ class View_Basket_Index {
 	public function message_empty_shopping_cart(){
 	    return __("Your shopping cart is empty");
 	}
+
+
+	public function backwards_message(){
+	    return __('backwards');
+	}
+
+	public function message_to_product(){
+	    return __('To product');
+	}
+
+	public function to_product(){
+			return	array(
+				'class' => 'large',
+				'text' => __('To product'),
+				'url' => Route::url('product', array(
+//					'directory' =>'user',
+					'controller' => 'main',
+					'action' 	=> 'index',
+				)),
+			);
+
+	}
+
 	
 	public function bolder()
 	{
@@ -173,6 +194,7 @@ class View_Basket_Index {
 			return '<b>'.call_user_func($renderer, $text).'</b>';
 		};
 	}
+
 
 	
 }

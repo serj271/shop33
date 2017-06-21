@@ -18,10 +18,9 @@ abstract class Controller_Admin extends Controller_Common_Admin {
 		$this->response
 			->headers('x-content-type-options','nosniff')
 			->headers('x-frame-options','SAMEORIGIN')
-			->headers('x-xss-protection','1; mode=block');
-			
+			->headers('x-xss-protection','1; mode=block');			
 		// Check if user is allowed to continue
-		static::check_permissions($this->request);
+//		static::check_permissions($this->request);
 		
 		// Automatically figure out the ViewModel for the current action 
 		if ($this->auto_view === TRUE)
@@ -33,8 +32,7 @@ Log::instance()->add(Log::NOTICE, Debug::vars($view_name, $view_path));
 				$this->view = new $view_name();
 			}
 			list($view_name_navigator, $view_path_navigator) = static::find_view_navigator($this->request);
-//Log::instance()->add(Log::NOTICE, Debug::vars($view_name_navigator, $view_path_navigator));
-
+Log::instance()->add(Log::NOTICE, Debug::vars($view_name_navigator, $view_path_navigator));
 			if (Kohana::find_file('classes', $view_path_navigator))
 			{			
 				$this->view_navigator = new $view_name_navigator();

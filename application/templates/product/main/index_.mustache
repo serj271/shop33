@@ -1,13 +1,26 @@
-<div class="page-header">
-	<h1>{{headline}}</h1>
-</div>
+<div id="result">
+<h1>Welcome, {{username}}
+{{^ username }}
+  Guest
+{{/ username }}!
 
-{{# value}}	
+</h1>
+
+{{test}}
+
+<div class="well">
+	{{#buttons}}
+	<a class="btn {{class}}" href="{{url}}">{{text}}</a>
+	{{/buttons}}
+</div>
+ 
+
+{{# product}}	
     {{{name}}
-    {{# photos}}
+    {{# photo}}
 	<img src={{path_fullsize}} />
 	{{path_fullsize}}
-    {{/ photos}}
+    {{/ photo}}
 		{{# specifications}}
 			<p>
 				specification name <a href="{{link}}" > {{name}} </a>
@@ -34,17 +47,8 @@
 		</p>
 		
 		{{/ reviews}}
-		{{# variations}}
-			<p>
-				price {{price}}
-			</p>
-			<p>
-				quantity {{quantity}}
-			</p>
-		{{/ variations}}
-		
-{{/ value}}
+{{/ product}}
+{{{pagination}}}
+ 
 
-{{{form}}}
-<a href="{{referer}}" class="btn primary"/>{{backwards_message}}</a>
-
+</div>

@@ -12,10 +12,7 @@ class Controller_Welcome extends Controller {
 		$uid = $this->request->param('uid');
 
 		$cfs_file = Kohana::find_file('media', $filepath, FALSE);
-		Log::instance()->add(Log::NOTICE, Debug::vars($filepath, $cfs_file));
-
-
-
+//		Log::instance()->add(Log::NOTICE, Debug::vars($filepath, $cfs_file));
 
 	    $current_route = $this->request->route();
 	    $controller = $this->request->controller(); //welcome
@@ -71,6 +68,7 @@ class Controller_Welcome extends Controller {
 		$decrypted_string = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $secret_key, $encrypted_string, MCRYPT_MODE_CBC, $iv);
 		echo $decrypted_string ;
 		
+
 		$iv = 'aa';
 		echo "</br>";
 		echo  substr(base64_decode(base64_encode($iv.'99')), 0 ,strlen($iv)).'</br>';
@@ -88,8 +86,9 @@ class Controller_Welcome extends Controller {
 			echo 'Cache '.$object->foo;
 		} */
 		
-
-
+		$captcha = Captcha::instance();
+//		$render = $captcha->render();
+	    Log::instance()->add(Log::NOTICE, Debug::vars($captcha->image_render(TRUE)));
 	
 
 	}

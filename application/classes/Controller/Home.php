@@ -55,8 +55,10 @@ class Controller_Home extends Controller_Common_Home {
 //			->set('lang',$lang);
 		
 #		$this->template->menu = $menu;		    
-
-
+		$captcha = Captcha::instance();
+//		$render = $captcha->render();
+//	    Log::instance()->add(Log::NOTICE, Debug::vars($captcha->image_render(TRUE)));
+		$this->template->captcha = $captcha->image_render(TRUE);
 		    
     }
 

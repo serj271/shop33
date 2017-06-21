@@ -54,6 +54,9 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 			$this->view_navigator->action 	= $this->request->directory();		
 			$this->view_navigator->model 		= $this->_model;
 		}
+//		$referer = Request::initial()->referrer();
+//		$this->view->referer = $referer; 
+
 	}
 
 
@@ -117,6 +120,8 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 //				Log::instance()->add(Log::NOTICE, Debug::vars($validation->errors()));//validation		
 //				$this->view->errors = $e->errors('models', TRUE);//'models' -> directory message file -> alias name model shopping_cart				
 			}
+
+
 			/* 
 			try
 			{
@@ -125,14 +130,18 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 			}
 			catch (ORM_Validation_Exception $e)
 			{
-//				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors()));//validation				
+				Log::instance()->add(Log::NOTICE, Debug::vars($e->errors()));//validation				
 			} */
 		}
 		
 		$this->view->item = $item;
 		$this->view->product_id = $id;			
 		$this->view->product = $product;
-//		Log::instance()->add(Log::NOTICE, Debug::vars($product_item));//validation	
+//		$referer = Request::initial()->referrer();
+//		$this->view->referer = $referer; 
+
+
+//		Log::instance()->add(Log::NOTICE, Debug::vars($referer));//	
 	}
 	
 	/**

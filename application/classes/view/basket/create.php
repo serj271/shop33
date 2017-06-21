@@ -10,6 +10,7 @@ class View_Basket_Create {
 	
 	public $product_id;
 	
+	public $referer;
 //	protected mCartId;;
 
 	protected $_includables = array('added_on','quantity','attributes','buy_now','cart_id','product_id');//for display columns from table
@@ -64,14 +65,10 @@ class View_Basket_Create {
 				'class' 	=> 'btn primary',
 				'text' 		=> 'View',
 			),
-			'update' => array(
-				'class' 	=> 'btn success',
-				'text' 		=> 'Edit',
-			),
-			'delete' => array(
-				'class' 	=> 'btn danger',
-				'text' 		=> 'Delete',
-			),
+//			'update' => array(
+//				'class' 	=> 'btn success',
+//				'text' 		=> 'Edit',
+//			),
 		);
 	}
 	
@@ -166,9 +163,9 @@ class View_Basket_Create {
 		return $result;
 	} 
 	
-	
-		
-
+	public function backwards_message(){
+	    return __('backwards');
+	}
 
 	public static function addBase($url){
 			return URL::base().$url;			

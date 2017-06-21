@@ -17,25 +17,32 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 		}
 		
 		// If there is no action specific view, use the CRUD default
-		if ($this->auto_view === TRUE and ! $this->view)
-		{
-			list ($view_name, $view_path) = static::find_default_view($this->request);
+//		if ($this->auto_view === TRUE and ! $this->view)
+//		{
+//			list ($view_name, $view_path) = static::find_default_view($this->request);
 //			    Log::instance()->add(Log::NOTICE, '_____'.$view_path);	
-			if (Kohana::find_file('classes', $view_path))
-			{
-				$this->view = new $view_name();
-			}
-		}
-		
+//			if (Kohana::find_file('classes', $view_path))
+//			{
+//				$this->view = new $view_name();
+//			}
+//		}		
 		// If view has been detected/specified already, pass required vars to it
 		if ($this->view)
 		{
 			$this->view->action 	= $this->request->action();			
 			$this->view->controller = $this->request->controller();			
-			$this->view->model 		= $this->_model;
+			$this->view->directory 	= $this->request->directory();		
+			$this->view->model 	= $this->_model;
 		}
-	}
+		if ($this->view_navigator)
+		{
+			$this->view_navigator->action 	= $this->request->action();			
+			$this->view_navigator->controller = $this->request->controller();		
+			$this->view_navigator->action 	= $this->request->directory();		
+			$this->view_navigator->model 		= $this->_model;
+		}
 
+	}
 	/**
 	 * Action for reading multiple records of the current model
 	 * Pagination will be displayed in case there are more records than the page limit
@@ -60,11 +67,9 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 			->offset($pagination->offset)
 			->order_by($order_by)
 			->find_all();
-		Log::instance()->add(Log::NOTICE,Debug::vars($items));
 		// Pass to view
 		$this->view->items 		= $items;
 		$this->view->pagination = $pagination;
-//		Log::instance()->add(Log::NOTICE,Debug::vars($this->request->directory()));
 	}	
 	/**
 	 * Action for creating a single record
@@ -106,15 +111,15 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 		
 		if ( ! $item->loaded())
 		{
-//			throw new HTTP_Exception_404(':model with ID :id doesn`t exist!',
-//				array(':model' => $this->_model, ':id' => $this->request->param('id')));
+			throw new HTTP_Exception_404(':model with ID :id doesn`t exist!',
+				array(':model' => $this->_model, ':id' => $this->request->param('id')));
 
-	$lang = Lang::instance()->get();
-	if($lang == 'ru'){
-	    I18n::lang('ru');	
-	} else {
-	    I18n::lang('en-us');		
-	}
+//	$lang = Lang::instance()->get();
+//	if($lang == 'ru'){
+//	    I18n::lang('ru');	
+//	} else {
+//	    I18n::lang('en-us');		
+//	}
 		    Message::error(__(':model with ID :id not exist!',
 				array(':model' => $this->_model, ':id' => $this->request->param('id'))));
 //		$this->view_navigator->message = __(':model with ID :id not exist!',
@@ -151,10 +156,10 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 				$item->values($this->request->post())
 					->update($validation);
 
-				$this->request->redirect(Route::get($this->request->directory())->uri(array(
-					'controller' 	=> $this->request->controller(),
-					'action'		=> 'read',
-					'id'			=> $item->id,
+				$this->redirect($this->request->route()->uri(array(
+						'directory'		=> $this->request->directory(),
+						'controller' 	=> $this->request->controller(),
+						'action'		=>'index',
 				)));
 			}
 			catch (ORM_Validation_Exception $e)
@@ -182,21 +187,27 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 		if ($this->request->method() === Request::POST)
 		{
 			$action = $this->request->post('action');
-			
-			if ($action !== 'yes')
-			{
-				$this->request->redirect(Route::get($this->request->directory())->uri(array(
-					'controller' => $this->request->controller()
-				)));
-			}
-			
-			$item->delete();
-			
-			$this->request->redirect(Route::get($this->request->directory())->uri(array(
-				'controller' => $this->request->controller()
-			)));
-		}
+			$validation = Validation::factory($this->request->post())
+						->rule('token','not_empty')
+						->rule('token','Security::check');
 		
+			if ($action == 'yes')
+			{
+				if($validation->check()){
+					$item->delete();
+				} else {
+//					Log::instance()->add(Log::NOTICE,Debug::vars($validation->errors('validation', TRUE)));
+				}					
+			}					
+			$this->redirect($this->request->route()->uri(array(
+				'directory'		=> $this->request->directory(),
+				'controller' 	=> $this->request->controller(),
+				'action'		=>'index',
+			)));	
+			/* $this->request->redirect(Route::get($this->request->directory())->uri(array(
+				'controller' => $this->request->controller()
+			))); */
+		}		
 		$this->view->item = $item;
 	}
 	
@@ -259,7 +270,7 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 	 * @param	Request
 	 * @return	array	view_name, view_path
 	 */
-	public static function find_default_view(Request $request)
+/*	public static function find_default_view(Request $request)
 	{
 		// Empty array for view name chunks
 		$view_name = array('View');
@@ -281,5 +292,5 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 		
 		return array($view_name, $view_path);
 	}
-	
+*/	
 }

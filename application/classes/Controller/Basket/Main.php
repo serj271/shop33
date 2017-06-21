@@ -20,7 +20,6 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 		}
 		$results = Cart::GetTotalAmount($this->mCartId);
 		$total_amount = $results[0]['total_amount'];
-//		Log::instance()->add(Log::NOTICE, Debug::vars($carts,$this->mCartId));
 		
 		$this->view->carts = $carts;//id, cart_id, name from variontion, attributes, price, quantity, subtotal, uri 
 		$this->view->items = $carts;//id, cart_id, name from variontion, attributes, price, quantity, subtotal, uri 
@@ -57,7 +56,7 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 					'directory'		=> $this->request->directory(),
 					'controller' 	=> $this->request->controller(),
 					'action'		=>'index',
-				)));	
+			)));	
 		}		
 		$login = View::factory('user/menulogout');
 		$this->template->menu=$login;
