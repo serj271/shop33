@@ -14,6 +14,7 @@ class View_User_Auth_Join {
 	 */
 	public $values = array();
 
+	public $captcha_image;
 	/**
 	 * @return	array	Values with CSRF token included
 	 */
@@ -26,7 +27,7 @@ class View_User_Auth_Join {
 //		return $this->request->controller()
 //	}	
 	public function labelUsername(){
-	    return 'Username';
+	    return __('Username');
 	
 	}
 
@@ -37,9 +38,15 @@ class View_User_Auth_Join {
 
 
 	public function labelPassword(){
-	    return 'Password';
+	    return __('Password');
 	
 	}
+
+	public function labelConfirm(){
+	    return __('Password repeat');
+	
+	}
+
 
 	public function labelSubmit(){
 	    return 'Join';
@@ -52,6 +59,18 @@ class View_User_Auth_Join {
 
 	public function passwordConfirm(){
 	    return Arr::path($this->errors, '_external.password_confirm');	
+	}
+	
+	public function captcha(){
+		return $this->captcha_image;
+	}
+	
+	public $name = 'Tater';
+	public function bolder()
+	{
+		return function($text, $renderer) {
+			return '<b>' . call_user_func($renderer, $text) . '</b>';
+		};
 	}
 
 }

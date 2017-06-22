@@ -158,7 +158,7 @@ abstract class Captcha
 	public function update_response_session()
 	{
 		// Store the correct Captcha response in a session
-		Session::instance()->set('captcha_response', sha1(utf8::strtoupper($this->response)));
+		Session::instance()->set('captcha_response', sha1(UTF8::strtoupper($this->response)));
 	}
 
 	/**
@@ -178,7 +178,7 @@ abstract class Captcha
 			return TRUE;
 
 		// Challenge result
-		$result = (bool) (sha1(utf8::strtoupper($response)) === Session::instance()->get('captcha_response'));
+		$result = (bool) (sha1(UTF8::strtoupper($response)) === Session::instance()->get('captcha_response'));
 
 		// Increment response counter
 		if ($counted !== TRUE)
@@ -434,14 +434,11 @@ abstract class Captcha
 			return '<img src="'.URL::site('captcha/'.Captcha::$config['group']).'" width="'.Captcha::$config['width'].'" height="'.Captcha::$config['height'].'" alt="Captcha" class="captcha" />';
 
 		// Send the correct HTTP header
-//		$mime = File::mime_by_ext(pathinfo($this->image_type));
-		log::instance()->add(Log::NOTICE, Debug::vars('type',$this->image_type));
 		
-//        $this->response->headers('Content-Type','image/'.$this->image_type);
-//		$this->response->headers('Content-Type',(string) $mime);
-        $this->response->headers('Cache-Control','no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-        $this->response->headers('Pragma','no-cache');
-        $this->response->headers('Connection','close');
+		Request::current()->headers('Content-Type', 'image/'.$this->image_type);
+		Request::current()->headers('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+		Request::current()->headers('Pragma', 'no-cache');
+		Request::current()->headers('Connection', 'close');
 
 		// Pick the correct output function
 		$function = 'image'.$this->image_type;

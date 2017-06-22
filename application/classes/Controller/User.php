@@ -1,7 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 abstract class Controller_User extends Controller_Common_User {
-//Kohana_Controller	
 	/**
 	 * @var	bool	Should View be automatically included?
 	 */
@@ -17,6 +16,8 @@ abstract class Controller_User extends Controller_Common_User {
 	public $menu='menu.users';
 	
 	public $view_navigator;
+	
+	public $captcha;
 
 	public function before()
 	{
@@ -30,7 +31,7 @@ abstract class Controller_User extends Controller_Common_User {
 			
 		// Check if user is allowed to continue
 //		static::check_permissions($this->request);
-		
+		$this->captcha = Captcha::instance('alpha');
 		// Automatically figure out the ViewModel for the current action 
 		if ($this->auto_view === TRUE)
 		{

@@ -31,7 +31,6 @@ class Controller_Home extends Controller_Common_Home {
 		$this->menu = Menu::factory($this->config);
 		
 		
-		
 		$this->template->content = $this->menu->render();		
 		$this->template->breadcrumbs = '';
         
@@ -55,10 +54,14 @@ class Controller_Home extends Controller_Common_Home {
 //			->set('lang',$lang);
 		
 #		$this->template->menu = $menu;		    
-		$captcha = Captcha::instance();
-//		$render = $captcha->render();
-	    Log::instance()->add(Log::NOTICE, Debug::vars($captcha->image_render(TRUE)));
-		$this->template->captcha = $captcha->image_render(TRUE);
+		$captcha = Captcha::instance('alpha');
+		$captcha_image = $captcha->render();
+//	    Log::instance()->add(Log::NOTICE, Debug::vars($captcha->render()));
+//		$this->template->captcha = $captcha->image_render(TRUE);
+//		$this->template->$captcha->image_render(TRUE);
+		$content = View::factory('home/content')
+			->bind('captcha_image',$captcha_image);
+		$this->template->content = $content;
 		    
     }
 

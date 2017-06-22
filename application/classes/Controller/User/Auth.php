@@ -56,6 +56,7 @@ class Controller_User_Auth extends Controller_User {
 			$this->view->values = $this->request->post();
 		} 
 //		   $this->view = 'login';		
+//			$this->view = 
 			$login = View::factory('user/menulogin');
 			$this->template->menu=$login;
 			$this->breadcrumbs = '';
@@ -127,14 +128,15 @@ class Controller_User_Auth extends Controller_User {
 			}
 
 
-
-
 			
 			$this->view->values = $this->request->post();
+//			
 		} 
 //		   $this->view = 'login';		
 			$login = View::factory('user/menulogin');
 			$this->template->menu=$login;
+			$this->view->captcha_image = $this->captcha->render();
+			Log::instance()->add(Log::NOTICE, Debug::vars($this->captcha->render()));
 
 
 	}
