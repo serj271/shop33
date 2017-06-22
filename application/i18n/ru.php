@@ -84,8 +84,8 @@ return array
 	'Username'=>'Логин',
 	'Password'=>'Пароль',
 	'Password repeat'=>'Повтор пароля',
-	''=>'',
-	''=>'',
+	'captcha error'=>'Введены неправильные символы',
+	'account username'=>'поле логин',
 	''=>'',
 	''=>'',
 	

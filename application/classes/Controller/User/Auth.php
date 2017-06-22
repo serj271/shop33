@@ -96,8 +96,7 @@ class Controller_User_Auth extends Controller_User {
 			$this->redirect('/user');		
 		}	
 		if ($this->request->method() === Request::POST)
-		{			
-
+		{	
 			$member = ORM::factory('User')
 				// The ORM::values() method is a shortcut to assign many values at once
 				->values($_POST, array('username', 'password', 'email'));
@@ -111,34 +110,34 @@ class Controller_User_Auth extends Controller_User {
 			) + Arr::get($_POST, '_external', array());
 			$extra = Validation::factory($external_values)
 				->rule('password_confirm', 'matches', array(':validation', ':field', 'password'));
-
-			try
-			{
-				$member->save($extra);
-				$member->add('roles', ORM::factory('Role', array('name' => 'login')));
-				// Redirect the user to his page
-				$this->redirect('/');
-				
-			}
-			catch (ORM_Validation_Exception $e)
-			{
-				$errors = $e->errors('models');
-				$this->view->errors = $errors;
-
-			}
-
-
-			
+			$captcha = Arr::get($_POST, 'captcha');
+			Log::instance()->add(Log::NOTICE, Debug::vars(Captcha::valid($captcha)));
+			if(Captcha::valid($captcha)){
+				try
+				{
+					$member->save($extra);
+					$member->add('roles', ORM::factory('Role', array('name' => 'login')));
+					// Redirect the user to his page
+					$this->redirect('/');				
+				}
+				catch (ORM_Validation_Exception $e)
+				{
+					$errors = $e->errors('models');
+					$this->view->errors = $errors;
+				}
+			} else {
+				$this->view->errors = array(
+					'captchaError'=>__('captcha error')
+				);				
+			}	
 			$this->view->values = $this->request->post();
-//			
+			
 		} 
 //		   $this->view = 'login';		
 			$login = View::factory('user/menulogin');
 			$this->template->menu=$login;
-			$this->view->captcha_image = $this->captcha->render();
-			Log::instance()->add(Log::NOTICE, Debug::vars($this->captcha->render()));
-
-
+//			$this->view->captcha_image = $this->captcha->render();
+//			Log::instance()->add(Log::NOTICE, Debug::vars($this->captcha->render()));
 	}
 	
 

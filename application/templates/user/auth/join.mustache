@@ -35,10 +35,18 @@
 	<div class="control-group">
 		<label for="password" class="control-label">{{labelConfirm}}</label>
 		<div class="input">
-		<input id="password_confirm" type="password" name="_external[password_confirm]" value="" />
-
+			<input id="password_confirm" type="password" name="_external[password_confirm]" value="" />
 			{{#errors}}
 			<span class="text-error">{{passwordConfirm}}</span>
+			{{/errors}}
+		</div>		
+	</div>
+	<div class="control-group">
+		<label for="captcha" class="control-label">{{labelCaptcha}}</label>
+		<div class="input">
+			<input id="captcha" type="text" name="captcha" value="" />
+			{{#errors}}
+			<span class="text-error">{{captchaError}}</span>
 			{{/errors}}
 		</div>		
 	</div>
@@ -62,6 +70,9 @@
 
 </form>
 
-<p>{{captcha}}</p>
-
-{{#bolder}}Hi {{name}}.{{/bolder}}
+<p>
+	{{#captcha}}
+	
+	{{/captcha}}
+</p>
+	

@@ -61,16 +61,21 @@ class View_User_Auth_Join {
 	    return Arr::path($this->errors, '_external.password_confirm');	
 	}
 	
-	public function captcha(){
-		return $this->captcha_image;
+	public function captchaWidth(){
+		return '11';
 	}
 	
-	public $name = 'Tater';
-	public function bolder()
-	{
-		return function($text, $renderer) {
-			return '<b>' . call_user_func($renderer, $text) . '</b>';
+	public function captcha(){		
+		return function($text) {
+//			Log::instance()->add(Log::NOTICE, Debug::vars($text));
+			return "<img src=".URL::site('captcha/'.Captcha::$config['group'])." width=".Captcha::$config['width']." height=".Captcha::$config['height']." class='aptcha' / >";
 		};
 	}
-
+	
+	public function labelCaptcha(){
+		return __("Captcha");
+	} 
+	
 }
+
+
