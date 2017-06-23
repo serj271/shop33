@@ -38,6 +38,9 @@ class Controller_Home extends Controller_Common_Home {
     	    ->set('message',$message);
 
         $this->template->navigator=$navigator;
+		$quantity = NULL;
+		$basket = View::factory('/basket/navbar')->bind('quantity',$quantity);
+		$this->template->cart = $basket;
 //		Kohana::auto_load('Kostache');
 //		$renderer = Kostache::factory(); 
 //				list($view_name, $view_path) = static::find_view($this->request);
@@ -54,13 +57,13 @@ class Controller_Home extends Controller_Common_Home {
 //			->set('lang',$lang);
 		
 #		$this->template->menu = $menu;		    
-		$captcha = Captcha::instance('alpha');
-		$captcha_image = $captcha->render();
+		/* $captcha = Captcha::instance('alpha');
+		$captcha_image = $captcha->render(); */
 //	    Log::instance()->add(Log::NOTICE, Debug::vars($captcha->render()));
 //		$this->template->captcha = $captcha->image_render(TRUE);
 //		$this->template->$captcha->image_render(TRUE);
-		$content = View::factory('home/content')
-			->bind('captcha_image',$captcha_image);
+		$content = View::factory('home/content');
+			/* ->bind('captcha_image',$captcha_image); */
 		$this->template->content = $content;
 		    
     }

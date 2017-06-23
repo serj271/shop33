@@ -5,7 +5,6 @@
 	
 <p>Home content</p>	
 </div>
- <?=$captcha_image?>
 <?php 
 
 //	echo Message::display();

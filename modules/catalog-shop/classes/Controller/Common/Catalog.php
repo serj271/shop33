@@ -12,7 +12,7 @@ abstract class Controller_Common_Catalog extends Controller_Template {
 	$this->template->navigator='';
 	$this->template->menu='';
 	$this->template->scripts=array('jquery','bootstrap');
-	$this->template->styles=array('bootstrap','common_v5','breadcrumbs');
+	$this->template->styles=array('bootstrap','common_v4','breadcrumbs');
 //	$resultCss = Compress::instance('stylesheets')->styles(array('css/flags.css'),'css/out.css');
 //	$this->template->resultCss = $resultCss;
 //	I18n::lang('ru');	

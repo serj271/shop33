@@ -11,8 +11,9 @@ abstract class Controller_Common_Home extends Controller_Template {
 	$this->template->content='';
 	$this->template->navigator='';
 	$this->template->menu='';
+	$this->template->cart= NULL;
 	$this->template->scripts=array();
-	$this->template->styles=array('bootstrap','common_v5');
+	$this->template->styles=array('bootstrap','common_v4');
 //	$resultCss = Compress::instance('stylesheets')->styles(array('css/flags.css'),'css/out.css');
 //	$this->template->resultCss = $resultCss;
 //	I18n::lang('ru');	
