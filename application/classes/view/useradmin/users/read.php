@@ -93,7 +93,7 @@ class View_Useradmin_Users_Read {
 		$roles = '';
 
 		foreach ($this->user_roles as $key=>$role){
-			Log::instance()->add(log::NOTICE, Debug::vars( $key,$role));
+//			Log::instance()->add(log::NOTICE, Debug::vars( $key,$role));
 //			
 				$roles = $roles.' '.$key;
 			

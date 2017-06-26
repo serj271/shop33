@@ -42,7 +42,7 @@
 			break;
 			case 'text' : 
 			case 'email' :
-			 
+//				Log::instance()->add(Log::NOTICE, Debug::vars($field->name()));
 				echo Form::input($field->name(), $field->value(), $attrs + array(
 					'type' => $field->type()
 				));

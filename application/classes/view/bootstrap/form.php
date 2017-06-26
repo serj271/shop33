@@ -42,7 +42,13 @@ class View_Bootstrap_Form {
 		$this->_submit = new View_Bootstrap_Form_Field('submit','1');
 		$this->_submit->type('button')
 			->attr('class','btn large primary')
+			->attr('type','submit')
 			->label('Submit');
+		$this->_reset = new View_Bootstrap_Form_Field('reset','1');
+		$this->_reset->type('button')
+			->attr('class','btn large primary')
+			->attr('type','reset')
+			->label('Cancel');
 	}
 	
 	/**
@@ -199,7 +205,15 @@ class View_Bootstrap_Form {
 		
 		return $this;
 	}
-	
+	public function reset(View_Bootstrap_Form_Field $reset = NULL)
+	{
+		if ($reset === NULL)
+			return $this->_reset;
+			
+		$this->_reset = $reset;
+		
+		return $this;
+	}
 	/**
 	 * Unloads all the fields values and errors
 	 * 

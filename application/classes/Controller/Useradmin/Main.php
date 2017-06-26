@@ -1,8 +1,8 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Useradmin_Main extends Controller_Useradmin {
+class Controller_Useradmin_Main extends Controller_Useradmin_Crud {
 //    public $template ='main';
-//	rotected $_model='user';
+    protected $_model='User';
 
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';

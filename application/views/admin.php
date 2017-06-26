@@ -24,6 +24,7 @@
 
 <div id="container">
 <div id="gototop"> </div>
+<!--
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="topNav">
 		<div class="container">
@@ -47,7 +48,7 @@
 </div>
 
 <header id="header">
-<div class="row">
+ <div class="row">
 	<div class="span4">
 	<h1>	
 		
@@ -152,7 +153,7 @@ Navigation Bar Section
 <!--
 <div id="header">
 	<div id="logo">
-	    <a title="To main" href="#"></a>
+	    <a title="To main" href="<?=URL::base()?>personal"></a>
 	</div>
 	<?=$menu; ?>
 	<?=$breadcrumbs; ?>

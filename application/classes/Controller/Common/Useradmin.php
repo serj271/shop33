@@ -1,22 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Controller_Common_Useradmin extends Controller_Template {
-    public $template='main';
+abstract class Controller_Common_Useradmin extends Controller_Common {
+    public $template='useradmin';
     public $ajaxAllow =true;
 
     public function before(){
 	parent::before();
-	View::set_global('title','user');
+	View::set_global('title','useradmin');
 	View::bind_global('page_title', $this->page_title);
-	View::set_global('head','user');
-	$this->template->content='';
-	$this->template->navigator='';
-	$this->template->menu='';
-	$this->template->styles=array('bootstrap.min','common_v4','user_v3');
-	$this->template->scripts=array('jquery');
+	View::set_global('head','useradmin');
+	$this->template->styles=array('bootstrap','common_v4','user_v5');
+	$this->template->scripts=array('vendor/jquery/jquery');
 #	$title=Kohana::$config->load('personal.user.title');	    
 #	$this->template->title=$title;
-//	$this->template->scripts=array('personal_v1');	
-	I18n::lang('ru');	
+//	I18n::lang('ru');	
     }
 } 

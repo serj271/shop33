@@ -13,12 +13,6 @@ class Controller_Useradmin_Users extends Controller_Useradmin_Crud{
 //			throw new HTTP_Exception_404(':model with ID :id doesn`t exist!',
 //				array(':model' => $this->_model, ':id' => $this->request->param('id')));
 
-			$lang = Lang::instance()->get();
-			if($lang == 'ru'){
-				I18n::lang('ru');	
-			} else {
-				I18n::lang('en-us');		
-			}
 		    Message::error(__(':model with ID :id not exist!',
 				array(':model' => $this->_model, ':id' => $this->request->param('id'))));
 //		$this->view_navigator->message = __(':model with ID :id not exist!',

@@ -26,18 +26,33 @@ abstract class Controller_Admin extends Controller_Common_Admin {
 		if ($this->auto_view === TRUE)
 		{
 			list($view_name, $view_path) = static::find_view($this->request);
-Log::instance()->add(Log::NOTICE, Debug::vars($view_name, $view_path));			
+//Log::instance()->add(Log::NOTICE, Debug::vars($view_name, $view_path));			
 			if (Kohana::find_file('classes', $view_path))
 			{			
 				$this->view = new $view_name();
 			}
 			list($view_name_navigator, $view_path_navigator) = static::find_view_navigator($this->request);
-Log::instance()->add(Log::NOTICE, Debug::vars($view_name_navigator, $view_path_navigator));
+//Log::instance()->add(Log::NOTICE, Debug::vars($view_name_navigator, $view_path_navigator));
 			if (Kohana::find_file('classes', $view_path_navigator))
 			{			
 				$this->view_navigator = new $view_name_navigator();
 			}
 		}
+		if ($this->view)
+		{
+			$this->view->action 	= $this->request->action();			
+			$this->view->controller = $this->request->controller();			
+			$this->view->directory 	= $this->request->directory();		
+			$this->view->model 	= $this->_model;
+		}
+		if ($this->view_navigator)
+		{
+			$this->view_navigator->action 	= $this->request->action();			
+			$this->view_navigator->controller = $this->request->controller();		
+			$this->view_navigator->action 	= $this->request->directory();		
+			$this->view_navigator->model 		= $this->_model;
+		}
+
 	}
 	
 	public function after()

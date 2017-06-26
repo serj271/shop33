@@ -11,9 +11,9 @@ abstract class Controller_Template extends Kohana_Controller_Template {
 	    parent::before();
 	}
     }
-    public function action_index(){
+//    public function action_index(){
 //	$this->request->headers('Content-Type','application/json; charset='.Kohana::$charset);
 //	$this->responce->body($jsonEncoded);
-    }	
+//    }	
 
 }

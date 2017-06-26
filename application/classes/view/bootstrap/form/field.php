@@ -36,6 +36,7 @@ class View_Bootstrap_Form_Field {
 	 */
 	protected $_submit;
 	
+	protected $_reset;
 	/**
 	 * @var	string	Field type
 	 */
@@ -44,8 +45,7 @@ class View_Bootstrap_Form_Field {
 	/**
 	 * @var	mixed	Field value
 	 */
-	protected $_value;
-	
+	protected $_value;	
 	
 	public function __construct($name, $value = NULL, array $attrs = array())
 	{

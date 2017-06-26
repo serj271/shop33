@@ -10,7 +10,15 @@ abstract class Controller_Common extends Controller_Template {
 	View::set_global('head','shop-element');
 	$this->template->content='';
 	$this->template->navigator='';
-	$this->template->styles=array('bootstrap','common_v1');
-//	$this->template->scripts=array('personal_v1');	
+	$this->template->cart= NULL;
+	$this->template->menu= '';
+	$this->template->styles=array();
+	$this->template->scripts=array();	
+	$lang = Lang::instance()->get();
+	if($lang == 'ru'){
+	    I18n::lang('ru');	
+	} else {
+	    I18n::lang('en-us');		
+	}
     }
 } 

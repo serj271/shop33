@@ -249,7 +249,7 @@ Route::set('useradmin', 'useradmin(/<controller>(/<action>(/<id>)))',array('id'=
 Route::set('adminmodel', 'admin(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
 	->defaults(array(
 		'directory' =>'admin',
-		'controller' => 'main',
+		'controller' => 'index',
 		'action'     => 'index',
 	)); */
 	

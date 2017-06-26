@@ -15,32 +15,6 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 			throw new Kohana_Exception('$_model not defined in :controller',
 				array(':controller' => $this->request->controller()));
 		}
-		
-		// If there is no action specific view, use the CRUD default
-//		if ($this->auto_view === TRUE and ! $this->view)
-//		{
-//			list ($view_name, $view_path) = static::find_default_view($this->request);
-//			    Log::instance()->add(Log::NOTICE, '_____'.$view_path);	
-//			if (Kohana::find_file('classes', $view_path))
-//			{
-//				$this->view = new $view_name();
-//			}
-//		}		
-		// If view has been detected/specified already, pass required vars to it
-		if ($this->view)
-		{
-			$this->view->action 	= $this->request->action();			
-			$this->view->controller = $this->request->controller();			
-			$this->view->directory 	= $this->request->directory();		
-			$this->view->model 	= $this->_model;
-		}
-		if ($this->view_navigator)
-		{
-			$this->view_navigator->action 	= $this->request->action();			
-			$this->view_navigator->controller = $this->request->controller();		
-			$this->view_navigator->action 	= $this->request->directory();		
-			$this->view_navigator->model 		= $this->_model;
-		}
 
 	}
 	/**
@@ -113,22 +87,15 @@ abstract class Controller_Admin_Crud extends Controller_Admin {
 		{
 			throw new HTTP_Exception_404(':model with ID :id doesn`t exist!',
 				array(':model' => $this->_model, ':id' => $this->request->param('id')));
-
-//	$lang = Lang::instance()->get();
-//	if($lang == 'ru'){
-//	    I18n::lang('ru');	
-//	} else {
-//	    I18n::lang('en-us');		
-//	}
-		    Message::error(__(':model with ID :id not exist!',
-				array(':model' => $this->_model, ':id' => $this->request->param('id'))));
+//		    Message::error(__(':model with ID :id not exist!',
+//				array(':model' => $this->_model, ':id' => $this->request->param('id'))));
 //		$this->view_navigator->message = __(':model with ID :id not exist!',
 //				array(':model' => $this->_model, ':id' => $this->request->param('id')));
-				$this->request->redirect(Route::get($this->request->directory())->uri(array(
+//				$this->request->redirect(Route::get($this->request->directory())->uri(array(
 //					'controller' 	=> 'index',
 //					'action'		=> 'index',
 //					'id'			=> $item->id,
-				)));		    
+//				)));		    
 		}		
 		$this->view->item = $item;
 		$this->view_navigator->message = __(':model with ID :id',

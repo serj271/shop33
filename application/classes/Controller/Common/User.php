@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Controller_Common_User extends Controller_Template {
+abstract class Controller_Common_User extends Controller_Common {
     public $template='main';
     public $ajaxAllow =true;
 
@@ -9,9 +9,6 @@ abstract class Controller_Common_User extends Controller_Template {
 	View::set_global('title','user');
 	View::bind_global('page_title', $this->page_title);
 	View::set_global('head','user');
-	$this->template->content='';
-	$this->template->navigator='';
-	$this->template->menu='';
 	$this->template->styles=array('bootstrap','common_v4','user_v5');
 	$this->template->scripts=array('jquery');
 #	$title=Kohana::$config->load('personal.user.title');	    

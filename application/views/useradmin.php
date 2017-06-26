@@ -12,7 +12,7 @@
 	    echo HTML::style("media/css/".$style.".css");
 	}
 	foreach($scripts as $scr){
-//	    echo HTML::script("js/".$scr.".js").PHP_EOL;
+	    echo HTML::script("media/js/".$scr.".js").PHP_EOL;
 	}
     ?>
     <!--[if IE]>
@@ -24,6 +24,7 @@
 
 <div id="container">
 <div id="gototop"> </div>
+<!--
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="topNav">
 		<div class="container">
@@ -45,33 +46,8 @@
 		</div>
 	</div>
 </div>
-
-<header id="header">
-<div class="row">
-	<div class="span4">
-	<h1>	
-		
-	
-	</h1>
-	</div>
-	<div class="span4">
-	<div class="offerNoteWrapper">
-	<h1 class="dotmark">
-	<i class="icon-cut"></i>
-	Twitter Bootstrap shopping cart HTML template is available @ $14
-	</h1>
-	</div>
-	</div>
-	<div class="span4 alignR">
-	<p><br> <strong> Support (24/7) :  0800 1234 678 </strong><br><br></p>
-	<span class="btn btn-mini">[ 2 ] <span class="icon-shopping-cart"></span></span>
-	<span class="btn btn-warning btn-mini">$</span>
-	<span class="btn btn-mini">&pound;</span>
-	<span class="btn btn-mini">&euro;</span>
-	</div>
-</div>
-</header>
-<!--
+-->
+<!---
 Navigation Bar Section 
 -->
 <div class="navbar">
@@ -152,7 +128,7 @@ Navigation Bar Section
 <!--
 <div id="header">
 	<div id="logo">
-	    <a title="To main" href="#"></a>
+	    <a title="To main" href="<?=URL::base()?>personal"></a>
 	</div>
 	<?=$menu; ?>
 	<?=$breadcrumbs; ?>
