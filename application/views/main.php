@@ -155,7 +155,6 @@ Navigation Bar Section
 	    <a title="To main" href="#"></a>
 	</div>
 	<?=$menu; ?>
-	<?=$breadcrumbs; ?>
 
 </div>
 -->
