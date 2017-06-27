@@ -1,6 +1,6 @@
 <?php
 
-class View_User_Auth_Navigator extends View_User_Bootstrap_Navigator_Userform
+class View_User_Auth_Navigator extends View_User_Bootstrap_Navigator_Form
 {
 	public $message;	
 	/**
@@ -29,7 +29,7 @@ class View_User_Auth_Navigator extends View_User_Bootstrap_Navigator_Userform
 	/**
 	 * Returns the form for current view
 	 */
-	public function form()
+/*	public function form()
 	{
 		if ( ! $this->form)
 		{
@@ -45,7 +45,7 @@ class View_User_Auth_Navigator extends View_User_Bootstrap_Navigator_Userform
 		}		
 		return $this->form;
 	}
-	
+*/	
 	/**
 	 * @return	string	Page headline
 	 */

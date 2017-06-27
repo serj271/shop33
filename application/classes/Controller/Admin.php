@@ -20,7 +20,7 @@ abstract class Controller_Admin extends Controller_Common_Admin {
 			->headers('x-frame-options','SAMEORIGIN')
 			->headers('x-xss-protection','1; mode=block');			
 		// Check if user is allowed to continue
-//		static::check_permissions($this->request);
+		static::check_permissions($this->request);
 		
 		// Automatically figure out the ViewModel for the current action 
 		if ($this->auto_view === TRUE)
@@ -109,7 +109,7 @@ abstract class Controller_Admin extends Controller_Common_Admin {
 			if ($request->action() !== 'login')
 			{
 				// Get the reverse route and redirect user to the login page
-//				HTTP::redirect('/user/auth');				
+				HTTP::redirect('/user/auth/login');				
 			}
 		}
 	}

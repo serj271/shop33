@@ -14,6 +14,6 @@ abstract class Controller_Common_User extends Controller_Common {
 #	$title=Kohana::$config->load('personal.user.title');	    
 #	$this->template->title=$title;
 //	$this->template->scripts=array('personal_v1');	
-	I18n::lang('ru');	
+//	I18n::lang('ru');	
     }
 } 

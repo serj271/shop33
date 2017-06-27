@@ -141,7 +141,7 @@ class View_Basket_Index {
 		return $this->_labels;
 	}
 	
-
+/*
 	public function repo(){
 		return array('name'=>'repo33');
 		
@@ -150,6 +150,7 @@ class View_Basket_Index {
 	public function norepo(){
 		return array();		
 	}
+*/
 	public function caption(){
 		return __('Shop Cart');
 	}

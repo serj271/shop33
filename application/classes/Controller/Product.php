@@ -26,14 +26,14 @@ abstract class Controller_Product extends Controller_Common_Product {
 	{
 		parent::before();
 		$session = Session::instance('native');
-		$this->_mCartId = $session->id();
-		
+		Cart::SetCartId();//		
+		$this->_mCartId = $session->get('mCartId', false);
+
 		// Set security headers
 		$this->response
 			->headers('x-content-type-options','nosniff')
 			->headers('x-frame-options','SAMEORIGIN')
-			->headers('x-xss-protection','1; mode=block');
-			
+			->headers('x-xss-protection','1; mode=block');			
 		// Check if user is allowed to continue
 //		static::check_permissions($this->request);
 		
@@ -99,7 +99,14 @@ abstract class Controller_Product extends Controller_Common_Product {
 //		$this->view = $renderer->render($view);		
 		$this->template->content=$renderer->render($this->view);
 		$this->template->breadcrumbs = '';	
-	
+
+		$quantity = Helpers_Cart::getQuantity($this->_mCartId);
+		$total_amount = Helpers_Cart::getTotal($this->_mCartId);
+		$fixedTop = View::factory('fixed/top')
+			->bind('quantity',$quantity)
+			->bind('total_amount',$total_amount);
+		$this->template->fixedTop = $fixedTop;
+		Log::instance()->add(Log::NOTICE, Debug::vars('prod',$this->_mCartId, $quantity, $total_amount));
 //		$message = Message::display('message/bootstrap');			
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());
 //	    $navigator->message=$message;

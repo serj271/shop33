@@ -2,7 +2,7 @@
 
 class Controller_User_File extends Controller_User_Crud {
 //    public $template ='main';
-    protected $_model='file';
+//    protected $_model='file';
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';
     public function action_index(){

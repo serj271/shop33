@@ -1,6 +1,6 @@
 <?php
 
-class View_User_Main_Navigator extends View_Bootstrap_Navigator_Useradminform
+class View_User_Main_Navigator extends View_Bootstrap_Form
 {
 	public $message;	
 	/**
@@ -33,6 +33,7 @@ class View_User_Main_Navigator extends View_Bootstrap_Navigator_Useradminform
 	/**
 	 * Returns the form for current view
 	 */
+/*
 	public function form()
 	{
 		if ( ! $this->form)
@@ -84,7 +85,7 @@ class View_User_Main_Navigator extends View_Bootstrap_Navigator_Useradminform
 		}		
 		return $this->form;
 	}
-	
+*/	
 	/**
 	 * @return	string	Page headline
 	 */

@@ -1,6 +1,5 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /*
- * TODO: добавить кеширование
  */
 function category_uri_list() {
 	$list = ORM::factory('Catalog_Category')

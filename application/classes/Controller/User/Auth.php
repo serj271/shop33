@@ -1,14 +1,16 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class Controller_User_Auth extends Controller_User {
-
+	protected $_model='User';
 	public function action_index()
 	{
 		// Redirect logged-in admins to the administration index
 		// All users which make it to the action are considered admins		
 //	Log::instance()->add(Log::NOTICE, Debug::vars(Auth::instance()->logged_in()));
 		if (Auth::instance()->logged_in()){
-			$this->redirect('user');
+        		HTTP::redirect('user');
+        		exit;
+//			$this->redirect('user');
 		} else {
 			$this->redirect('user/auth/login');
 		}
@@ -33,7 +35,9 @@ class Controller_User_Auth extends Controller_User {
 				
 				if (Auth::instance()->login($username, $password, TRUE))
 				{
-					$this->redirect('user');
+//					$this->redirect('user');
+        				HTTP::redirect('user');
+        				exit;
 				}
 				
 				$this->view->errors = array(
@@ -59,11 +63,8 @@ class Controller_User_Auth extends Controller_User {
 //			$this->view = 
 			$login = View::factory('user/menulogin');
 			$this->template->menu=$login;
-			$this->breadcrumbs = '';
-
-
+//			$this->breadcrumbs = '';
 	}
-
 	/**
 	 * Action for logging out the user
 	 * 
@@ -76,17 +77,19 @@ class Controller_User_Auth extends Controller_User {
 	public function action_logout()
 	{
 		// Log out only if the token is ok
-
-		if (Security::token() === $this->request->param('token'))
+		if (Security::token() === $this->request->param('id'))
 		{
-			$destroy = (bool) $this->request->query('destroy');
-			$all	 = (bool) $this->request->query('all');			
+//			$destroy = (bool) $this->request->query('destroy');
+//			$all	 = (bool) $this->request->query('all');			
 //			Auth::instance()->logout($destroy, $all);
-			Auth::instance()->logout();
+//			Auth::instance()->logout();
+			Auth::instance()->logout(TRUE, TRUE);
+        		HTTP::redirect('user/auth/login');
+        		exit;
 		}
-
 		Auth::instance()->logout();
-		$this->redirect('user/auth');
+        	HTTP::redirect('user/auth/login');
+        	exit;
 	}
 	
 	public function action_join()

@@ -5,22 +5,18 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 	public $_model='Shopping_Cart';
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';
-    public function action_index(){
-//		if (!Auth::instance()->logged_in('login')){
-//		
-//			$this->redirect('user/auth/login');
-//		}
+	public function action_index(){
 //		$user = Auth::instance()->get_user();
 //		$this->view->username = $user->username;		
-		$results = Cart::GetProducts($this->mCartId);
+		$results = Cart::GetProducts($this->_mCartId);
 		$carts = array();
 		
 		foreach($results as $result){
 			$carts[] =  $result;							
 		}
-		$results = Cart::GetTotalAmount($this->mCartId);
+		$results = Cart::GetTotalAmount($this->_mCartId);
 		$total_amount = $results[0]['total_amount'];
-		
+//		Log::instance()->add(Log::NOTICE,Debug::vars($results->as_array()));
 		$this->view->carts = $carts;//id, cart_id, name from variontion, attributes, price, quantity, subtotal, uri 
 		$this->view->items = $carts;//id, cart_id, name from variontion, attributes, price, quantity, subtotal, uri 
 		$this->view->total_amount = $total_amount;
@@ -30,7 +26,7 @@ class Controller_Basket_Main extends Controller_Basket_Crud {
 
 		$login = View::factory('user/menulogout');
 		$this->template->menu=$login;
-    }
+	}
 	
 	
 	public function action_delete(){//dlete product from basket

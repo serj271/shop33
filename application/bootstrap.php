@@ -224,7 +224,7 @@ Route::set('product', 'product(/<action>(/<item_uri>))', array(
 		'index_file' =>''
 	));
 
-Route::set('user', 'user(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
+Route::set('user', 'user(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9a-z]+'))
 	->defaults(array(
 		'directory' =>'user',
 		'controller' => 'main',

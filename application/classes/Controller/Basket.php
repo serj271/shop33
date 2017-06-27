@@ -25,11 +25,8 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 	{
 		parent::before();
 		$session = Session::instance('native');
-		Cart::SetCartId();
-//		
-//		$this->mCartId = $session->get('mCartId', false);	
-//		Log::instance()->add(Log::NOTICE,Debug::vars($session->get('mCartId', false)));
-		$this->mCartId = $session->get('mCartId', false);
+		Cart::SetCartId();//		
+		$this->_mCartId = $session->get('mCartId', false);
 		// Set security headers
 		$this->response
 			->headers('x-content-type-options','nosniff')
@@ -86,7 +83,20 @@ abstract class Controller_Basket extends Controller_Common_Basket {
 //		$this->template->content=$renderer->render($view);	
 	
 		$this->template->content=$renderer->render($this->view);	
-		
+		$results = Cart::GetProducts($this->_mCartId);
+		$carts = $results->as_array();
+		$quantity=0;
+		if(count($carts)){
+			foreach($carts as $cart){
+				$quantity += $cart['quantity'];
+			}
+		}		
+		$total_amount = Cart::GetTotalAmount($this->_mCartId);
+		$fixedTop = View::factory('fixed/top')
+			->bind('quantity',$quantity)
+			->bind('total_amount',$total_amount->as_array()[0]['total_amount']);
+
+		$this->template->fixedTop = $fixedTop;
 		
 		
 		

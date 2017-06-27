@@ -25,4 +25,8 @@ class View_User_Auth_Login {
 //	{
 //		return $this->request->controller()
 //	}	
+	public function charset(){
+	    return 'utf-8';
+	}
+
 }

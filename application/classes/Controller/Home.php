@@ -3,6 +3,33 @@
 class Controller_Home extends Controller_Common_Home {
 //    public $template ='main';
 	protected $config = 'example';
+	public function before()
+	{
+		parent::before();
+		$session = Session::instance('native');
+		Cart::SetCartId();//		
+		$this->_mCartId = $session->get('mCartId', false);
+		// Set security headers
+		$this->response
+			->headers('x-content-type-options','nosniff')
+			->headers('x-frame-options','SAMEORIGIN')
+			->headers('x-xss-protection','1; mode=block');
+		// Check if user is allowed to continue
+//		Lang::instance()->set('en-us');
+		
+//		Log::instance()->add(Log::NOTICE, Debug::vars('home',Lang::instance()->get(), $this->request->query('lang')));
+		if($this->request->query('lang')){
+			if($this->request->query('lang') == 'ru' && $this->request->query('lang') == 'en-us'){
+				Lang::instance()->set($this->request->query('lang'));
+				$this->redirect($this->request->route()->uri(array(
+					'controller'=> $this->request->controller(),
+					'action'=>'index',
+				)));
+			}
+		}
+	}
+		
+	
     public function action_index(){
 //		$this->title = Kohana::$config->load('personal.personal.title');	    
 //	Kohana::message('forms','foobar');
@@ -38,9 +65,9 @@ class Controller_Home extends Controller_Common_Home {
     	    ->set('message',$message);
 
         $this->template->navigator=$navigator;
-		$quantity = NULL;
-		$basket = View::factory('/basket/navbar')->bind('quantity',$quantity);
-		$this->template->cart = $basket;
+//		$cart_quantity = NULL;
+//		$cart_quantity = View::factory('/basket/navbar')->bind('quantity',$quantity);
+//		$this->template->cart = $basket;
 //		Kohana::auto_load('Kostache');
 //		$renderer = Kostache::factory(); 
 //				list($view_name, $view_path) = static::find_view($this->request);
@@ -65,6 +92,28 @@ class Controller_Home extends Controller_Common_Home {
 		$content = View::factory('home/content');
 			/* ->bind('captcha_image',$captcha_image); */
 		$this->template->content = $content;
+
+		/* $results = Cart::GetProducts($this->_mCartId);
+		$carts = $results->as_array();
+		$quantity=0;
+		if(count($carts)){
+			foreach($carts as $cart){
+				$quantity += $cart['quantity'];
+			}
+		}		
+		$total_amount = Cart::GetTotalAmount($this->_mCartId); */
+		
+		$quantity = Helpers_Cart::getQuantity($this->_mCartId);
+		$total_amount = Helpers_Cart::getTotal($this->_mCartId);
+		$fixedTop = View::factory('fixed/top')
+			->bind('quantity',$quantity)
+			->bind('total_amount',$total_amount);
+		$this->template->fixedTop = $fixedTop;
+		
+		
+		
+//		Log::instance()->add(Log::NOTICE, Debug::vars('home',$this->_mCartId, $quantity, $total_amount));
+
 		    
     }
 

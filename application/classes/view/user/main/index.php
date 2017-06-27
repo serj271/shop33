@@ -19,8 +19,8 @@ class View_User_Main_Index {
 				'url' => Route::url('user', array(
 					'directory' =>'user',
 					'controller' => 'auth',
-
 					'action' 		=> 'logout',
+					'id'		=> Security::token()
 				)),
 			),
 		);

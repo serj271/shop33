@@ -4,7 +4,7 @@
  */
 class View_Useradmin_Users_Delete{
 	
-	protected $_template = 'admin/delete';
+//	protected $_template = 'admin/delete';
 
 	/**
 	 * @var	ORM		model

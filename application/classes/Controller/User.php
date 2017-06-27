@@ -28,7 +28,9 @@ abstract class Controller_User extends Controller_Common_User {
 			->headers('x-content-type-options','nosniff')
 			->headers('x-frame-options','SAMEORIGIN')
 			->headers('x-xss-protection','1; mode=block');
-			
+		$session = Session::instance('native');
+		Cart::SetCartId();//		
+		$this->mCartId = $session->get('mCartId', false);			
 		// Check if user is allowed to continue
 //		static::check_permissions($this->request);
 		$this->captcha = Captcha::instance('alpha');
@@ -52,14 +54,13 @@ abstract class Controller_User extends Controller_Common_User {
 			$this->view->action 	= $this->request->action();			
 			$this->view->directory = $this->request->directory();		
 			$this->view->controller = $this->request->controller();		
-			$this->view->action 	= $this->request->directory();		
 			$this->view->model 		= $this->_model;
 		}
 		if ($this->view_navigator)
 		{
 			$this->view_navigator->action 	= $this->request->action();			
 			$this->view_navigator->controller = $this->request->controller();		
-			$this->view_navigator->action 	= $this->request->directory();		
+			$this->view_navigator->directory 	= $this->request->directory();		
 			$this->view_navigator->model 		= $this->_model;
 		}
 		

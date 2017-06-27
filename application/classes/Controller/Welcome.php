@@ -2,7 +2,7 @@
 
 class Controller_Welcome extends Controller {
 	public function action_index(){	
-//		Log::instance()->add(Log::NOTICE, 'My Logged Message Here');
+//	Log::instance()->add(Log::NOTICE, Helpers_Test::alert());
 //	$renderer = Kostache::factory(); 
 //		$this->response->body('hello, world!');		
 //		$this->response->body($renderer->render(new View_Test)); 
@@ -86,10 +86,13 @@ class Controller_Welcome extends Controller {
 			echo 'Cache '.$object->foo;
 		} */
 		
-		$captcha = Captcha::instance();
+//		$captcha = Captcha::instance();
 //		$render = $captcha->render();
-	    Log::instance()->add(Log::NOTICE, Debug::vars($captcha->image_render(TRUE)));
-	
+//	    Log::instance()->add(Log::NOTICE, Debug::vars($captcha->image_render(TRUE)));
+//			$this->redirect('/');
+//            HTTP::redirect('user/auth/login');
+//            exit;
+			
 
 	}
 } // End home
