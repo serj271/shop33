@@ -10,6 +10,8 @@ class View_Basket_Create {
 	
 	public $product_id;
 	
+	public $cart_id;
+	
 	public $referer;
 //	protected mCartId;;
 
@@ -41,9 +43,9 @@ class View_Basket_Create {
 		return array(
 			array(
 				'class' => 'large',
-				'text' => 'Logout',
-				'url' => Route::url('user', array(
-					'directory' =>'user',
+				'text' => __('backwards'),
+				'url' => Route::url('product', array(
+					'directory' =>$this->directory,
 					'controller' => 'auth',
 					'action' 		=> 'logout',
 				)),
@@ -95,12 +97,23 @@ class View_Basket_Create {
 			// Create a CSRF token field
 			$token = new View_Bootstrap_Form_Field('token', Security::token());
 			$token->type('hidden');
-			
-			$action = $this->controller.'/'. $this->action;
-			$this->form = new View_Bootstrap_ModelForm();//action array attrs
+			/* $action = Request::uri('basket', array(
+				'directory'=>'basket',
+				'controller'=>'main',
+				'action'=>'index'
+			)); */
+//			Log::instance()->add(Log::NOTICE, Debug::vars('view bask create',$this->item));
+			$action = strtolower($this->directory).'/'.strtolower($this->action);
+			$this->form = new View_Bootstrap_ModelForm($action);//action array attrs
 			$this->form->includables($this->_includables);
-			$this->form->load($this->item);			
+//			$this->form->load($this->item);			
 			$this->form->add($token);
+			$product_id = new View_Bootstrap_Form_Field('product_id',$this->product_id);
+			$product_id->type('hidden');
+			$this->form->add($product_id);
+			$cart_id = new View_Bootstrap_Form_Field('cart_id',$this->cart_id);
+			$cart_id->type('hidden');
+			$this->form->add($cart_id);
 
 
 			$this->form->submit()->label(__('Add to basket',

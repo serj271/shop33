@@ -14,6 +14,9 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 	public function before()
 	{
 		parent::before();
+		$session = Session::instance('native');
+		Cart::SetCartId();//		
+		$this->_mCartId = $session->get('mCartId', false);
 		
 		if ($this->_model === NULL)
 		{
@@ -99,14 +102,17 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 			throw new HTTP_Exception_404(ucfirst('product').' doesn`t exist: :id', 
 				array(':id' => $this->request->param('id')));
 		}
-		$item = ORM::factory($this->_model);
-		$item->cart_id =  $this->mCartId;
+ 		$item = ORM::factory($this->_model);
+/*		$item->cart_id =  $this->mCartId;
 		$item->product_id = $product->id;
-		$item->quantity = 1;
+		$item->quantity = 1; */
 //		$item->attributes = '';
+		$referer = Request::initial()->referrer();
+		Log::instance()->add(Log::NOTICE, Debug::vars('id',$product->id)); 
 		if ($this->request->method() === Request::POST)
 		{
-			$validation = Validation::factory(Arr::merge($this->request->post(), $item->as_array()))
+//			$validation = Validation::factory(Arr::merge($this->request->post(), $item->as_array()))
+			$validation = Validation::factory($this->request->post(),array('cart_id','product_id','token'))
 				->rule('token','not_empty')
 				->rule('token','Security::check')
 				->rules('cart_id',$item->rules()['cart_id'])
@@ -114,10 +120,12 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 //			->rules('cart_id',array(array('not_empty'),array('digit')))		
 			
 			if($validation->check()){
-				Cart::AddProduct($this->mCartId,$product->id, '');//create shopping_cart cart_id product_id attributes
+				$product_id = Arr::get($this->request->post(),'product_id');
+				$cart_id = Arr::get($this->request->post(),'cart_id');
+				Cart::AddProduct($cart_id,$product_id, '');//create shopping_cart cart_id product_id attributes
 				$this->redirect(strtolower($this->request->directory()),303);
 			} else {
-//				Log::instance()->add(Log::NOTICE, Debug::vars($validation->errors()));//validation		
+				Log::instance()->add(Log::NOTICE, Debug::vars($validation->errors()));//validation		
 //				$this->view->errors = $e->errors('models', TRUE);//'models' -> directory message file -> alias name model shopping_cart				
 			}
 
@@ -134,13 +142,12 @@ abstract class Controller_Basket_Crud extends Controller_Basket {
 			} */
 		}
 		
-		$this->view->item = $item;
-		$this->view->product_id = $id;			
+//		$this->view->item = $item;
+		$this->view->product_id = $id;	
+		$this->view->cart_id =  $this->_mCartId;	
 		$this->view->product = $product;
 //		$referer = Request::initial()->referrer();
 //		$this->view->referer = $referer; 
-
-
 //		Log::instance()->add(Log::NOTICE, Debug::vars($referer));//	
 	}
 	
