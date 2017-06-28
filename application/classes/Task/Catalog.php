@@ -14,25 +14,11 @@ class Task_Catalog extends Minion_Task {
 #		set_exception_handler(array('Kohana_Exception_Handler','handle'));
 
 		Kohana::$config->attach(new Config_File);
-
 		$db = Database::instance();
 		// Get the table name from the ORM model
-//			Log::instance()->add(Log::NOTICE, Debug::vars($errors));		
+//			Log::instance()->add(Log::NOTICE, Debug::vars($errors));			
+//		$config = Kohana::$config->load('test/catalog/catalog');		
 		
-//		$config = Kohana::$config->load('test/catalog/catalog');
-//		Minion_CLI::write($config->get('mode'));
-		
-		/* 
-		uploadDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   copyrightHolder TEXT NOT NULL default '',
-
-		Create the base table
-			$link = mysql_connect($hostname, $db_user, $db_password);
-			if (!$link) {
-			  die ("MySQL Connection error");
-			}
-			mysql_select_db($database_name, $link) or die ("Wrong MySQL Database");
-			read the sql file */
 			$this->id = 0;
 			$this->catalog_category_id = 0;
 			$this->level = 0;

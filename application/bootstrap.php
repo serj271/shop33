@@ -160,7 +160,7 @@ Kohana::modules(array(
 	'image' => MODPATH.'image',  // Image manipulation
 	'imagefly' => MODPATH.'imagefly',
 	'imagemagick' => MODPATH.'imagemagick',  // Image manipulation
-	 'media'		=> MODPATH.'media',
+	'media'		=> MODPATH.'media',
 	));
 
 /**

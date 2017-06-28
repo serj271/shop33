@@ -45,9 +45,9 @@ class Model_Catalog_Category extends ORM_Base {
 			'text' => 'Text',
 			'active' => 'Active',
 			'position' => 'Position',
-			'title_tag' => 'Title tag',
-			'keywords_tag' => 'Keywords tag',
-			'description_tag' => 'Desription tag',
+//			'title_tag' => 'Title tag',
+//			'keywords_tag' => 'Keywords tag',
+//			'description_tag' => 'Desription tag',
 		);
 	}
 

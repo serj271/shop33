@@ -39,10 +39,10 @@ class Controller_Catalog_Category extends Controller_Catalog {
 //		$brearcrBreadcrumb = Breadcrumb::factory()->set_title("Added Crumb")->set_url("http://example.com/");
 //		Log::instance()->add(Log::NOTICE, Debug::vars($brearcrBreadcrumb->get_title()));
 //		Breadcrumbs::add(array('title','http://ee.t'));
-		Breadcrumbs::add(array('home','/shop33/'));
+		Breadcrumbs::add(array('home',URL::base()));
 		Breadcrumbs::generate_from_request($this->request);
 //		$this->view->breadcrumbs = Breadcrumbs::get();
-//		Log::instance()->add(Log::NOTICE, Debug::vars(Breadcrumbs::get()));
+		Log::instance()->add(Log::NOTICE, Debug::vars(Breadcrumbs::get()));
 		$breadcrumbs = array();
 		foreach (Breadcrumbs::get() as $breadcrumb){
 			$breadcrumbs[] = array('title'=>$breadcrumb->get_title(),'url'=>$breadcrumb->get_url());			
