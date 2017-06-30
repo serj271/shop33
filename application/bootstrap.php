@@ -149,6 +149,7 @@ Kohana::modules(array(
 //	'blog'	=>MODPATH.'kohana-blog-master',
 	'pagination'	=>MODPATH.'pagination',
 	'breadcrumbs'=> MODPATH.'breadcrumbs',
+/* 	'breadcrumbs'=> MODPATH.'kohana-breadcrumbs-3.3-master', */
 	'catalog-shop'=> MODPATH.'catalog-shop',
 	'message'=> MODPATH.'message',
 	'B8'=> MODPATH.'B8',

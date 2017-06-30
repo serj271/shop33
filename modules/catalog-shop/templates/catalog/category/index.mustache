@@ -1,12 +1,12 @@
 
 {{value}}
 
-{{countBreadcrumbs}}
 
-<ul id="breadcrumbs" class="breadcrumbs">
-{{# breadcrumbs}}
-<li><a href="{{url}}">{{title}} > </a></li>
-{{/ breadcrumbs}}
+
+
+
+{{viewBreadcrumbs}}
+
 
 {{# product}}	
     {{{name}}
@@ -53,4 +53,11 @@
 {{# count_products}}
     {{{pagination}}}
 {{/ count_products}}
+
+
+    <p>{{#linkUser}}{{name}}{{/linkUser}}</p>
+
+{{#bold}}
+{{name}}
+{{/bold}}
 

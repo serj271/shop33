@@ -10,10 +10,29 @@ class View_Catalog_Category_Index {
     public $results = array();
     public $title;
 
-    public function message(){
-	
+    public $breadcrumbs = array();
+     
+  
 
-    }   
+    public $name='name';
+	public function bold()
+	{	    
+		return function($text) {
+//		    return ucfirst((string) $text);
+			return '<b>'.$text.'</b>';
+		};
+	}
+
+    public function linkUser()
+		{
+		return function($text)
+		{
+	//	    return "<a href='#'>".$text."</a>";
+			return HTML::anchor('personalviewerproperty/id/'.$text, $text);
+		};
+    
+    }
+
 
     public $products = array();
 

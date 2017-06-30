@@ -9,7 +9,7 @@ defined('SYSPATH') OR die('No direct access allowed.');
 ?>
 <?php $c = count($breadcrumbs) ?>
 
-<ul id="breadcrumbs">
+<ul id="breadcrumbs" class="breadcrumbs">
     <?php if ($c > ($conf['min_depth'] - 1)) : ?>
 
         <?php foreach ($breadcrumbs as $crumb) : ?>

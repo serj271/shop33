@@ -15,6 +15,7 @@ abstract class Controller_Common extends Controller_Template {
 	$this->template->styles=array();
 	$this->template->scripts=array();
 	$this->template->fixedTop='';	
+	$this->template->breadcrumbs = '';
 //	Lang::instance()->get('en-us');
 	$lang = Lang::instance()->get();
 //	Log::instance()->add(Log::NOTICE, Debug::vars($lang));

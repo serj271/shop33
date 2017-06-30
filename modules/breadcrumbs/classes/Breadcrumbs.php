@@ -121,7 +121,7 @@ class Breadcrumbs {
         $exclude_urls = Kohana::$config->load('breadcrumbs.exclude_duplicate_urls');
         $exclude_num  = Kohana::$config->load('breadcrumbs.exclude_numeric');
         $segments     = explode('/', $request->uri());
-
+//	Log::instance()->add(Log::NOTICE, Debug::vars($segments));
         foreach ($segments as $key => $page)
         {
             $url = implode('/', array_slice($segments, 0, ($key + 1)));

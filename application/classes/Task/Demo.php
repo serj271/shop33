@@ -23,7 +23,9 @@
 		protected function _execute(array $params)
 		{
 			var_dump($params);
-			echo 'foobar';
+//			echo 'foobar';
+			Minion_CLI::write(DOCROOT.'application/media/img/1.jpg');
+			var_dump(realpath(DOCROOT.'application/media/img/1.jpg'));
 		}
 	}
 	

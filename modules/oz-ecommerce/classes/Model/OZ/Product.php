@@ -88,10 +88,12 @@ abstract class Model_OZ_Product extends ORM {
 	public function filters()
 	{
 		return array(
-			'name' => array(array('trim')),
+			TRUE => array(
+				array('trim'),
+				array('strip_tags'),
+			),
 		);
 	}
-
 	/**
 	 * Finds all uncategorised products
 	 *

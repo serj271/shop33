@@ -107,6 +107,7 @@ Navigation Bar Section
         <div id="all">
            <div id="in">
                 <div id="center">
+		    <?php echo $breadcrumbs;?>
 		    <?php echo $content;?>
 					
 				</div>

@@ -3,6 +3,8 @@
 return array(
 	'Catalog module' => 'Модуль "Каталог товаров"',
 	'Catalog' => 'Каталог',
+	'home'=>'Главная',
+	'catalog' => 'Каталог',
 	'Category' => 'Категория',
 	'Categories list' => 'Список категорий',
 	'Add category' => 'Добавить категорию',
@@ -39,4 +41,5 @@ return array(
 	'Export categories (CSV)' => 'Экспорт категорий (CSV)',
 	'Search by article' => 'Поиск по артиклу',
 	'Search result' => 'Результаты поиска',
+	'title category0'=>'Заголовок категории0',
 );

@@ -26,43 +26,59 @@ class Controller_Catalog_Category extends Controller_Catalog {
 		$category_uri = $asParts[count($asParts)-1];
 		$category = ORM::factory('Catalog_Category')
 			->where('uri','=',$category_uri)->find();//category_uri unique must be
-		
+			
+		$categories = ORM::factory('Catalog_Category')->find_all()->as_array();	//uri => title
+		/* $titles = array();
+		foreach($categories as $cat){
+			Log::instance()->add(Log::NOTICE, Debug::vars($cat->title));
+			$titles[] = 
+		} */
+//		Log::instance()->add(Log::NOTICE, Debug::vars($categories));
 		/* foreach ($categories as $category){
 			$products[] = $category->products->find_all();
 		} */
-//		$products = $category->products->find_all();
-		
-//		$this->view->products = $products;
-		
-//		Log::instance()->add(Log::NOTICE, Debug::vars($products->as_array()));
-
+//		$products = $category->products->find_all();		
+//		$this->view->products = $products;		
 //		$brearcrBreadcrumb = Breadcrumb::factory()->set_title("Added Crumb")->set_url("http://example.com/");
-//		Log::instance()->add(Log::NOTICE, Debug::vars($brearcrBreadcrumb->get_title()));
-//		Breadcrumbs::add(array('title','http://ee.t'));
 		Breadcrumbs::add(array('home',URL::base()));
 		Breadcrumbs::generate_from_request($this->request);
-//		$this->view->breadcrumbs = Breadcrumbs::get();
-		Log::instance()->add(Log::NOTICE, Debug::vars(Breadcrumbs::get()));
-		$breadcrumbs = array();
+//		Breadcrumbs::clear();
 		foreach (Breadcrumbs::get() as $breadcrumb){
-			$breadcrumbs[] = array('title'=>$breadcrumb->get_title(),'url'=>$breadcrumb->get_url());			
+			foreach($categories as $cat){
+				if($breadcrumb->get_title() == $cat->uri){
+					$breadcrumb->set_title($cat->title);
+				}
+			}				
 		}
 
-//		Log::instance()->add(Log::NOTICE, Debug::vars($breadcrumbs,Breadcrumbs::render()));
+		
+		$this->template->breadcrumbs = Breadcrumbs::render("breadcrumbs/layout");
+		
+//		$this->view->breadcrumbs = Breadcrumbs::get();
+//		Log::instance()->add(Log::NOTICE, Debug::vars('read',Breadcrumbs::get()));
+		/* $breadcrumbs = array();
+		foreach (Breadcrumbs::get() as $breadcrumb){
+			$breadcrumbs[] = array('title'=>$breadcrumb->get_title(),'url'=>$breadcrumb->get_url());			
+		} */
+//		Log::instance()->add(Log::NOTICE, Debug::vars('breadcrumb',Breadcrumbs::get()));
+//		$this->view->breadcrumbs = Breadcrumbs::get();
 //		$this->view->breadcrumbs = Breadcrumbs::render();
-//		$this->view->countBreadcrumbs = count($breadcrumbs);
+//		$this->view->countBreadcrumbs = count($breadcrumbs)
 //		$sep = Kohana::$config->load('breadcrumbs.separator');
-//		$this->view->sep = $sep;
-		$this->template->breadcrumbs = Breadcrumbs::render();
-//		$this->template->content = Breadcrumbs::render();
-//    	Breadcrumbs::add(Breadcrumb::factory()->set_title("Added Crumb")->set_url("http://example.com/"));
-		
-//	$renderer = Kostache::factory(); 
-//		$this->response->body('hello, world catalog category!');	
-		
-//		$pagination  = new Pagination::$factory();
-//		$this->response->body($renderer->render(new View_Test)); 
-//	    $internal_request=View::factory('welcome');
+
+
+	/* 	Breadcrumbs::template('breadcrumbs/bootstrap');
+		Breadcrumbs::set('/','Home');
+		Breadcrumbs::set_auto($this);
+		$data = array(
+//			'template' => 'breadcrumbs_template_path',
+			'items' => array(
+				'/posts/'    => 'Posts',
+				'/post/124/' => 'Post 124 title',				
+			),
+		);
+		$this->template->breadcrumbs = Request::factory('breadcrumbs')->query($data)->execute()->body(); */
+	
 		$config = Kohana::$config->load('pagination.default');
 		$count = $category->products
 				->count_all();
@@ -105,8 +121,6 @@ class Controller_Catalog_Category extends Controller_Catalog {
 			$this->view->products = $products;
 			$this->view->product = $result;
 //			Log::instance()->add(Log::NOTICE,Debug::vars('+++++++-----',$products));
-
-
 	}
 	
 	public function action_detail(){	

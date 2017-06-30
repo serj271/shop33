@@ -89,8 +89,10 @@ class Controller_Home extends Controller_Common_Home {
 //	    Log::instance()->add(Log::NOTICE, Debug::vars($captcha->render()));
 //		$this->template->captcha = $captcha->image_render(TRUE);
 //		$this->template->$captcha->image_render(TRUE);
+//		$src = URL::base().'imagefly/w200-h200/1.jpg';
 		$content = View::factory('home/content');
 			/* ->bind('captcha_image',$captcha_image); */
+//			->bind('src',$src);
 		$this->template->content = $content;
 
 		/* $results = Cart::GetProducts($this->_mCartId);

@@ -4,7 +4,12 @@
 <div class="text-warning">
 	
 <p>Home content</p>	
+
+
+
 </div>
+
+
 <?php 
 
 //	echo Message::display();
