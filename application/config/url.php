@@ -3,7 +3,8 @@
 return array(
 
 	'trusted_hosts' => array(
-		'192.168.1.1'
+		'192.168.1.1',
+		'web-remont.online',
 		// Set up your hostnames here
 		//
 		// Example:

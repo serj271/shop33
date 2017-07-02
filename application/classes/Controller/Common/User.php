@@ -9,7 +9,7 @@ abstract class Controller_Common_User extends Controller_Common {
 	View::set_global('title','user');
 	View::bind_global('page_title', $this->page_title);
 	View::set_global('head','user');
-	$this->template->styles=array('bootstrap','common_v4','user_v5');
+	$this->template->styles=array('bootstrap','common_v6');
 	$this->template->scripts=array('jquery');
 #	$title=Kohana::$config->load('personal.user.title');	    
 #	$this->template->title=$title;

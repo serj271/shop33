@@ -12,7 +12,7 @@ class View_Catalog_Category_Index {
 
     public $breadcrumbs = array();
      
-  
+    public $categories = array();  
 
     public $name='name';
 	public function bold()
@@ -33,9 +33,25 @@ class View_Catalog_Category_Index {
     
     }
 
-
+/* 
+    public function listCategories(){
+		result = array();
+		foreach ($this->categories as $category){
+			$uri = $category->uri;
+			$uri = Arr::map(array(array(__CLASS__,'addBase')), $photo, array('uri'));//
+			
+		}
+		
+		
+    
+    }
+ */
+/* 
+	public static function addBase($url){		
+		return URL::base().$url;			
+	} 	 */
+	
     public $products = array();
-
 
     public function count_products(){
 	return count($this->products);

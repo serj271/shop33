@@ -3,6 +3,7 @@
 class Controller_Home extends Controller_Common_Home {
 //    public $template ='main';
 	protected $config = 'example';
+	
 	public function before()
 	{
 		parent::before();
@@ -14,12 +15,10 @@ class Controller_Home extends Controller_Common_Home {
 			->headers('x-content-type-options','nosniff')
 			->headers('x-frame-options','SAMEORIGIN')
 			->headers('x-xss-protection','1; mode=block');
-		// Check if user is allowed to continue
-//		Lang::instance()->set('en-us');
-		
-//		Log::instance()->add(Log::NOTICE, Debug::vars('home',Lang::instance()->get(), $this->request->query('lang')));
+		// Check if user is allowed to continue	
+
 		if($this->request->query('lang')){
-			if($this->request->query('lang') == 'ru' && $this->request->query('lang') == 'en-us'){
+			if($this->request->query('lang') == 'ru' || $this->request->query('lang') == 'en-us'){
 				Lang::instance()->set($this->request->query('lang'));
 				$this->redirect($this->request->route()->uri(array(
 					'controller'=> $this->request->controller(),
@@ -55,10 +54,10 @@ class Controller_Home extends Controller_Common_Home {
 //	$message = Kohana::$environment;
 
         $content = View::factory('/home/content');
-		$this->menu = Menu::factory($this->config);
+//		$this->menu = Menu::factory($this->config);
+		$this->menu = '';		
 		
-		
-		$this->template->content = $this->menu->render();		
+		$this->template->content = '';		
 		$this->template->breadcrumbs = '';
         
         $navigator=View::factory('/home/navigator')
@@ -93,29 +92,65 @@ class Controller_Home extends Controller_Common_Home {
 		$content = View::factory('home/content');
 			/* ->bind('captcha_image',$captcha_image); */
 //			->bind('src',$src);
-		$this->template->content = $content;
+		$this->template->content = $content;		
 
-		/* $results = Cart::GetProducts($this->_mCartId);
-		$carts = $results->as_array();
-		$quantity=0;
-		if(count($carts)){
-			foreach($carts as $cart){
-				$quantity += $cart['quantity'];
-			}
-		}		
-		$total_amount = Cart::GetTotalAmount($this->_mCartId); */
-		
+		$login = FALSE;
+		if (Auth::instance()->logged_in('login'))
+		{
+		    $login = TRUE;
+		}
+
 		$quantity = Helpers_Cart::getQuantity($this->_mCartId);
 		$total_amount = Helpers_Cart::getTotal($this->_mCartId);
 		$fixedTop = View::factory('fixed/top')
 			->bind('quantity',$quantity)
-			->bind('total_amount',$total_amount);
+			->bind('total_amount',$total_amount)
+			->bind('login', $login);
 		$this->template->fixedTop = $fixedTop;
 		
+		$lang = Lang::instance()->get();
+		$lang_title='';
+		$lang_url='';
+		if($lang == 'en-us'){
+			$lang_title='Ru';
+			$lang_url='?lang=ru';
+		} else {
+			$lang_title='En';
+			$lang_url='?lang=en-us';
+		}
 		
+		$navbar_items  = array(
+			array(
+				'url'=>'',
+				'text'=>__('Home'),
+				'active'=>Helpers_Navbar::home($this->request->uri()),
+			),			
+			array(
+				'url'=>'catalog',
+				'text'=>__('List Catalog'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'catalog'),
+			),	
+			array(
+				'url'=>'product',
+				'text'=>__('List Product'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'product'),
+			),	
+			array(
+				'url'=>'basket',
+				'text'=>__('Basket'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'basket'),
+			),
+			array(
+				'url'=>$lang_url,
+				'text'=>$lang_title,
+				'active'=>FALSE
+			),
 		
-//		Log::instance()->add(Log::NOTICE, Debug::vars('home',$this->_mCartId, $quantity, $total_amount));
-
+		); 
+		$navbar = View::factory('navbar/home')
+			->bind('navbar_items',$navbar_items);
+		$this->template->navbar = $navbar;
+	
 		    
     }
 

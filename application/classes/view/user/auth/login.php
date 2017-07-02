@@ -21,10 +21,7 @@ class View_User_Auth_Login {
 	{
 		return array('token' => Security::token()) + $this->values;
 	}
-//	public function action()
-//	{
-//		return $this->request->controller()
-//	}	
+	
 	public function charset(){
 	    return 'utf-8';
 	}

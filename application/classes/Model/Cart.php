@@ -100,7 +100,7 @@ abstract class Model_Cart extends Model
 		))->execute();
 	} */
 		
-	public static function UpdateProduct($id,$inQuantity){
+	public static function UpdateProduct($id,$inQuantity=1){
 		$query = "call shopping_cart_update(:inItemId,:inQuantity)";
 		return DB::query(Database::SELECT, $query)->parameters(array(
 			':inItemId'=>$id,	

@@ -146,5 +146,31 @@ class Model_Catalog_Category extends ORM_Base {
 	
 		return ! $orm->loaded();
 	}
+	private function parse_categories(array $list)
+	{
+		$result = array();
+		foreach ($list as $_orm) {
+			$_item = array(
+				'id' => $_orm->id,
+				'code' => $_orm->code,
+				'title' => $_orm->title,
+			);
+			
+			if ($_orm->level == 0) {
+				$_item['path'] = array(
+					$_orm->title
+				);
+			} elseif (array_key_exists($_orm->category_id, $result)) {
+				$_item['path'] = $result[$_orm->category_id]['path'];
+				$_item['path'][] = 	$_orm->title;
+			} else {
+				continue;
+			}
+			
+			$result[$_orm->id] = $_item;
+		}
+		
+		return $result;
+	}
 
 }

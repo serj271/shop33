@@ -61,9 +61,9 @@ class View_User_Auth_Join {
 	    return Arr::path($this->errors, '_external.password_confirm');	
 	}
 	
-	public function captchaWidth(){
-		return '11';
-	}
+//	public function captchaWidth(){
+//		return '11';
+//	}
 	
 	public function captcha(){		
 		return function($text) {

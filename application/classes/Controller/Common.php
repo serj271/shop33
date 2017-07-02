@@ -15,14 +15,26 @@ abstract class Controller_Common extends Controller_Template {
 	$this->template->styles=array();
 	$this->template->scripts=array();
 	$this->template->fixedTop='';	
+	$this->template->navbar='';	
+	$header = View::factory('header/row');
+	$this->template->header=$header;	
 	$this->template->breadcrumbs = '';
-//	Lang::instance()->get('en-us');
 	$lang = Lang::instance()->get();
-//	Log::instance()->add(Log::NOTICE, Debug::vars($lang));
 	if($lang == 'ru'){
 	    I18n::lang('ru');	
 	} else {
 	    I18n::lang('en-us');		
 	}
+//		$session = Session::instance('native');
+//		Cart::SetCartId();//		
+//		$this->_mCartId = $session->get('mCartId', false);
+
+
+
     }
+    
+//    public function after(){
+//    	$header = View::factory('header/row');
+//	$this->template->header=$header;	    
+//    }
 } 

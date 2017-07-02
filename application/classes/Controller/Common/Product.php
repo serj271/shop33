@@ -9,7 +9,7 @@ abstract class Controller_Common_Product extends Controller_Common {
 //	View::bind_global('title',$this->title);
 	View::set_global('title','shop');
 	$this->template->scripts=array();
-	$this->template->styles=array('bootstrap','common_v4');
+	$this->template->styles=array('bootstrap','common_v6');
 //	$resultCss = Compress::instance('stylesheets')->styles(array('css/flags.css'),'css/out.css');
 //	$this->template->resultCss = $resultCss;
 //	I18n::lang('ru');	

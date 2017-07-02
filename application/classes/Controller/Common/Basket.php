@@ -13,7 +13,7 @@ abstract class Controller_Common_Basket extends Controller_Common {
 //	$this->template->navigator='';
 //	$this->template->menu='';
 //	$this->template->cart= NULL;
-	$this->template->styles=array('bootstrap.min','common_v4','basket');
+	$this->template->styles=array('bootstrap.min','common_v6','basket');
 	$this->template->scripts=array('jquery');
 #	$title=Kohana::$config->load('personal.user.title');	    
 #	$this->template->title=$title;

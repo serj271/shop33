@@ -76,20 +76,50 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 //		$message = Message::display('message/bootstrap');	
 		$message='ok';	
 		$this->template->navigator = $message;
-		$results = Cart::GetProducts($this->_mCartId);
-		$carts = $results->as_array();
-		$quantity=0;
-		if(count($carts)){
-			foreach($carts as $cart){
-				$quantity += $cart['quantity'];
-			}
-		}		
-		$total_amount = Cart::GetTotalAmount($this->_mCartId);
+
+		$login = FALSE;
+		if (Auth::instance()->logged_in('login'))
+		{
+		    $login = TRUE;
+		}
+
+		$quantity = Helpers_Cart::getQuantity($this->_mCartId);
+		$total_amount = Helpers_Cart::getTotal($this->_mCartId);
 		$fixedTop = View::factory('fixed/top')
 			->bind('quantity',$quantity)
-			->bind('total_amount',$total_amount->as_array()[0]['total_amount']);
-
+			->bind('total_amount',$total_amount)
+			->bind('login', $login);
 		$this->template->fixedTop = $fixedTop;
+
+
+
+		$navbar_items  = array(
+			array(
+				'url'=>'',
+				'text'=>__('Home'),
+				'active'=>Helpers_Navbar::home($this->request->uri()),
+			),			
+			array(
+				'url'=>'catalog',
+				'text'=>__('List Catalog'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'catalog'),
+			),	
+			array(
+				'url'=>'product',
+				'text'=>__('List Product'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'product'),
+			),	
+			array(
+				'url'=>'basket',
+				'text'=>__('Basket'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'basket'),
+			),
+		
+		); 
+		$navbar = View::factory('navbar/inner')
+			->bind('navbar_items',$navbar_items);
+		$this->template->navbar = $navbar;
+
 
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());
 //	    $navigator->message=$message;
@@ -99,7 +129,8 @@ abstract class Controller_Catalog extends Controller_Common_Catalog {
 //		$session->set('ragion',$ragion);		
 //		$ragion_checked = $session->get('ragion_checked', array());
 
-//		$this->template->navigator=$renderer->render($this->view_navigator);
+		$header = View::factory('header/row');
+		$this->template->header=$header;	
 		return parent::after();
 	}
 	

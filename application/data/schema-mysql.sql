@@ -1,5 +1,5 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-use 'shop33';
+/* use 'shop33'; */
 select 'product_reviews';
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -8,15 +8,15 @@ CREATE TABLE `product_reviews` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`product_id` int(10) unsigned NOT NULL,
 	`date` datetime NOT NULL,
-	`name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+	`name` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
 	`rating` tinyint(2) unsigned NOT NULL,
-	`summary` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-	`body` text COLLATE utf8_unicode_ci NOT NULL,
+	`summary` varchar(255) COLLATE utf8_general_ci NOT NULL,
+	`body` text COLLATE utf8_general_ci NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `product_id` (`product_id`),
 	KEY `date` (`date`),
 	KEY `rating` (`rating`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 
 
@@ -24,11 +24,11 @@ DROP TABLE IF EXISTS product_specifications;
 CREATE TABLE `product_specifications` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`product_id` int(10) unsigned NOT NULL,
-	`name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-	`value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`name` varchar(255) COLLATE utf8_general_ci NOT NULL,
+	`value` varchar(255) COLLATE utf8_general_ci NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `product_id` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 select 'prod variabl';
 
@@ -36,7 +36,7 @@ DROP TABLE IF EXISTS product_variations;
 CREATE TABLE `product_variations` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`product_id` int(10) unsigned NOT NULL,
-	`name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`name` varchar(255) COLLATE utf8_general_ci NOT NULL,
 	`price` decimal(8,2) unsigned NOT NULL,
 	`sale_price` decimal(8,2) unsigned DEFAULT NULL,
 	`discounted_price` decimal(8,2) unsigned DEFAULT NULL,
@@ -44,12 +44,12 @@ CREATE TABLE `product_variations` (
 	PRIMARY KEY (`id`),
 	KEY `product_id` (`product_id`),
 	KEY `quantity` (`quantity`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS vouchers;
 CREATE TABLE `vouchers` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	`code` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+	`code` varchar(16) COLLATE utf8_general_ci NOT NULL,
 	`start_date` datetime NOT NULL,
 	`end_date` datetime NOT NULL,
 	`percentage` tinyint(2) unsigned NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE `vouchers` (
 	UNIQUE KEY `code` (`code`),
 	KEY `start_date` (`start_date`),
 	KEY `end_date` (`end_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
  SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS product_categories_products;
@@ -65,7 +65,7 @@ DROP TABLE IF EXISTS product_categories;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS order_products;
 DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS catalog_categories;
+
 
 CREATE TABLE `product_categories_products` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -76,8 +76,10 @@ CREATE TABLE `product_categories_products` (
 	PRIMARY KEY (`id`),
 	KEY `fk_product` (`product_id`),
 	KEY `fk_category_id` (`catalog_category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
+
+DROP TABLE IF EXISTS catalog_categories;
 CREATE TABLE `catalog_categories` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`catalog_category_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
@@ -87,11 +89,11 @@ CREATE TABLE `catalog_categories` (
 	`title` VARCHAR(255) NOT NULL DEFAULT '',
 	`image` VARCHAR(255) NOT NULL DEFAULT '',
 	`text` TEXT NOT NULL,
-	/* `active` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
-	`position` INT(10) UNSIGNED NOT NULL DEFAULT '0', */
-	/* `title_tag` VARCHAR(255) NOT NULL DEFAULT '',
+	`active` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+	`position` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+	`title_tag` VARCHAR(255) NOT NULL DEFAULT '',
 	`keywords_tag` VARCHAR(255) NOT NULL DEFAULT '',
-	`description_tag` VARCHAR(255) NOT NULL DEFAULT '', */
+	`description_tag` VARCHAR(255) NOT NULL DEFAULT '',
 	`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 /* 	`creator_id` INT(10) NOT NULL DEFAULT '0',
 	`updated` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -101,92 +103,92 @@ CREATE TABLE `catalog_categories` (
 	`delete_bit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
 	PRIMARY KEY (`id`),
 	KEY `catalog_category_id` (`catalog_category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 CREATE TABLE `order_products` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`order_id` int(10) unsigned NOT NULL,
 	`product_id` int(10) unsigned NOT NULL,
-	`product_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`product_name` varchar(255) COLLATE utf8_general_ci NOT NULL,
 	`variation_id` int(10) unsigned DEFAULT NULL,
-	`variation_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`variation_name` varchar(255) COLLATE utf8_general_ci NOT NULL,
 	`quantity` mediumint(8) unsigned NOT NULL,
 	`price` decimal(8,2) unsigned NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `order_id` (`order_id`,`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 /* CREATE TABLE `product_categories` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	`name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-	`description` text COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+	`name` varchar(255) COLLATE utf8_general_ci NOT NULL,
+	`description` text COLLATE utf8_general_ci NOT NULL DEFAULT '',
 	`parent_id` int(10) unsigned DEFAULT NULL,
 	`uri` VARCHAR(255) NOT NULL DEFAULT '',
 	`delete_bit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
-	`image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+	`image` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	KEY `parent_id` (`parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ; */
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ; */
 
 
 CREATE TABLE `orders` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`user_id` int(10) unsigned DEFAULT NULL,
 	`date` datetime NOT NULL,
-	`reference` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-	`status` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'new',
-	`payment_method` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`reference` varchar(32) COLLATE utf8_general_ci DEFAULT NULL,
+	`status` varchar(10) COLLATE utf8_general_ci NOT NULL DEFAULT 'new',
+	`payment_method` varchar(255) COLLATE utf8_general_ci NOT NULL,
 	`shipping_price` decimal(6,2) unsigned NOT NULL DEFAULT '0.00',
-	`shipping_method` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`shipping_method` varchar(255) COLLATE utf8_general_ci NOT NULL,
 	`vat_rate` decimal(4,2) unsigned NOT NULL DEFAULT '0.00',
 	`discount` decimal(6,2) unsigned DEFAULT NULL,
-	`email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-	`billing_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-	`billing_telephone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-	`billing_addr1` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-	`billing_addr2` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-	`billing_addr3` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-	`billing_postal_code` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
-	`billing_country` char(2) COLLATE utf8_unicode_ci NOT NULL,
-	`shipping_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-	`shipping_telephone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-	`shipping_addr1` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-	`shipping_addr2` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-	`shipping_addr3` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-	`shipping_postal_code` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
-	`shipping_country` char(2) COLLATE utf8_unicode_ci NOT NULL,
-	`notes` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+	`email` varchar(255) COLLATE utf8_general_ci NOT NULL,
+	`billing_name` varchar(255) COLLATE utf8_general_ci NOT NULL,
+	`billing_telephone` varchar(20) COLLATE utf8_general_ci DEFAULT NULL,
+	`billing_addr1` varchar(50) COLLATE utf8_general_ci NOT NULL,
+	`billing_addr2` varchar(50) COLLATE utf8_general_ci DEFAULT NULL,
+	`billing_addr3` varchar(50) COLLATE utf8_general_ci NOT NULL,
+	`billing_postal_code` varchar(25) COLLATE utf8_general_ci NOT NULL,
+	`billing_country` char(2) COLLATE utf8_general_ci NOT NULL,
+	`shipping_name` varchar(255) COLLATE utf8_general_ci NOT NULL,
+	`shipping_telephone` varchar(20) COLLATE utf8_general_ci DEFAULT NULL,
+	`shipping_addr1` varchar(50) COLLATE utf8_general_ci NOT NULL,
+	`shipping_addr2` varchar(50) COLLATE utf8_general_ci DEFAULT NULL,
+	`shipping_addr3` varchar(50) COLLATE utf8_general_ci NOT NULL,
+	`shipping_postal_code` varchar(25) COLLATE utf8_general_ci NOT NULL,
+	`shipping_country` char(2) COLLATE utf8_general_ci NOT NULL,
+	`notes` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `reference` (`reference`),
 	KEY `status` (`status`),
 	KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 
 
 CREATE TABLE `products` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	`name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`name` varchar(255) COLLATE utf8_general_ci NOT NULL,
 	`uri` VARCHAR(255) NOT NULL DEFAULT '',
-	`description` text COLLATE utf8_unicode_ci NOT NULL,
+	`description` text COLLATE utf8_general_ci NOT NULL,
 	`primary_photo_id` int(10) unsigned DEFAULT NULL,
 	`avg_review_rating` decimal(3,1) unsigned DEFAULT NULL,
 	`visible` tinyint(1) unsigned NOT NULL DEFAULT '1',
 	PRIMARY KEY (`id`),
 	KEY `visible` (`visible`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 
 DROP TABLE IF EXISTS product_photos;
 CREATE TABLE `product_photos` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`product_id` int(10) unsigned NOT NULL,
-	`path_fullsize` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-	`path_thumbnail` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`path_fullsize` varchar(255) COLLATE utf8_general_ci NOT NULL,
+	`path_thumbnail` varchar(255) COLLATE utf8_general_ci NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `product_id_path_fullsize` (`product_id`,`path_fullsize`),
 	KEY `product_id` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1 ;
 
 
 DROP TABLE IF EXISTS `shopping_cart`;
@@ -201,7 +203,7 @@ CREATE TABLE `shopping_cart` (
 	PRIMARY KEY (`id`),
 	KEY `product_id` (`product_id`),
 	KEY `idx_shopping_cart_cart_id` (`cart_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 
 SELECT "Trigger";
@@ -235,7 +237,7 @@ DELIMITER ;
 
 delimiter //
 DROP procedure IF EXISTS `total_orders`;
-create procedure total_orders (out total float)
+create procedure `total_orders`(out total float)
 BEGIN
 	select sum(amount) into total from orders;
 END
@@ -244,7 +246,7 @@ delimiter ;
 
 delimiter //
 DROP function IF EXISTS `add_tax`;
-create function add_tax (price float) returns float
+create function `add_tax` (price float) returns float
 DETERMINISTIC
 begin
 	declare tax float default 0.10;
@@ -255,7 +257,7 @@ delimiter ;
 
 delimiter //
 DROP procedure IF EXISTS `largest_order`;
-create procedure largest_order(out largest_id int)
+create procedure `largest_order`(out largest_id int)
 begin
 	declare this_id int;
 	declare this_amount float;

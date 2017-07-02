@@ -13,14 +13,14 @@ abstract class Controller_Common_Home extends Controller_Common {
 //	$this->template->menu='';
 //	$this->template->cart= NULL;
 	$this->template->scripts=array();
-	$this->template->styles=array('bootstrap','common_v4');
+	$this->template->styles=array('bootstrap','common_v6');
 	$this->template->breadcrumbs = '';
 
 //	$resultCss = Compress::instance('stylesheets')->styles(array('css/flags.css'),'css/out.css');
 //	$this->template->resultCss = $resultCss;
 //	I18n::lang('ru');	
-//	$lang = Lang::instance()->get();
-//	Log::instance()->add(Log::NOTICE, $lang);
+	$lang = Lang::instance()->get();
+//	Log::instance()->add(Log::NOTICE, Debug::vars($lang, I18n::lang()));
 //	if($lang == 'ru'){
 //	    I18n::lang('ru');	
 //	} else {

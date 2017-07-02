@@ -28,15 +28,7 @@ class Controller_Catalog_Category extends Controller_Catalog {
 			->where('uri','=',$category_uri)->find();//category_uri unique must be
 			
 		$categories = ORM::factory('Catalog_Category')->find_all()->as_array();	//uri => title
-		/* $titles = array();
-		foreach($categories as $cat){
-			Log::instance()->add(Log::NOTICE, Debug::vars($cat->title));
-			$titles[] = 
-		} */
-//		Log::instance()->add(Log::NOTICE, Debug::vars($categories));
-		/* foreach ($categories as $category){
-			$products[] = $category->products->find_all();
-		} */
+	
 //		$products = $category->products->find_all();		
 //		$this->view->products = $products;		
 //		$brearcrBreadcrumb = Breadcrumb::factory()->set_title("Added Crumb")->set_url("http://example.com/");
@@ -117,10 +109,38 @@ class Controller_Catalog_Category extends Controller_Catalog {
 				$products_as_array['variations'] = $variations;
 				$result[] = $products_as_array;	
 			}
-			$this->view->pagination = $pagination;
-			$this->view->products = $products;
-			$this->view->product = $result;
-//			Log::instance()->add(Log::NOTICE,Debug::vars('+++++++-----',$products));
+			if(empty($result)){
+	/* 			$this->view->pagination = $pagination;
+				$this->view->products = $products;
+				$this->view->product = $result;	 */	
+				if($uri == ""){
+					$list_category = ORM::factory('Catalog_Category')->where('level','=','0')->find_all();
+				
+				} else {
+					$list_category = ORM::factory('Catalog_Category')->where('uri','=',$category_uri)->find_all();
+				}				
+					$result = array();
+					foreach ($list_category as $_orm) {
+		//				Log::instance()->add(Log::NOTICE,Debug::vars('or',$_orm->id));
+						$_item = array(
+							'id' => $_orm->id,
+							'code' => $_orm->code,
+							'title' => $_orm->title,
+			//				'uri'=>$_orm->uri
+							'uri'=> Arr::map(array(array(__CLASS__,'createUri')), array($_orm->id), array('uri'))
+						);						
+						$result[] = $_item;
+					}				
+					$this->view->categories = $result;					
+					Log::instance()->add(Log::NOTICE,Debug::vars('list_category+-----',$result));				
+				
+			} else {
+				$this->view->pagination = $pagination;
+				$this->view->products = $products;
+				$this->view->product = $result;				
+			}
+			
+//			Log::instance()->add(Log::NOTICE,Debug::vars('+++++++-----',$uri));
 	}
 	
 	public function action_detail(){	
@@ -136,9 +156,28 @@ class Controller_Catalog_Category extends Controller_Catalog {
 
 	}
 	public static function addBase($url){
-			return URL::base().$url;			
+		return URL::base().$url;			
 	} 
-	public static function createLink($uri){
+	public static function createUri($id){
+		$categories = ORM::factory('Catalog_Category')->where('catalog_category_id','=',$id)->find_all();
+//		Log::instance()->add(Log::NOTICE,Debug::vars($categories->as_array()));
+		$list_category = array();
+		$category = new stdClass;
+		foreach($categories as $i){
+			$category->uri = $i->uri;
+			$category->title = $i->title;
+			$list_category[] = $category;
+			
+		}
+	/* 	$link = Route::get('catalog/main')->uri(array(
+			'directory' =>'catalog',
+			'controller' => 'category',
+			'action'     => 'index',
+			'category_uri' => $uri			
+		)); */
+		return $list_category;		
+	}
+	public static function createLink($uri){//get one product
 		$link = Route::get('product')->uri(array(
 			'directory' =>'product',
 			'controller' => 'main',

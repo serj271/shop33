@@ -20,7 +20,7 @@ class Controller_User_Main extends Controller_User {
 //    Log::instance()->add(Log::NOTICE, Route::url('admin'));
 //    $this->request->redirect('admin/news');
 //    $this->response->body('admin');
-		$login = View::factory('user/menulogout');
-		$this->template->menu=$login;
+//		$login = View::factory('user/menulogout');
+//		$this->template->menu=$login;
     }
 } // End 

@@ -29,8 +29,10 @@ abstract class Controller_User extends Controller_Common_User {
 			->headers('x-frame-options','SAMEORIGIN')
 			->headers('x-xss-protection','1; mode=block');
 		$session = Session::instance('native');
+		$session = Session::instance('native');
 		Cart::SetCartId();//		
-		$this->mCartId = $session->get('mCartId', false);			
+		$this->_mCartId = $session->get('mCartId', false);
+
 		// Check if user is allowed to continue
 //		static::check_permissions($this->request);
 		$this->captcha = Captcha::instance('alpha');
@@ -89,6 +91,50 @@ abstract class Controller_User extends Controller_Common_User {
 //		$this->view = $renderer->render($view);		
 		$this->template->content=$renderer->render($this->view);
 		$this->template->breadcrumbs = '';		
+
+
+		$login = FALSE;
+		if (Auth::instance()->logged_in('login'))
+		{
+		    $login = TRUE;
+		}
+
+		$quantity = Helpers_Cart::getQuantity($this->_mCartId);
+		$total_amount = Helpers_Cart::getTotal($this->_mCartId);
+		$fixedTop = View::factory('fixed/top')
+			->bind('quantity',$quantity)
+			->bind('total_amount',$total_amount)
+			->bind('login', $login);
+		$this->template->fixedTop = $fixedTop;
+
+		$navbar_items  = array(
+			array(
+				'url'=>'',
+				'text'=>__('Home'),
+				'active'=>Helpers_Navbar::home($this->request->uri()),
+			),			
+			array(
+				'url'=>'catalog',
+				'text'=>__('List Catalog'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'catalog'),
+			),	
+			array(
+				'url'=>'product',
+				'text'=>__('List Product'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'product'),
+			),	
+			array(
+				'url'=>'basket',
+				'text'=>__('Basket'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'basket'),
+			),
+		
+		); 
+		$navbar = View::factory('navbar/inner')
+			->bind('navbar_items',$navbar_items);
+		$this->template->navbar = $navbar;
+
+
 //		$message = Message::display('message/bootstrap');			
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());
 //	    $navigator->message=$message;

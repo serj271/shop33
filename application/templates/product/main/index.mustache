@@ -1,55 +1,6 @@
 <div id="result">
-<h1>Welcome, {{username}}
-{{^ username }}
-  Guest
-{{/ username }}!
 
-</h1>
 
-{{test}}
-
-<div class="well">
-	{{#buttons}}
-	<a class="btn {{class}}" href="{{url}}">{{text}}</a>
-	{{/buttons}}
-</div>
- 
-
-{{# product}}	
-    {{{name}}
-    {{# photo}}
-	<img src={{path_fullsize}} />
-	{{path_fullsize}}
-    {{/ photo}}
-		{{# specifications}}
-			<p>
-				specification name <a href="{{link}}" > {{name}} </a>
-			</p>
-			<p>
-				specification value {{value}}
-			</p>
-		{{/ specifications}}
-		{{# reviews}}
-		<p>
-			reviews date {{date}}
-		</p>
-		<p>
-			reviews name {{name}}
-		</p>
-		<p>
-			reviews rating {{rating}}
-		</p>
-		<p>
-			reviews summary  {{summary}}
-		</p>
-		<p>
-			reviews body {{body}}
-		</p>
-		
-		{{/ reviews}}
-{{/ product}}
-
-{{{pagination}}}
  
 {{#result}}
     {{#rows}}
@@ -85,6 +36,15 @@
 		</p>
 		
 		{{/ reviews}}
+		{{# variations}}
+			<p>
+				price {{price}}
+			</p>
+			<p>
+				quantity {{quantity}}
+			</p>
+		{{/ variations}}
+
 
 	{{/product}}
 	{{#basket}}
@@ -92,5 +52,8 @@
 	{{/basket}}
     {{/rows}}
 {{/result}}
+
+{{{pagination}}}
+
 
 </div>

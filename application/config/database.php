@@ -15,8 +15,11 @@ return array
 			 */
 			'host'       => 'localhost',
 			'username'   => 'user_db',
+//			'username'   => 'u0326405_serj', 
 			'password'   => '123456s',
+//			'password'   => 'H1x1P2k4', 			
 			'database'   => 'shop33',
+//			'database'   => 'u0326405_serj', 			
 			'persistent' => FALSE,
 			'port'       => NULL,
 			'socket'     => NULL,

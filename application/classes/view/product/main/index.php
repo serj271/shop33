@@ -37,7 +37,7 @@ class View_Product_Main_Index {
 	{
 		return ucfirst(Inflector::plural($this->model()));
 	} 
-	
+/*	
 	public function options()
 	{
 		return array(
@@ -55,7 +55,7 @@ class View_Product_Main_Index {
 			),
 		);
 	}
-	
+/*	
 	/**
 	 * @var	mixed	local cache for self::results()
 	 */
@@ -110,27 +110,31 @@ class View_Product_Main_Index {
 				$product->photo = $photo;
 				$reviews = $item->reviews->find()->as_array();
 				$specifications = $item->specifications->find()->as_array();
+				$variations = $item->variations->find()->as_array();
+
 				$product->reviews = $reviews;
 				$product->specifications = $specifications;
+				$labels_variations = $item->variations->labels();
+				Log::instance()->add(Log::NOTICE, Debug::vars('re',$item->variations->labels()));
 				
 				$result['rows'][] = array(
 					'product'		=> $product,
 					'basket'		=> $basket,
+					'variations'		=>$variations,
 //					'total_amount'	=> $this->total_amount,
 //					'options' 	=> $options,
 //					'values' 	=> $values,
 				);
 			}
 		}
-		$labels = ORM::factory($this->model)->labels();
+//		$labels = ORM::factory($this->model)->labels();
 //		$columns = ORM::factory($this->model)->list_columns();
 		/* foreach($columns as $name=>$column){
 			$label = Arr::get($labels, $name, Inflector::humanize($name));
 			$this->_labels[$name] = __($label);
 		} */
-		$this->_labels = $labels;
+//		$this->_labels = $labels;
 //		$result['labels'] = $labels;
-		Log::instance()->add(Log::NOTICE, Debug::vars('result',$result));
 		return $this->_result = $result;		
 	}
 
@@ -145,25 +149,10 @@ class View_Product_Main_Index {
 	public function in_ca(){
 //	    return $this->total_amount > 0;
 	}
-	public function message_empty_shopping_cart(){
+/* 	public function message_empty_shopping_cart(){
 	    return __("Your shopping cart is empty");
-	}
+	} */
 	
-	public function bolder()
-	{
-		return function($text, $renderer) {
-			return '<b>'.call_user_func($renderer, $text).'</b>';
-		};
-	}
-	
-	
-	
-	
-	
-    public function message(){
-	return 'Hello pro';	
-
-    }   
 
 	
 }

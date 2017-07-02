@@ -11,7 +11,7 @@ abstract class Controller_Common_Error extends Controller_Common {
 //	$this->template->content='';
 //	$this->template->navigator='';
 //	$this->template->menu='';
-	$this->template->styles=array('bootstrap.min','common_v4');
+	$this->template->styles=array('bootstrap.min','common_v6');
 	$this->template->scripts=array('jquery','library');
 //	$title=Kohana::$config->load('personal.user.title');	    
 //	$this->template->title=$title;

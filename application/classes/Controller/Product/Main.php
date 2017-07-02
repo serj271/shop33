@@ -6,7 +6,7 @@ class Controller_Product_Main extends Controller_Product {
 //    public $menu = 'menu.useradmin';
 //    public $navigator ='useradmnin';
     public function action_index(){		
-//		Log::instance()->add(Log::NOTICE,Debug::vars($this->_mCartId));
+
 //		if (!Auth::instance()->logged_in('login')){		
 //			$this->redirect('user/auth/login');
 //		}
@@ -15,7 +15,7 @@ class Controller_Product_Main extends Controller_Product {
 		$item_uri = $this->request->param('item_uri');
 		$model = 'Product';
 		$result = array();
-//		Log::instance()->add(Log::NOTICE,Debug::vars('result----',$item_uri));
+
 		if($item_uri)
 		{
 			$products_orm = ORM::factory($model)
@@ -107,7 +107,7 @@ class Controller_Product_Main extends Controller_Product {
 
 //		}		
 
-//		Log::instance()->add(Log::NOTICE,Debug::vars($photo));			
+	
 		$this->view->item = $item;
 	/* 	$this->view_navigator->message = __(':model with ID :id',
 				array(':model' => $this->_model, ':id' => $this->request->param('id'))); */
@@ -126,7 +126,7 @@ class Controller_Product_Main extends Controller_Product {
 			$keys=array('cart_id','attributes','product_id');
 			$last_input=Arr::extract($post,$keys,NULL); 	
 			$session = Session::instance('native');			
-//			Log::instance()->add(Log::NOTICE,Debug::vars($session->id()));	
+
 			$mCartId = $session->get('mCartId', false);	
 			if(!$mCartId){
 				$session->set('mCartId',md5(uniqid(rand(), true)));
@@ -160,7 +160,7 @@ class Controller_Product_Main extends Controller_Product {
 				$this->view->errors = $e->errors('models/user');
 			}
 		}
-//		Log::instance()->add(Log::NOTICE,Debug::vars($item));			
+	
 		$this->view->item = $item;
 	}
 	

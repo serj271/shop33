@@ -78,35 +78,56 @@ abstract class Controller_Product extends Controller_Common_Product {
 	
 	public function after()
 	{
-		/* if ($this->view !== NULL)
-		{
-			// Render the content only in case of AJAX and subrequests
-			if ($this->request->is_ajax() OR ! $this->request->is_initial())
-			{
-				$this->view->render_layout = FALSE;
-			}
-			
-			// Response body isn't set yet, set it to this controllers' view
-			if ( ! $this->response->body())
-			{
-				$renderer = Kostache::factory(); 
-				$this->response->body($renderer->render($this->view));
-//				$this->response->body($this->view);
-//				$this->view = $renderer->render($view);
-			}
-		} */
 		$renderer = Kostache::factory(); 
 //		$this->view = $renderer->render($view);		
 		$this->template->content=$renderer->render($this->view);
 		$this->template->breadcrumbs = '';	
 
+		$login = FALSE;
+		if (Auth::instance()->logged_in('login'))
+		{
+		    $login = TRUE;
+		}
+
 		$quantity = Helpers_Cart::getQuantity($this->_mCartId);
 		$total_amount = Helpers_Cart::getTotal($this->_mCartId);
 		$fixedTop = View::factory('fixed/top')
 			->bind('quantity',$quantity)
-			->bind('total_amount',$total_amount);
+			->bind('total_amount',$total_amount)
+			->bind('login', $login);
 		$this->template->fixedTop = $fixedTop;
-		Log::instance()->add(Log::NOTICE, Debug::vars('prod',$this->_mCartId, $quantity, $total_amount));
+
+		$navbar_items  = array(
+			array(
+				'url'=>'',
+				'text'=>__('Home'),
+				'active'=>Helpers_Navbar::home($this->request->uri()),
+			),			
+			array(
+				'url'=>'catalog',
+				'text'=>__('List Catalog'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'catalog'),
+			),	
+			array(
+				'url'=>'product',
+				'text'=>__('List Product'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'product'),
+			),	
+			array(
+				'url'=>'basket',
+				'text'=>__('Basket'),
+				'active'=>Helpers_Navbar::active($this->request->uri(),'basket'),
+			),
+		
+		); 
+		$navbar = View::factory('navbar/inner')
+			->bind('navbar_items',$navbar_items);
+		$this->template->navbar = $navbar;
+
+
+
+//Log::instance()->add(Log::NOTICE, Debug::vars($this->request->uri(), URL::base()));
+//		Log::instance()->add(Log::NOTICE, Debug::vars('prod',$this->_mCartId, $quantity, $total_amount));
 //		$message = Message::display('message/bootstrap');			
 //		$navigator=View::factory($this->request->directory().'/navigator/'.$this->request->controller());
 //	    $navigator->message=$message;

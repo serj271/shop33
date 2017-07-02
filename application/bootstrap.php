@@ -108,7 +108,7 @@ error_reporting(-1);
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 Kohana::init(array(
-	'base_url'   => '/shop33/',
+	'base_url'   => '/shop33',
 	'charset'    => 'utf-8',
 	'index_file' => false,
 	'profile'	=> Kohana::$environment !== Kohana::PRODUCTION,

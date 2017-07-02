@@ -54,7 +54,15 @@ class Task_Getcategory extends Minion_Task {
 		} */
 //		$this->buildTree($categories_db);
 		$tree = $this->print_recursive($categories_db);
-		Log::instance()->add(Log::NOTICE, Debug::vars('cat---tree----',$tree));		
+		$parse = $this->parse_categories($categories_db->as_array());
+		
+		Log::instance()->add(Log::NOTICE, Debug::vars('cat---tree----',$tree,$parse));		
+		$list_category = ORM::factory('Catalog_Category')->where('id','=','2')->find_all()->as_array();
+		Log::instance()->add(Log::NOTICE, Debug::vars($list_category));
+		
+		
+		
+		
 			
 		Minion_CLI::write('Get catalog categories');
 	}
@@ -82,8 +90,8 @@ class Task_Getcategory extends Minion_Task {
 			
 		foreach ($elements as $element) {
 			$_key = $element->id;			
-//				Log::instance()->add(Log::NOTICE, Debug::vars($element->category_id,$parentId));
-				if ($element->category_id == $parentId) {
+				Log::instance()->add(Log::NOTICE, Debug::vars($element->catalog_category_id,$parentId));
+				if ($element->catalog_category_id == $parentId) {
 					
 					$children = $this->buildTree($elements, $element->id);
 					
@@ -92,87 +100,37 @@ class Task_Getcategory extends Minion_Task {
 					}
 					
 					$this->categories[] =  $element;
-				}
-				
-						
-			/* 
-			if ($element->category_id == $parentId) {
-				$children = $this->buildTree($elements, $element->id);
-				
-				if ($children) {
-					$element['children'] = $children;
-				}
-				
-				$branch[] =  $element;
-			} */
+				}		
+		}	
+	}
+	private function parse_categories(array $list)
+	{
+		$result = array();
+		foreach ($list as $_orm) {
+			$_item = array(
+				'id' => $_orm->id,
+				'code' => $_orm->code,
+				'title' => $_orm->title,
+			);
+			
+			if ($_orm->level == 0) {
+				$_item['path'] = array(
+					$_orm->title
+				);
+			} elseif (array_key_exists($_orm->catalog_category_id, $result)) {
+				$_item['path'] = $result[$_orm->catalog_category_id]['path'];
+				$_item['path'][] = 	$_orm->title;
+			} else {
+				continue;
+			}
+			
+			$result[$_orm->id] = $_item;
 		}
 		
-		
+		return $result;
 	}
 
 	
 	
 }
 
-/*
-CREATE TABLE `catalog_categories` (
-	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`category_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
-	`level` INT(10) UNSIGNED NOT NULL DEFAULT '0',
-	`uri` VARCHAR(255) NOT NULL DEFAULT '',
-	`code` VARCHAR(255) NOT NULL DEFAULT '',
-	`title` VARCHAR(255) NOT NULL DEFAULT '',
-	`image` VARCHAR(255) NOT NULL DEFAULT '',
-	`text` TEXT NOT NULL,
-	`active` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
-	`position` INT(10) UNSIGNED NOT NULL DEFAULT '0',
-	`title_tag` VARCHAR(255) NOT NULL DEFAULT '',
-	`keywords_tag` VARCHAR(255) NOT NULL DEFAULT '',
-	`description_tag` VARCHAR(255) NOT NULL DEFAULT '',
-	`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`creator_id` INT(10) NOT NULL DEFAULT '0',
-	`updated` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`updater_id` INT(10) NOT NULL DEFAULT '0',
-	`deleted` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`deleter_id` INT(10) NOT NULL DEFAULT '0',
-	`delete_bit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
-	PRIMARY KEY (`id`)
-)
-COLLATE='utf8_general_ci'
-ENGINE=MyISAM
-ROW_FORMAT=DEFAULT;
-
-CREATE TABLE `catalog_elements` (
-	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`category_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
-	`code` VARCHAR(255) NOT NULL DEFAULT '',
-	`title` VARCHAR(255) NOT NULL DEFAULT '',
-	`uri` VARCHAR(255) NOT NULL DEFAULT '',
-	`image_1` VARCHAR(255) NOT NULL DEFAULT '',
-	`image_2` VARCHAR(255) NOT NULL DEFAULT '',
-	`announcement` TEXT NOT NULL,
-	`text` TEXT NOT NULL,
-	`active` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
-	`sort` INT(10) UNSIGNED NOT NULL DEFAULT '500',
-	`title_tag` VARCHAR(255) NOT NULL,
-	`keywords_tag` VARCHAR(255) NOT NULL,
-	`description_tag` VARCHAR(255) NOT NULL,
-	`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`creator_id` INT(10) NOT NULL DEFAULT '0',
-	`updated` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`updater_id` INT(10) NOT NULL DEFAULT '0',
-	`deleted` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`deleter_id` INT(10) NOT NULL DEFAULT '0',
-	`delete_bit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
-	PRIMARY KEY (`id`)
-)
-COLLATE='utf8_general_ci'
-ENGINE=MyISAM
-ROW_FORMAT=DEFAULT;
-
-
-
-
-
-
-*/

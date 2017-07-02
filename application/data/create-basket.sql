@@ -1,5 +1,5 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-use 'shop33';
+use `u0326405_serj`;
 
 
 DROP TABLE IF EXISTS catalog_basket;
@@ -38,6 +38,6 @@ CREATE TABLE `catalog_basket_list` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-
+/* 
 ALTER TABLE `catalog_basket_list`
-  ADD CONSTRAINT `catalog_basket_list_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ;
+  ADD CONSTRAINT `catalog_basket_list_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ; */

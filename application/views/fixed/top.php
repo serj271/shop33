@@ -10,8 +10,12 @@
 				</div>
 				<a class="active" href="<?=URL::base()?>"> <span class="icon-home"></span> Home</a> 
 				<a href="<?=URL::base()?>user"><span class="icon-user"></span> My Account</a> 
-				<a href="<?=URL::base()?>user/auth/join"><span class="icon-edit"></span> Free Register </a> 
-				<a href="<?=URL::base()?>user/auth/login"><span class="icon-edit"></span> Login </a> 
+				<a href="<?=URL::base()?>user/auth/join"><span class="icon-edit"></span><?php echo __('Free Register');?></a> 
+				<?php if(!$login){?>
+				<a href="<?=URL::base()?>user/auth/login"><span class="icon-edit"></span><?php echo __('Login');?></a> 
+				<?php }else {?>
+				<a href="<?=URL::base()?>user/auth/logout"><span class="icon-edit"></span><?php echo __('Logout');?></a> 
+				<?php }?>
 				<a href="contact.html"><span class="icon-envelope"></span> Contact us</a>
 				<a href="<?=URL::base()?>basket"><span class="icon-shopping-cart"></span> 
 					<?php 

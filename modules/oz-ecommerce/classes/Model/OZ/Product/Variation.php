@@ -21,9 +21,21 @@ abstract class Model_OZ_Product_Variation extends ORM {
 		'name'       => array('type' => 'string'),
 		'price'      => array('type' => 'float'),
 		'sale_price' => array('type' => 'float'),
+		'discounted_price'=> array('type' => 'float'),
 		'quantity'   => array('type' => 'int'),
 	);
-
+	public function labels(){
+		return array(
+		'id'         => 'id',
+		'product_id' => 'product_id',
+		'name'       => 'name',
+		'price'      => __('price'),
+		'sale_price' => __('sale price'),
+		'discounted_price'=> __('discounted price'),
+		'quantity'   => __('quantity'),	
+		);
+	}
+	
 	public function rules()
 	{
 		return array(
@@ -38,14 +50,15 @@ abstract class Model_OZ_Product_Variation extends ORM {
 			'price' => array(
 				array('not_empty'),
 				array('numeric'),
-//				array('gte', array(':value', 0)),
 			),
 			'sale_price' => array(
 				array('numeric'),
-//				array('lt', array(':value', $this->price)),
 				array('Validation::lt', array(':value', array($this->price))),
-//				array('gte', array(':value', 0)),
 //				array(array($this, 'check_sale')),
+			),
+			'discounted_price' => array(
+				array('not_empty'),
+				array('numeric'),
 			),
 			'quantity' => array(
 				array('not_empty'),

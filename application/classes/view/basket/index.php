@@ -189,13 +189,5 @@ class View_Basket_Index {
 	}
 
 	
-	public function bolder()
-	{
-		return function($text, $renderer) {
-			return '<b>'.call_user_func($renderer, $text).'</b>';
-		};
-	}
-
-
 	
 }

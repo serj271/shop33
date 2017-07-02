@@ -20,7 +20,7 @@ class View_User_Main_Index {
 					'directory' =>'user',
 					'controller' => 'auth',
 					'action' 		=> 'logout',
-					'id'		=> Security::token()
+//					'id'		=> Security::token()
 				)),
 			),
 		);
