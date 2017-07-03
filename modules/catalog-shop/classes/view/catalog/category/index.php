@@ -24,7 +24,7 @@ class View_Catalog_Category_Index {
 	}
 
     public function linkUser()
-		{
+	{
 		return function($text)
 		{
 	//	    return "<a href='#'>".$text."</a>";
@@ -33,19 +33,42 @@ class View_Catalog_Category_Index {
     
     }
 
-/* 
-    public function listCategories(){
-		result = array();
-		foreach ($this->categories as $category){
-			$uri = $category->uri;
-			$uri = Arr::map(array(array(__CLASS__,'addBase')), $photo, array('uri'));//
-			
-		}
-		
-		
-    
+	public function anchor()
+	{
+		return function($text)
+		{
+		    return "<a href='#'>".$text."</a>";
+//			return HTML::anchor($item['link'], $item['title']);
+		};    
     }
- */
+	
+	protected $_result;
+	
+	
+	public function result(){
+		if ($this->_result !== NULL)
+			return $this->_result;
+		
+		$result = array();
+		
+		$result['rows'] = array();
+		
+		foreach ($this->categories as $category){
+			
+			$result['rows'][] = array(
+					'category'		=> array('link'=>'r','title'=>'y'),
+					'link'		=> function(){
+						return HTML::anchor('e','e');
+					},
+//					'options' 	=> $options,
+//					'values' 	=> $values,
+				);
+		}
+//		Log::instance()->add(Log::NOTICE, Debug::vars($result));
+		return $this->_result = $result;
+	}
+	
+
 /* 
 	public static function addBase($url){		
 		return URL::base().$url;			
@@ -54,7 +77,7 @@ class View_Catalog_Category_Index {
     public $products = array();
 
     public function count_products(){
-	return count($this->products);
+		return count($this->products);
     }
     
     

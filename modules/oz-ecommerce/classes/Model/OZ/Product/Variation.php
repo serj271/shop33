@@ -45,7 +45,7 @@ abstract class Model_OZ_Product_Variation extends ORM {
 //				array('gt', array(':value', 0)),
 			),
 			'name' => array(
-				array('not_empty'),
+//				array('not_empty'),
 			),
 			'price' => array(
 				array('not_empty'),
@@ -66,6 +66,7 @@ abstract class Model_OZ_Product_Variation extends ORM {
 			),
 		);
 	}
+
 
 	/**
 	 * Overload the save method to set the sale_price to NULL if an empty

@@ -34,6 +34,7 @@ abstract class Model_OZ_Product_Review extends ORM {
 //				array('gt', array(':value', 0)),
 			),
 			'rating' => array(
+				array('digit'),
 				array('not_empty'),
 				array('range', array(':value', 0, 10)),
 			),

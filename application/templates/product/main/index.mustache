@@ -37,12 +37,26 @@
 		
 		{{/ reviews}}
 		{{# variations}}
-			<p>
-				price {{price}}
-			</p>
-			<p>
-				quantity {{quantity}}
-			</p>
+			<dl class="dl-horizontal">	
+				{{#price}}
+				<dt>{{label}}</dt>
+				<dd>{{value}}</dd>
+				{{/price}}
+				{{#sale_price}}
+				<dt>{{label}}</dt>
+				<dd>{{value}}</dd>
+				{{/sale_price}}
+				{{#discounted_price}}
+				<dt>{{label}}</dt>
+				<dd>{{value}}</dd>
+				{{/discounted_price}}
+				{{#quantity}}
+				<dt>{{label}}</dt>
+				<dd>{{value}}</dd>
+				{{/quantity}}
+
+
+			</dl>
 		{{/ variations}}
 
 

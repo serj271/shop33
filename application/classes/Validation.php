@@ -4,7 +4,9 @@ class Validation extends Kohana_Validation {
 
 
     public static function lt($sale_price, $price){//array
+//		Log::instance()->add(Log::NOTICE, Debug::vars('lt ',$sale_price,$price[0]));
 		return $sale_price <= $price[0];
+//		return TRUE;
     }
 
     public static function gt($test, $value){//array

@@ -110,17 +110,27 @@ class View_Product_Main_Index {
 				$product->photo = $photo;
 				$reviews = $item->reviews->find()->as_array();
 				$specifications = $item->specifications->find()->as_array();
+//				Log::instance()->add(Log::NOTICE, Debug::vars($item->specifications->find()));
 				$variations = $item->variations->find()->as_array();
 
 				$product->reviews = $reviews;
 				$product->specifications = $specifications;
 				$labels_variations = $item->variations->labels();
-				Log::instance()->add(Log::NOTICE, Debug::vars('re',$item->variations->labels()));
+				/* $value = Arr::map(array(array(__CLASS__,'createValue')), array($variations), array_keys($variations))[0];
+				$label = Arr::map(array(array(__CLASS__,'createLabel')), array($labels_variations), array_keys($labels_variations))[0]; */
+				$variation_items = array();
+//				Log::instance()->add(Log::NOTICE, Debug::vars($value));
+				foreach ($variations as $key=>$val){				
+					$variation_items[$key]['value'] = $val;
+					$variation_items[$key]['label'] = isset($labels_variations[$key]) ? $labels_variations[$key] : '';
+				}
+//				$res = Arr::map(array(array(__CLASS__,'merge')), array($labels_variations), array_keys($labels_variations));
+//				Log::instance()->add(Log::NOTICE, Debug::vars($variation_items));		
 				
 				$result['rows'][] = array(
 					'product'		=> $product,
 					'basket'		=> $basket,
-					'variations'		=>$variations,
+					'variations'		=>$variation_items,
 //					'total_amount'	=> $this->total_amount,
 //					'options' 	=> $options,
 //					'values' 	=> $values,
@@ -145,6 +155,18 @@ class View_Product_Main_Index {
 	public static function addBase($url){		
 		return URL::base().$url;			
 	} 
+	
+	/* public static function createValue($value){
+		return array('value'=>$value);			
+	}
+	public static function createLabel($label){
+		return array('label'=>$label);			
+	}
+	
+	public static function merge($item){
+		Log::instance()->add(Log::NOTICE, Debug::vars('merge',$item));
+		return array('item'=>$item);			
+	} */
 	
 	public function in_ca(){
 //	    return $this->total_amount > 0;

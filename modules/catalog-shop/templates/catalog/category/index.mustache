@@ -63,9 +63,33 @@
 
 
     {{# categories}}
+	<a href={{link}}>{{title}}</a>
 	<p>{{title}}</p>
     {{/ categories}}
 
-
-
-
+	{{# result}}
+		{{# rows}}
+			{{#category}}
+			{{title}}
+			{{#linkUser}}
+				{{{title}}
+			
+			{{/linkUser}}
+			
+		
+			{{/category}}
+			{{link}}
+			
+		{{/ rows}}
+	{{/ result}}
+	{{#anchor}}a
+	{{/anchor}}
+	
+	
+	
+	
+	
+	
+	
+	
+	

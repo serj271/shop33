@@ -9,7 +9,7 @@ class Task_Products extends Minion_Task {
 	private $product_id;
 	private $photo_id;
 	private $products = array();
-	private $rating = 0;
+	private $rating = 5;
 
 	protected function _execute(array $params)
 	{
@@ -67,8 +67,7 @@ class Task_Products extends Minion_Task {
 //		$this->create_category($this->parent_id,$this->parent_id);
 //		$this->create_category($this->parent_id,3,$this->product_id);//parent, catcategory_id , product
 		
-//		$this->create_photo($this->product_id,$this->photo_id);
-		
+//		$this->create_photo($this->product_id,$this->photo_id);		
 //		$this->product_categories_products($this->product_id);
 //		$this->product_specification($this->product_id);		
 //		$this->product_reviews($this->product_id);		
@@ -170,7 +169,7 @@ class Task_Products extends Minion_Task {
 //			$errors = $extra_validation->errors('validation_', TRUE)	;	
 			$errors = $e->errors();		
 			foreach($errors as $key=>$value){
-				Log::instance()->add(Log::NOTICE, Debug::vars($value));//+ field				
+				Log::instance()->add(Log::NOTICE, Debug::vars('Product_Review error',$key,$value));//+ field				
 			}
 			Minion_CLI::write($errors);					
 		}
@@ -215,8 +214,9 @@ class Task_Products extends Minion_Task {
 		$variation_orm->product_id = $product_id;
 		$variation_orm->name = 'name variation '.$product_id;
 		$variation_orm->price = $product_id * 10.00;
-		$variation_orm->sale_price = 8.00;
+		$variation_orm->sale_price = $product_id * 8.00;
 		$variation_orm->quantity = $product_id * 1;
+		$variation_orm->discounted_price = 0;
 		$external_values= array();		
 		$extra_validation = Validation::factory($external_values);
 //		$extra_validation->bind(':model', $variation_orm);
@@ -224,9 +224,8 @@ class Task_Products extends Minion_Task {
 //			array('not_empty'),array('Validation::lt',array(':value'))
 //		));
 //		$extra_validation->rule('username', 'Validation::lt', array(':model'));
-
 //		Log::instance()->add(Log::NOTICE, Debug::vars($extra_validation->check()));
-		Minion_CLI::write(Kohana::message('hello', 'hello_guest'));
+//		Minion_CLI::write(Kohana::message('hello', 'hello_guest'));
 	
 		try
 		{			
@@ -241,7 +240,7 @@ class Task_Products extends Minion_Task {
 //			$errors = $extra_validation->errors('validation_', TRUE)	;	
 			$errors = $e->errors();		
 			foreach($errors as $key=>$value){
-				Log::instance()->add(Log::NOTICE, Debug::vars($value));//+ field				
+				Log::instance()->add(Log::NOTICE, Debug::vars('product_variation',$key,$value));//+ field				
 			}
 			Minion_CLI::write($errors);		
 //			Log::instance()->add(Log::NOTICE, Debug::vars($errors));//+ field			
