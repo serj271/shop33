@@ -124,7 +124,7 @@ class Controller_Comments_Core extends Controller_Common_Comments {
 				->rule('name','not_empty')
 				->rule('token','Security::check');
 				
-			Log::instance()->add(Log::NOTICE, Debug::vars('post-----',$this->request->post()));
+//			Log::instance()->add(Log::NOTICE, Debug::vars('post-----',$this->request->post()));
 			if($validation->check()){
 				try
 				{
@@ -156,7 +156,7 @@ class Controller_Comments_Core extends Controller_Common_Comments {
 				}catch(Sprig_Validation_Exception $e)
 				{
 					$errors = $e->errors('comment');
-					Log::instance()->add(Log::NOTICE, Debug::vars('valid error',$errors));				
+//					Log::instance()->add(Log::NOTICE, Debug::vars('valid error',$errors));				
 				}				
 				
 			} else {

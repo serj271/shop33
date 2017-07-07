@@ -13,7 +13,7 @@ abstract class Controller_Common_Home extends Controller_Common {
 //	$this->template->menu='';
 //	$this->template->cart= NULL;
 	$this->template->scripts=array();
-	$this->template->styles=array('bootstrap','common_v6');
+	$this->template->styles=array('bootstrap','common_v6','base');
 	$this->template->breadcrumbs = '';
 
 //	$resultCss = Compress::instance('stylesheets')->styles(array('css/flags.css'),'css/out.css');

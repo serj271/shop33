@@ -92,7 +92,11 @@ class Controller_Home extends Controller_Common_Home {
 		$content = View::factory('home/content');
 			/* ->bind('captcha_image',$captcha_image); */
 //			->bind('src',$src);
-		$this->template->content = $content;		
+		$jade = JadeView::factory('jtemplate',array('hello'=>'hello world'));
+
+//		$this->template->content = $jade->render();		
+
+		$this->template->content =$content;
 
 		$login = FALSE;
 		if (Auth::instance()->logged_in('login'))
