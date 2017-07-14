@@ -20,7 +20,7 @@ class Controller_Catalog_Element extends Controller_Common_Element {
 	//			Message::error(ucfirst($this->_model).' doesn`t exist: :id', 
 	//				array(':id' => $this->request->param('id')));
 			}
-			$renderer = Kostache::factory(); 
+ 			$renderer = Kostache::factory(); 
 			list($view_name, $view_path) = static::find_view($this->request);
 //				Log::instance()->add(Log::NOTICE, $view_name);
 			if (Kohana::find_file('classes', $view_path))

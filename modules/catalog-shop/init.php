@@ -103,7 +103,7 @@ if ($module_type === 'root') {
 			function(Route $route, $params, Request $request) 			
 			{
 				$uri = $request::detect_uri();
-//				Log::instance()->add(Log::NOTICE, Debug::vars('uri---------++',$uri,category_uri_list(), $params));
+//				Log::instance()->add(Log::NOTICE, Debug::vars('route++',$route));
 			/*   $result = DB::select(
 				'id', 
 				'uri', 
