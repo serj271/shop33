@@ -232,6 +232,15 @@ Route::set('user', 'user(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9a-z]
 		'action'     => 'index',
 	));
 
+	Route::set('ajax/catalog', 'ajax/catalog(/<controller>(/<action>(/<id>)))')
+	->defaults(array(
+		'directory' =>'Ajax/Catalog',
+		'controller' => '<controller>',
+		'action'     => 'index',
+	)); 	
+	
+	
+	
 /* 
 Route::set('page', 'useradmin/users(/index/<pole>/<page>)',array('page'=>'[0-9]+'))
 	->defaults(array(
@@ -246,6 +255,17 @@ Route::set('useradmin', 'useradmin(/<controller>(/<action>(/<id>)))',array('id'=
 		'controller' => 'main',
 		'action'     => 'index',
 	));
+
+	Route::set('ajax/useradmin', 'ajax/useradmin(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
+	->defaults(array(
+		'directory' =>'Ajax/Useradmin',
+		'controller' => '<controller>',
+		'action'     => 'index',
+	));
+	
+	
+//	Log::instance()->add(Log::NOTICE, Debug::vars(Request::current()->headers));
+	
 /* 
 Route::set('adminmodel', 'admin(/<controller>(/<action>(/<id>)))',array('id'=>'[0-9]+'))
 	->defaults(array(

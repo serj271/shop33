@@ -1,0 +1,35 @@
+/*@import url('~flag-icon-css/css/flag-icon.css');*/
+
+.menu .title {
+    padding: 0 6px 0 16px;
+    border: 1px solid black;
+    border-radius: 50px 0 0 50px;
+
+    cursor: pointer;
+}
+.menu .list {
+    display:none;
+    margin:0;
+}
+.menu .list a{
+    color:blue;
+}
+.menu.open .list {
+    display:block;
+}
+
+.menu a, .menu span {
+/*    position: relative;*/
+    display: inline-block;
+    height: 26px;
+    background:url(menu.png) no-repeat 0 -26px;
+}
+    
+#menu span {
+    position: relative;
+    left: 10px;
+    padding: 0 10px 0 0;
+  /*  background-position:100% 0;*/
+}
+
+    

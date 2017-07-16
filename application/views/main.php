@@ -12,8 +12,9 @@
 	    echo HTML::style("media/css/".$style.".css", NULL, 'http');
 	}
 	foreach($scripts as $scr){
-//	    echo HTML::script("js/".$scr.".js").PHP_EOL;
+	    echo HTML::script("media/js/".$scr).PHP_EOL;
 	}
+//	    echo HTML::script("media/js/public/common.js").PHP_EOL;
     ?>
     <!--[if IE]>
 	<link href="<?=URL::base()?>/media/css/ie-v4.css" rel="stylesheet" type="text/css">
@@ -45,7 +46,13 @@ Navigation Bar Section
 		    <b class="bottom"></b>                
 		    <b class="top"></b>                
                 <div class="content">
-		    <?php echo $navigator; ?>
+		    
+
+		    <div class="panel">
+			<p class="text-info">
+			    <?php echo $navigator; ?>
+			</p>
+		    </div>
                 </div>
            </div>
         </div>

@@ -103,7 +103,7 @@ if ($module_type === 'root') {
 			function(Route $route, $params, Request $request) 			
 			{
 				$uri = $request::detect_uri();
-//				Log::instance()->add(Log::NOTICE, Debug::vars('route++',$route));
+//				Log::instance()->add(Log::NOTICE, Debug::vars('route++',$request->headers('accept'), $params,$uri));
 			/*   $result = DB::select(
 				'id', 
 				'uri', 
@@ -133,17 +133,24 @@ if ($module_type === 'root') {
 				
 				$categories = category_uri_list();		
 				$uri = rtrim($uri, '/');
-				if($uri == 'catalog'){					
+				if($uri == 'catalog' && $request->headers('accept') != 'application/json'){					
 					return TRUE;
 				}
 				$asParts = @ explode('/',$uri);
 				$prefix = @ $asParts[0];
 		//		$action = @ $asParts[1];
 				if($prefix !== 'catalog'){
-					return FALSE;
+//					return FALSE;
 				}		
+				if($uri == 'catalog' && $request->headers('accept') == 'application/json'){
+					$params['directory'] ='Ajax/Catalog';
+					$params['controller'] = 'Getcatalog';
+					$params['action'] = 'index';
+					$params['id'] = 1;
+					return $params;					
+				}								
 				
-				$uri = str_replace('catalog/','', $uri);	
+				$uri = str_replace('catalog/','', $uri);
 				if (!in_array($uri, $categories)) {
 					return FALSE;
 				}	
@@ -152,10 +159,24 @@ if ($module_type === 'root') {
 				$params['action'] = 'index';
 				$params['id'] = 1;
 				return $params; */
+				if($request->headers('accept') == 'application/json'){
+					$params['directory'] ='Ajax/Catalog';
+					$params['controller'] = 'Getcategories';
+					$params['action'] = 'index';
+					$params['id'] = 1;
+					return $params;					
+				}						
 				return TRUE;
 			}
 	);
-	
+//	Log::instance()->add(Log::NOTICE, Debug::vars('------',$_SERVER));	
+//	Route::set('ajax', function($uri){
+//    	    if (Request::$current->is_ajax() AND $params = Route::get('default')->matches($uri))
+//    	    {
+//        	$params['directory'] = 'ajax';
+//        	return $params;
+//    	    }
+//	});
 	
 	
 	

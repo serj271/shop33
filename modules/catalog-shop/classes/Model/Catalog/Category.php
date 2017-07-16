@@ -26,12 +26,12 @@ class Model_Catalog_Category extends ORM_Base {
 
 	);
 	
-//	protected $_belongs_to = array(
-//		'parent' => array(
-//			'model' => 'Catalog_Category',
-//			'foreign_key' => 'category_id',
-//		),
-//	);
+	protected $_belongs_to = array(
+		'parent' => array(
+			'model' => 'Catalog_Category',
+			'foreign_key' => 'catalog_category_id',
+		),
+	);
 
 	public function labels()
 	{

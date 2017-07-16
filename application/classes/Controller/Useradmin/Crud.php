@@ -25,6 +25,14 @@ abstract class Controller_Useradmin_Crud extends Controller_Useradmin {
 
 	public function action_index()
 	{
+
+//		$validation = Validation::factory($this->request->post())
+//			->rule('token','not_empty')
+//			->rule('token','Security::check');
+//		Log::instance()->add(Log::NOTICE, Debug::vars('validatio'));
+
+
+
 		$order_by = $this->request->param('pole','id');
 		$count = ORM::factory($this->_model)->count_all();
 		$pagination = Pagination::factory(array(

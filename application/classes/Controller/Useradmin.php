@@ -21,6 +21,8 @@ abstract class Controller_Useradmin extends Controller_Common_Useradmin {
 	public function before()
 	{
 		parent::before();
+	
+		$session = Session::instance();
 		
 		// Set security headers
 		$this->response
@@ -28,9 +30,13 @@ abstract class Controller_Useradmin extends Controller_Common_Useradmin {
 			->headers('x-frame-options','SAMEORIGIN')
 			->headers('x-xss-protection','1; mode=block');
 			
+//		$token = $_SERVER['HTTP_AUTHORIZATION'];	
+		
+//		Log::instance()->add(Log::NOTICE, Debug::vars('----------+--',$token,Security::check($token),$session->get(Security::$token_name)));
+
 		// Check if user is allowed to continue
 		static::check_permissions($this->request);
-		
+	
 		// Automatically figure out the ViewModel for the current action 
 		if ($this->auto_view === TRUE)
 		{
@@ -69,18 +75,22 @@ abstract class Controller_Useradmin extends Controller_Common_Useradmin {
 	{
 		if ($this->view !== NULL)
 		{
+//				Log::instance()->add(Log::NOTICE, Debug::vars($_SERVER['HTTP_AUTHORIZATION']));
 			// Render the content only in case of AJAX and subrequests
 			if ($this->request->is_ajax() OR ! $this->request->is_initial())
 			{
-				$this->view->render_layout = FALSE;
+//				$this->view->render_layout = FALSE;
+//				Log::instance()->add(Log::NOTICE, Debug::vars($_SERVER['HTTP_AUTHORIZATION']));
 			}
 			
 			// Response body isn't set yet, set it to this controllers' view
 			if ( ! $this->response->body())
 			{
+			
+			
 				$renderer = Kostache::factory(); 
 				$this->response->body($renderer->render($this->view));
-//				$this->response->body($this->view);
+				$this->response->body($this->view);
 //				$this->view = $renderer->render($view);
 			}
 		}
